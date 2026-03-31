@@ -1,0 +1,16 @@
+dotenv
+langgraph
+langchain_core
+langchain_community
+langchain_text_splitters
+sentence_transformers
+langchainhub
+langchain_huggingface
+langchain-groq
+fastapi
+uvicorn
+langsmith
+pydantic
+qdrant-client
+watchdog
+pypdf

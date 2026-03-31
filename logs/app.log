@@ -1,0 +1,32 @@
+
+2026-03-30 18:24:08,561 | INFO | app | FastAPI app starting
+2026-03-30 18:24:08,571 | INFO | watcher.corpora_watcher | Starting watcher for folder: Corpora
+2026-03-30 18:24:25,406 | INFO | watcher.event_handler | New document detected: Corpora\Rise of GenAI.pdf
+2026-03-30 18:24:25,410 | INFO | services.file_service | File saved to Corpora\Rise of GenAI.pdf
+2026-03-30 18:24:25,410 | INFO | routes.ingestion_route | Received file: Rise of GenAI.pdf
+2026-03-30 18:24:30,509 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline
+2026-03-30 18:24:30,510 | INFO | ingestion.metadata_extractor | Metadata enriched for 6 documents
+2026-03-30 18:24:30,512 | INFO | ingestion.ingestion_pipeline | Created 33 chunks
+2026-03-30 18:24:31,416 | INFO | rag.vectorstore | Adding 33 documents to vector store
+2026-03-30 18:24:31,671 | INFO | rag.vectorstore | 33 documents stored successfully
+2026-03-30 18:24:31,671 | INFO | ingestion.ingestion_pipeline | Ingestion pipeline completed successfully
+2026-03-30 18:24:31,671 | INFO | watcher.event_handler | Document modified: Corpora\Rise of GenAI.pdf
+2026-03-30 18:24:31,671 | INFO | rag.vectorstore | Deleting embeddings for source: Rise of GenAI.pdf
+2026-03-30 18:24:31,914 | INFO | rag.vectorstore | Embeddings deleted for source: Rise of GenAI.pdf
+2026-03-30 18:24:34,008 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline
+2026-03-30 18:24:34,008 | INFO | ingestion.metadata_extractor | Metadata enriched for 6 documents
+2026-03-30 18:24:34,009 | INFO | ingestion.ingestion_pipeline | Created 33 chunks
+2026-03-30 18:24:34,688 | INFO | rag.vectorstore | Adding 33 documents to vector store
+2026-03-30 18:24:34,947 | INFO | rag.vectorstore | 33 documents stored successfully
+2026-03-30 18:24:34,948 | INFO | ingestion.ingestion_pipeline | Ingestion pipeline completed successfully
+2026-03-30 18:25:06,754 | INFO | agents.query_understanding_agent | Processing query: give me the details of leave policy
+2026-03-30 18:25:06,754 | INFO | llm.query_understanding_llm | Analyzing query with LLM
+2026-03-30 18:25:07,791 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-30 18:25:08,353 | INFO | agents.query_understanding_agent | Query understanding successful: {'original_query': 'give me the details of leave policy', 'revised_query': "What are the details of the company's leave policy?", 'intent': 'INFORMATION_REQUEST', 'topic': 'leave policy', 'entities': ['leave policy'], 'source': 'UNKNOWN'}
+2026-03-30 18:25:19,664 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline
+2026-03-30 18:25:19,665 | INFO | ingestion.metadata_extractor | Metadata enriched for 1 documents
+2026-03-30 18:25:19,666 | INFO | ingestion.ingestion_pipeline | Created 1 chunks
+2026-03-30 18:25:19,705 | INFO | rag.vectorstore | Adding 1 documents to vector store
+2026-03-30 18:25:19,714 | INFO | rag.vectorstore | 1 documents stored successfully
+2026-03-30 18:25:19,715 | INFO | ingestion.ingestion_pipeline | Ingestion pipeline completed successfully
+2026-03-30 18:25:19,715 | INFO | routes.ingestion_route | Text ingestion completed

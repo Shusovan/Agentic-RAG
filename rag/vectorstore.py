@@ -1,0 +1,165 @@
+import logging
+import os
+import uuid
+
+import numpy as np
+from qdrant_client import QdrantClient
+
+from typing import Any, Dict, List
+
+from qdrant_client import models
+from qdrant_client.models import Distance, PointStruct, VectorParams
+
+
+logger = logging.getLogger(__name__)
+
+
+class VectorStore:
+    """
+    Handles storing and retrieving embeddings from Qdrant
+    """
+
+    def __init__(
+        self,
+        collection_name: str = "documents",
+        persist_directory: str = "./qdrant_db",
+        embedding_dim: int = 384
+    ):
+
+        self.collection_name = collection_name
+        self.persist_directory = persist_directory
+        self.embedding_dim = embedding_dim
+
+        self.client = None
+
+        self._initialize_qdrant()
+
+
+    def _initialize_qdrant(self):
+        """Initialize Qdrant client and collection"""
+
+        try:
+
+            os.makedirs(self.persist_directory, exist_ok=True)
+
+            logger.info(f"Initializing Qdrant client")
+
+            self.client = QdrantClient(path=self.persist_directory)
+
+            collections = self.client.get_collections().collections
+            collection_names = [c.name for c in collections]
+
+            if self.collection_name not in collection_names:
+
+                logger.info(f"Creating collection: {self.collection_name}")
+
+                self.client.create_collection(
+                    collection_name=self.collection_name,
+                    vectors_config=VectorParams(size=self.embedding_dim, distance=Distance.COSINE)
+                )
+
+            logger.info(f"Collection '{self.collection_name}' ready.")
+
+        except Exception as e:
+            raise ValueError(f"Failed to initialize Qdrant: {e}")
+
+
+    def add_documents(self, documents: List[Any], embeddings: np.ndarray):
+        """
+        Store document embeddings in Qdrant
+        """
+
+        if len(documents) != len(embeddings):
+
+            raise ValueError("Number of documents and embeddings must match")
+
+        logger.info(f"Adding {len(documents)} documents to vector store")
+
+        points = []
+
+        for doc, embedding in zip(documents, embeddings):
+
+            point_id = uuid.uuid4().hex
+
+            payload = {
+                "text": doc.page_content,
+                "metadata": dict(doc.metadata)
+            }
+
+            points.append(
+                PointStruct(
+                    id=point_id,
+                    vector=embedding.tolist(),
+                    payload=payload
+                )
+            )
+
+        try:
+
+            self.client.upsert(collection_name=self.collection_name, points=points)
+
+            logger.info(f"{len(points)} documents stored successfully")
+
+        except Exception as e:
+
+            raise ValueError(
+                f"Failed to store documents in Qdrant: {e}"
+            )
+
+
+    def query(self, query_embedding: List[float], top_k: int = 5) -> List[Dict]:
+
+        logger.info(f"Searching vector DB with top_k={top_k}")
+
+        try:
+            results = self.client.search(
+                collection_name=self.collection_name,
+                query_vector=query_embedding,
+                limit=top_k
+            )
+
+            formatted_results = []
+
+            for r in results:
+                formatted_results.append({
+                    "id": r.id,
+                    "content": r.payload["text"],
+                    "metadata": r.payload["metadata"],
+                    "score": r.score
+                })
+
+            return formatted_results
+
+        except Exception as e:
+            raise ValueError(f"Vector search failed: {e}")
+        
+
+    def delete_by_source(self, source_name: str):
+        """
+        Delete all embeddings belonging to a specific source document.
+        Used when a document is updated or deleted in Corpora folder.
+        """
+
+        try:
+
+            logger.info(f"Deleting embeddings for source: {source_name}")
+
+            self.client.delete(
+                collection_name=self.collection_name,
+                points_selector=models.Filter(
+                    must=[
+                        models.FieldCondition(
+                            key="metadata.source",
+                            match=models.MatchValue(value=source_name)
+                        )
+                    ]
+                )
+            )
+
+            logger.info(f"Embeddings deleted for source: {source_name}")
+
+        except Exception as e:
+
+            logger.error(f"Failed to delete embeddings for {source_name}: {e}")
+
+            raise ValueError(f"Failed to delete embeddings: {e}")
