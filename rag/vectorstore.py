@@ -105,33 +105,66 @@ class VectorStore:
             raise ValueError(
                 f"Failed to store documents in Qdrant: {e}"
             )
+        
 
-
+    
     def query(self, query_embedding: List[float], top_k: int = 5) -> List[Dict]:
 
         logger.info(f"Searching vector DB with top_k={top_k}")
 
         try:
-            results = self.client.search(
+
+            response = self.client.query_points(
                 collection_name=self.collection_name,
-                query_vector=query_embedding,
-                limit=top_k
+                query=query_embedding,
+                limit=top_k,
             )
 
             formatted_results = []
 
-            for r in results:
+            for point in response.points:
+
                 formatted_results.append({
-                    "id": r.id,
-                    "content": r.payload["text"],
-                    "metadata": r.payload["metadata"],
-                    "score": r.score
+                    "id": point.id,
+                    "content": point.payload["text"],
+                    "metadata": point.payload["metadata"],
+                    "score": point.score,
                 })
 
             return formatted_results
 
         except Exception as e:
-            raise ValueError(f"Vector search failed: {e}")
+
+            raise ValueError(
+                f"Vector search failed: {e}"
+            )
+
+
+    # def query(self, query_embedding: List[float], top_k: int = 5) -> List[Dict]:
+
+    #     logger.info(f"Searching vector DB with top_k={top_k}")
+
+    #     try:
+    #         results = self.client.search(
+    #             collection_name=self.collection_name,
+    #             query_vector=query_embedding,
+    #             limit=top_k
+    #         )
+
+    #         formatted_results = []
+
+    #         for r in results:
+    #             formatted_results.append({
+    #                 "id": r.id,
+    #                 "content": r.payload["text"],
+    #                 "metadata": r.payload["metadata"],
+    #                 "score": r.score
+    #             })
+
+    #         return formatted_results
+
+    #     except Exception as e:
+    #         raise ValueError(f"Vector search failed: {e}")
         
 
     def delete_by_source(self, source_name: str):

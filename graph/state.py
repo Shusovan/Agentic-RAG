@@ -1,18 +1,19 @@
-from typing import Dict, Any, List, final
+from pydantic import BaseModel, Field
 
-from pydantic import BaseModel
-
+from schemas.rag_schema import RetrievedDocument, Route, StructuredQuery
 
 class RAGState(BaseModel):
 
-    query : str
+    query: str
 
-    structured_query : Dict[str, Any] = {}
+    structured_query: StructuredQuery | None = None
 
-    query_embeddings : List[float] = []
+    route: Route | None = None
 
-    retrieved_docs : Dict[str, Any] = {}
+    retrieved_documents: list[RetrievedDocument] = Field(default_factory=list)
 
-    confidence : float = 0.0
+    confidence: float = 0.0
 
-    final_answer : str = ""
+    final_answer: str | None = None
+
+    error: str | None = None

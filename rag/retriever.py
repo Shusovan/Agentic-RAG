@@ -1,8 +1,9 @@
 import logging
 from typing import List, Dict, Any
 
-from embeddings import EmbeddingPipeline
-from vectorstore import VectorStore
+
+from rag.embeddings import EmbeddingPipeline
+from rag.vectorstore import VectorStore
 
 
 logger = logging.getLogger(__name__)

@@ -1,8 +1,8 @@
 import logging
-from watchdog.observers import Observer
 from pathlib import Path
 import time
 
+from watchdog.observers import Observer
 from watcher.event_handler import CorporaEventHandler
 from ingestion.ingestion_pipeline import IngestionPipeline
 from config.vector_dependency import vector_store, embedding_pipeline
@@ -16,6 +16,7 @@ class CorporaWatcher:
     def __init__(self, folder_path: str):
 
         self.folder_path = Path(folder_path)
+        self.folder_path.mkdir(parents=True, exist_ok=True)
 
         pipeline = IngestionPipeline(vector_store=vector_store, embedding_pipeline=embedding_pipeline)
 
@@ -28,11 +29,7 @@ class CorporaWatcher:
 
         logger.info(f"Starting watcher for folder: {self.folder_path}")
 
-        self.observer.schedule(
-            self.event_handler,
-            str(self.folder_path),
-            recursive=False
-        )
+        self.observer.schedule(self.event_handler, str(self.folder_path), recursive=False)
 
         self.observer.start()
 

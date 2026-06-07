@@ -5,7 +5,6 @@ import threading
 from fastapi import FastAPI
 
 from config.logs_file import setup_logging
-from watcher.corpora_watcher import CorporaWatcher
 from routes.ingestion_route import router as ingestion_router
 from routes.chat_route import router as chat_router
 
@@ -55,11 +54,17 @@ def include_routes(app: FastAPI):
 
 
 def start_corpora_watcher():
+    try:
+        from watcher.corpora_watcher import CorporaWatcher
+    except ImportError as exc:
+        logger.warning(
+            "Watchdog is not installed; corpora watcher disabled. Install it with 'pip install watchdog'. %s",
+            exc,
+        )
+        return
 
-    watcher = CorporaWatcher("Corpora")
-
+    watcher = CorporaWatcher("corpora")
     thread = threading.Thread(target=watcher.start, daemon=True)
-
     thread.start()
 
 

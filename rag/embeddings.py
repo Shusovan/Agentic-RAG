@@ -1,6 +1,5 @@
 import logging
 from typing import List
-from venv import logger
 
 import numpy as np
 from sentence_transformers import SentenceTransformer

@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from schemas.query_schema import QueryRequest
+from schemas.rag_schema import QueryRequest
 from graph.workflow import Flow
 
 
@@ -14,4 +14,4 @@ async def chat(request: QueryRequest):
 
     state = graph.run(request.query)
 
-    return {"structured_query": state.structured_query}
+    return state.model_dump()

@@ -1,12 +1,12 @@
 import json
 import logging
-import os
 import re
 from typing import Any
 
 from dotenv import load_dotenv
 from groq import Groq
-from sympy import content
+
+from prompts.query_understanding_prompt import QUERY_UNDERSTANDING_PROMPT
 
 
 logger = logging.getLogger(__name__)
@@ -15,105 +15,56 @@ load_dotenv()
 
 
 class QueryUnderstandingLLM:
+    """
+        Focused LLM wrapper — json_object mode only.
+        Extracts structured metadata from the raw user query.
+    """
 
     def __init__(self, api_key: str, model: str = "qwen/qwen3-32b"):
-
-        # api_key = os.getenv("GROQ_API_KEY")
-
-        # if not api_key:
-            #raise ValueError("GROQ_API_KEY not set in environment")
         
         self.client = Groq(api_key=api_key)
         self.model = model
 
 
     def analyze_query(self, query: str) -> dict[str, Any]:
-        """
-        Sends prompt to Groq LLM and returns structured JSON response
-        """
 
-        try:
-            logger.info(f"Analyzing query with LLM")
+        logger.info("[QueryUnderstandingLLM] Calling Groq API")
 
-            completion = self.client.chat.completions.create(
-                model=self.model,
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "You are an expert Query Understanding Agent in an enterprise RAG system. Analyze the user query and extract intent, topic, entities, source, and rewritten_query. Return ONLY valid JSON with no explanation or markdown."
-                    },
-                    {
-                        "role": "user",
-                        "content": f"Query: {query}"
-                    }
-                ],
-                temperature=0.0,
-                max_tokens=512,
-                response_format={"type": "json_object"}
-            )
-            
-            content = completion.choices[0].message.content.strip()
+        completion = self.client.chat.completions.create(
+            model=self.model,
+            messages=[{"role": "system", "content": QUERY_UNDERSTANDING_PROMPT}, {"role": "user", "content": f"Query: {query}"}],
+            temperature=0.0,
+            max_tokens=512,
+            response_format={"type": "json_object"},
+        )
 
-            logger.debug(f"LLM response: {content}")
+        raw = completion.choices[0].message.content.strip()
 
-            parsed = self._parse_json(content)
-            self._validate_response(parsed)
+        logger.debug(f"[QueryUnderstandingLLM] Raw LLM response: {raw}")
 
-            return parsed
-        
-        except Exception as e:
-            logger.error(f"Groq LLM generation failed: {e}")
-            raise
-
-
+        return self._parse_and_validate(raw)
     
-    def _parse_json(self, content: str) -> dict[str, Any]:
-        """
-        Parse the LLM response as JSON, handling common formatting issues
-        """
+
+    def _parse_and_validate(self, content: str) -> dict[str, Any]:
+
         try:
-            # Extract first JSON object
             match = re.search(r"\{.*\}", content, re.DOTALL)
-            
+
             if not match:
-                raise ValueError("No JSON object found")
+                raise ValueError("No JSON object found in LLM response")
+            
+            parsed = json.loads(match.group(0))
 
-            response = match.group(0)
-
-            return json.loads(response)
-
-        except Exception:
-            logger.error(f"Invalid JSON from LLM: {content}")
+        except Exception as e:
+            logger.error(f"[QueryUnderstandingLLM] Failed to parse JSON: {content}")
             raise ValueError("Failed to parse LLM JSON output")
         
-        '''try:
-            content = re.sub(r"<think>.*?</think>", "", content, flags=re.DOTALL).strip()
+        required = ["intent", "topic", "entities", "source", "rewritten_query"]
 
-            if content.startswith("```"):
-                content = content.strip("```")
-                content = content.replace("json", "", 1).strip()
+        missing_fields = [field for field in required if field not in parsed]
 
-            return json.loads(content)
-
-
-        except json.JSONDecodeError:
-            logger.error(f"Invalid JSON from LLM: {content}")
-            raise ValueError("Failed to parse LLM JSON output")'''
+        if missing_fields:
+            logger.error(f"[QueryUnderstandingLLM] Missing fields in LLM response: {missing_fields}")
+            raise ValueError(f"LLM response missing required fields: {missing_fields}")
         
-    
-    def _validate_response(self, response: dict[str, Any]):
-        """
-        Validate required schema fields
-        """
-        required_keys = [
-            "rewritten_query",
-            "intent",
-            "topic",
-            "entities",
-            "source"
-        ]
-
-        missing = [k for k in required_keys if k not in response]
-
-        if missing:
-            raise ValueError(f"Missing keys in LLM response: {missing}")
+        return parsed
