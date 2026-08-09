@@ -9,18 +9,18 @@ logger = logging.getLogger(__name__)
 
 class VectorRetrieverAgent:
     """
-    Retrieval orchestration layer.
+        Retrieval orchestration layer.
 
-    Responsibilities:
-        - Decide retrieval query
-        - Call VectorRetrievalTool
-        - Convert results into RetrievedDocument
-        - Apply any future retrieval policies
+        Responsibilities:
+            - Decide retrieval query
+            - Call VectorRetrievalTool
+            - Convert results into RetrievedDocument
+            - Apply any future retrieval policies
 
-    Does NOT:
-        - Talk directly to Qdrant
-        - Generate answers
-        - Route requests
+        Does NOT:
+            - Talk directly to Qdrant
+            - Generate answers
+            - Route requests
     """
     def __init__(self, retriever_tool: VectorRetrieverTool, top_k: int = 5, score_threshold: float = 0.0):
         self.retriever_tool = retriever_tool

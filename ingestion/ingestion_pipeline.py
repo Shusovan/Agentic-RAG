@@ -1,6 +1,8 @@
 import logging
 from typing import List
 
+from langchain_core.documents import Document
+
 from ingestion.metadata_extractor import MetadataExtractor
 from rag.chunking import ChunkingPipeline
 
@@ -10,62 +12,77 @@ logger = logging.getLogger(__name__)
 
 class IngestionPipeline:
     """
-    Handles end-to-end document ingestion
+    Orchestrates the complete document ingestion workflow.
 
-    Steps:
-    1. Extract metadata
-    2. Chunk documents
-    3. Generate embeddings
-    4. Store in vector DB
+    Pipeline:
+        1. Metadata enrichment
+        2. Chunking
+        3. Embedding generation
+        4. Vector store ingestion
     """
 
-    def __init__(self, vector_store, embedding_pipeline):
-        
+    def __init__(
+        self,
+        vector_store,
+        embedding_pipeline,
+        metadata_extractor: MetadataExtractor | None = None,
+        chunking_pipeline: ChunkingPipeline | None = None,
+    ):
         self.vector_store = vector_store
         self.embedding_pipeline = embedding_pipeline
 
-        self.metadata_extractor = MetadataExtractor()
-        self.chunking_pipeline = ChunkingPipeline()
+        # Allow dependency injection for testing/extensibility
+        self.metadata_extractor = metadata_extractor or MetadataExtractor()
+        self.chunking_pipeline = chunking_pipeline or ChunkingPipeline()
 
-    def process_documents(self, documents: List):
+    def process_documents(self, documents: List[Document]) -> None:
         """
-        Runs the full ingestion pipeline
+        Execute the complete ingestion pipeline.
+
+        Args:
+            documents: List of LangChain Document objects.
         """
+
+        if not documents:
+            logger.warning("No documents received for ingestion.")
+            return
+
+        logger.info("Starting ingestion pipeline.")
 
         try:
+            # Metadata Enrichment
+            enriched_documents = self.metadata_extractor.extract(documents)
 
-            logger.info("Starting ingestion pipeline")
 
-            # Step 1 — Metadata enrichment
-            documents = self.metadata_extractor.extract(documents)
+            # Chunking
+            # chunked_documents = self._chunk_documents(enriched_documents)
 
-            # Step 2 — Chunking
-            chunked_docs = []
+            chunked_documents = self.chunking_pipeline.split_text("\n\n".join(doc.page_content for doc in enriched_documents))
 
-            for doc in documents:
+            logger.info(
+                "Generated %d chunks from %d documents.",
+                len(chunked_documents),
+                len(enriched_documents),
+            )
 
-                chunks = self.chunking_pipeline.split_text(doc.page_content)
-
-                for chunk in chunks:
-
-                    new_doc = type(doc)(page_content=chunk.page_content, metadata=doc.metadata)
-
-                    chunked_docs.append(new_doc)
-
-            logger.info(f"Created {len(chunked_docs)} chunks")
-
-            # Step 3 — Prepare texts for embedding
-            texts = [doc.page_content for doc in chunked_docs]
+            # Generate Embeddings
+            texts = [doc.page_content for doc in chunked_documents]
 
             embeddings = self.embedding_pipeline.embed_documents(texts)
 
-            # Step 4 — Store in vector DB
-            self.vector_store.add_documents(documents=chunked_docs, embeddings=embeddings)
+            # --------------------------------------------------
+            # Step 4: Persist to Vector Store
+            # --------------------------------------------------
+            self.vector_store.add_documents(
+                documents=chunked_documents,
+                embeddings=embeddings,
+            )
 
-            logger.info("Ingestion pipeline completed successfully")
+            logger.info(
+                "Successfully ingested %d chunks.",
+                len(chunked_documents),
+            )
 
-        except Exception as e:
-
-            logger.exception("Ingestion pipeline failed")
-
-            raise ValueError(f"Ingestion pipeline failed: {e}")
+        except Exception:
+            logger.exception("Document ingestion failed.")
+            raise

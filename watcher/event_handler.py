@@ -8,6 +8,7 @@ from watchdog.events import FileSystemEventHandler
 
 from ingestion.ingestion_pipeline import IngestionPipeline
 from ingestion.document_loader import DocumentLoader
+from ingestion.loader_registry import LoadRegistry
 
 
 logger = logging.getLogger(__name__)
@@ -100,7 +101,7 @@ class CorporaEventHandler(FileSystemEventHandler):
         else:
             logger.info(f"New document detected: {file_path}")
 
-        documents = self.loader.load_single_document(file_path)
+        documents = self.loader.load_file(file_path)
         self.pipeline.process_documents(documents)
         self.file_hashes[file_path.name] = new_file_hash
 

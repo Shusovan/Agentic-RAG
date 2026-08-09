@@ -1,6 +1,8 @@
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List
+
+from langchain_core.documents import Document
 
 
 logger = logging.getLogger(__name__)
@@ -8,30 +10,34 @@ logger = logging.getLogger(__name__)
 
 class MetadataExtractor:
     """
-    Extract and enrich metadata for documents
+    Enriches document metadata before chunking.
     """
 
-    def extract(self, documents: List):
+    def extract(self, documents: List[Document]) -> List[Document]:
 
-        enriched_docs = []
+        for document in documents:
 
-        for doc in documents:
+            metadata = dict(document.metadata)
 
-            metadata = dict(doc.metadata)
+            metadata.setdefault("source", "unknown")
 
-            metadata["ingestion_time"] = datetime.utcnow().isoformat()
+            metadata.setdefault("source_type", "unknown")
 
-            metadata["content_length"] = len(doc.page_content)
+            metadata["ingestion_time"] = datetime.now(
+                timezone.utc
+            ).isoformat()
 
-            if "source" not in metadata:
-                metadata["source"] = "unknown"
+            metadata["content_length"] = len(document.page_content)
 
-            doc.metadata = metadata
+            metadata["word_count"] = len(
+                document.page_content.split()
+            )
 
-            enriched_docs.append(doc)
+            document.metadata = metadata
 
         logger.info(
-            f"Metadata enriched for {len(enriched_docs)} documents"
+            "Metadata extracted for %d documents",
+            len(documents),
         )
 
-        return enriched_docs
+        return documents

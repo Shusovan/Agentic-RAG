@@ -1,8 +1,7 @@
 import logging
 from pathlib import Path
-import re
 
-from langchain_community.document_loaders import TextLoader
+from langchain_community.document_loaders import PyMuPDFLoader, PyPDFLoader
 
 from ingestion.base_loader import BaseLoader
 
@@ -10,17 +9,23 @@ from ingestion.base_loader import BaseLoader
 logger = logging.getLogger(__name__)
 
 
-class TxtLoader(BaseLoader):
-    """
-        Handles text loading and cleaning
-    """
+class PDFLoader(BaseLoader):
+    '''
+        Class for loading PDF documents using PyMuPDFLoader and PyPDFLoader.
+    '''
 
     def load(self, path: Path):
 
         file_type = path.suffix.lower()
         logger.info( "Loading file: %s | Type: %s", path.name, file_type )
 
-        docs = TextLoader(str(path)).load()
+        try:
+            loader = PyMuPDFLoader(str(path))
+            docs = loader.load()
+
+        except Exception:
+            loader = PyPDFLoader(str(path))
+            docs = loader.load()
 
         for doc in docs:
             doc.metadata["source"] = path.name
@@ -28,3 +33,4 @@ class TxtLoader(BaseLoader):
             doc.metadata["file_type"] = file_type
 
         return docs
+

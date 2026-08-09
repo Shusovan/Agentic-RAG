@@ -5,7 +5,7 @@ from langchain_core.documents import Document
 
 from services.file_service import FileService
 from ingestion import ingestion_pipeline
-from schemas.ingestion_schema import TextIngestionRequest
+from schemas.ingestion_schema import TextIngestionRequest, WebIngestionRequest
 
 from config.vector_dependency import vector_store, embedding_pipeline
 
@@ -82,3 +82,10 @@ async def upload_document(file: UploadFile = File(...)):
         logger.error(f"File upload failed: {e}")
 
         raise HTTPException(status_code=500, detail="File upload failed")
+
+
+@router.post("/web")
+async def ingest_web(request: WebIngestionRequest):
+
+    ...
+    

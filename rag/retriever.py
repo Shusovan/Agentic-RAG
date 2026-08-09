@@ -98,3 +98,31 @@ class Retriever:
             raise ValueError(
                 f"Document retrieval failed: {e}"
             )
+
+    # Re-ranking method
+    def re_rank(self, query: str, retrieved_docs: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        Re-rank retrieved documents based on query relevance. If the retrieved documents 
+        are less than 3, then dont sent for re-ranking
+
+        Args:
+            query : user query
+            retrieved_docs : list of retrieved documents
+
+        Returns:
+            List of re-ranked documents
+        """
+
+        logger.info(f"Re-ranking {len(retrieved_docs)} documents for query='{query}'")
+
+        try:
+
+            # Placeholder for re-ranking logic
+            # In a real implementation, this could involve a more sophisticated model
+            # For now, we will just return the documents as-is
+
+            return retrieved_docs
+
+        except Exception as e:
+
+            raise ValueError(f"Document re-ranking failed: {e}")

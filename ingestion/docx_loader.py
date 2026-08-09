@@ -1,8 +1,7 @@
 import logging
 from pathlib import Path
-import re
 
-from langchain_community.document_loaders import TextLoader
+from langchain_community.document_loaders import Docx2txtLoader
 
 from ingestion.base_loader import BaseLoader
 
@@ -10,17 +9,15 @@ from ingestion.base_loader import BaseLoader
 logger = logging.getLogger(__name__)
 
 
-class TxtLoader(BaseLoader):
-    """
-        Handles text loading and cleaning
-    """
+class DOCXLoader(BaseLoader):
 
     def load(self, path: Path):
 
         file_type = path.suffix.lower()
         logger.info( "Loading file: %s | Type: %s", path.name, file_type )
 
-        docs = TextLoader(str(path)).load()
+        loader = Docx2txtLoader(str(path))
+        docs = loader.load()
 
         for doc in docs:
             doc.metadata["source"] = path.name

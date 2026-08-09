@@ -20,7 +20,7 @@ class QueryUnderstandingLLM:
         Extracts structured metadata from the raw user query.
     """
 
-    def __init__(self, api_key: str, model: str = "qwen/qwen3-32b"):
+    def __init__(self, api_key: str, model: str = "llama-3.3-70b-versatile"):
         
         self.client = Groq(api_key=api_key)
         self.model = model
