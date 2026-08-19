@@ -53,33 +53,26 @@ class IngestionPipeline:
             # Metadata Enrichment
             enriched_documents = self.metadata_extractor.extract(documents)
 
-
             # Chunking
             # chunked_documents = self._chunk_documents(enriched_documents)
-
             chunked_documents = self.chunking_pipeline.split_text("\n\n".join(doc.page_content for doc in enriched_documents))
 
-            logger.info(
-                "Generated %d chunks from %d documents.",
+            logger.info("Generated %d chunks from %d documents.",
                 len(chunked_documents),
-                len(enriched_documents),
-            )
+                len(enriched_documents),)
 
             # Generate Embeddings
             texts = [doc.page_content for doc in chunked_documents]
 
             embeddings = self.embedding_pipeline.embed_documents(texts)
 
-            # --------------------------------------------------
-            # Step 4: Persist to Vector Store
-            # --------------------------------------------------
+            # Persist to Vector Store
             self.vector_store.add_documents(
                 documents=chunked_documents,
                 embeddings=embeddings,
             )
 
-            logger.info(
-                "Successfully ingested %d chunks.",
+            logger.info("Successfully ingested %d chunks.",
                 len(chunked_documents),
             )
 
