@@ -5,7 +5,7 @@ import time
 from watchdog.observers import Observer
 from watcher.event_handler import CorporaEventHandler
 from ingestion.ingestion_pipeline import IngestionPipeline
-from config.vector_dependency import vector_store, embedding_pipeline
+from config.vector_dependency import vector_store, embedding_pipeline, bm25_store
 
 
 logger = logging.getLogger(__name__)
@@ -18,7 +18,9 @@ class CorporaWatcher:
         self.folder_path = Path(folder_path)
         self.folder_path.mkdir(parents=True, exist_ok=True)
 
-        pipeline = IngestionPipeline(vector_store=vector_store, embedding_pipeline=embedding_pipeline)
+        pipeline = IngestionPipeline(vector_store=vector_store,
+                                     bm25_store=bm25_store, 
+                                     embedding_pipeline=embedding_pipeline)
 
         self.event_handler = CorporaEventHandler(pipeline)
 

@@ -11,20 +11,20 @@ logger = logging.getLogger(__name__)
 
 class Retriever:
     """
-    Low-level retrieval service.
+        Low-level retrieval service.
 
-    Responsibilities:
-        - Generate query embedding
-        - Query VectorStore
-        - Apply score threshold
-        - Normalize retrieval results
+        Responsibilities:
+            - Generate query embedding
+            - Query VectorStore
+            - Apply score threshold
+            - Normalize retrieval results
 
-    Does NOT:
-        - Decide retrieval strategy
-        - Reformulate queries
-        - Retry retrieval
-        - Rerank documents
-        - Generate answers
+        Does NOT:
+            - Decide retrieval strategy
+            - Reformulate queries
+            - Retry retrieval
+            - Rerank documents
+            - Generate answers
     """
 
     def __init__(self, vector_store: VectorStore, embedding_manager: EmbeddingPipeline):

@@ -1,150 +1,67 @@
-2026-08-09 22:01:45,486 | INFO | app | FastAPI app starting
-2026-08-09 22:01:45,938 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
-2026-08-09 22:02:11,860 | INFO | watcher.event_handler | Document deleted: corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
-2026-08-09 22:02:11,860 | INFO | rag.vectorstore | Deleting embeddings for source: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
-2026-08-09 22:02:11,863 | INFO | rag.vectorstore | Embeddings deleted for source: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
-2026-08-09 22:02:24,182 | INFO | services.file_service | File saved to Corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
-2026-08-09 22:02:24,182 | INFO | routes.ingestion_route | Received file: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
-2026-08-09 22:02:26,222 | INFO | watcher.event_handler | New document detected: corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
-2026-08-09 22:02:26,222 | INFO | ingestion.pdf_loader | Loading file: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf | Type: .pdf
-2026-08-09 22:02:27,209 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
-2026-08-09 22:02:27,210 | INFO | ingestion.metadata_extractor | Metadata extracted for 6 documents
-2026-08-09 22:02:27,212 | INFO | ingestion.ingestion_pipeline | Generated 31 chunks from 6 documents.
-2026-08-09 22:02:28,094 | INFO | rag.vectorstore | Adding 31 documents to vector store
-2026-08-09 22:02:28,350 | INFO | rag.vectorstore | 31 documents stored successfully
-2026-08-09 22:02:28,351 | INFO | ingestion.ingestion_pipeline | Successfully ingested 31 chunks.
-2026-08-09 22:03:50,761 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: give me the details of leave policy
-2026-08-09 22:03:50,761 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-08-09 22:03:51,406 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 404 Not Found"
-2026-08-09 22:03:51,408 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-08-09 22:03:51,466 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 404 Not Found"
-2026-08-09 22:03:51,469 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-08-09 22:03:51,527 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 404 Not Found"
-2026-08-09 22:30:36,801 | INFO | app | FastAPI app starting
-2026-08-09 22:30:37,334 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
-2026-08-09 22:32:24,388 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: give me the details of leave policy
-2026-08-09 22:32:24,388 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-08-09 22:32:25,046 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-09 22:32:25,579 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.INTERNAL_QUESTION, source=Source.INTERNAL
-2026-08-09 22:32:25,588 | INFO | agents.vector_retriever_agent | [VectorRetrieverAgent] Retrieving documents for query='leave policy details'
-2026-08-09 22:32:25,589 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='leave policy details'
-2026-08-09 22:32:25,589 | INFO | rag.retriever | Retrieving documents for query='leave policy details', top_k=5
-2026-08-09 22:32:25,589 | INFO | rag.retriever | Generating query embedding
-2026-08-09 22:32:25,649 | INFO | rag.vectorstore | Searching vector DB with top_k=5
-2026-08-09 22:32:25,654 | INFO | rag.retriever | Retrieved 5 documents
-2026-08-09 22:32:25,654 | INFO | agents.vector_retriever_agent | [VectorRetrieverAgent] Retrieved 5 documents
-2026-08-09 22:32:25,657 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating RAG answer
-2026-08-09 22:32:25,657 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
-2026-08-09 22:32:26,317 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-09 22:33:10,230 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: define generative ai
-2026-08-09 22:33:10,231 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-08-09 22:33:10,710 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-09 22:33:10,712 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.GENERAL_QUESTION, source=Source.GENERAL
-2026-08-09 22:33:10,716 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating general answer
-2026-08-09 22:33:10,716 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
-2026-08-09 22:33:12,217 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-17 20:58:49,843 | INFO | app | FastAPI app starting
-2026-08-17 20:58:50,136 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
-2026-08-17 21:00:06,948 | INFO | watcher.event_handler | New document detected: corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
-2026-08-17 21:00:06,948 | INFO | ingestion.pdf_loader | Loading file: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf | Type: .pdf
-2026-08-17 21:00:07,588 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
-2026-08-17 21:00:07,589 | INFO | ingestion.metadata_extractor | Metadata extracted for 6 documents
-2026-08-17 21:00:07,590 | INFO | ingestion.ingestion_pipeline | Generated 31 chunks from 6 documents.
-2026-08-17 21:00:08,397 | INFO | rag.vectorstore | Adding 31 documents to vector store
-2026-08-17 21:00:08,646 | INFO | rag.vectorstore | 31 documents stored successfully
-2026-08-17 21:00:08,646 | INFO | ingestion.ingestion_pipeline | Successfully ingested 31 chunks.
-2026-08-17 21:00:23,486 | INFO | watcher.event_handler | Document deleted: corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
-2026-08-17 21:00:23,486 | INFO | rag.vectorstore | Deleting embeddings for source: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
-2026-08-17 21:00:23,501 | INFO | rag.vectorstore | Embeddings deleted for source: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
-2026-08-18 20:46:37,468 | INFO | app | FastAPI app starting
-2026-08-18 20:46:37,724 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
-2026-08-18 20:49:59,956 | INFO | services.file_service | File saved to Corpora\Angular User Login (security Service).pdf
-2026-08-18 20:49:59,956 | INFO | routes.ingestion_route | Received file: Angular User Login (security Service).pdf
-2026-08-18 20:50:01,978 | INFO | watcher.event_handler | New document detected: corpora\Angular User Login (security Service).pdf
-2026-08-18 20:50:01,978 | INFO | ingestion.pdf_loader | Loading file: Angular User Login (security Service).pdf | Type: .pdf
-2026-08-18 20:50:02,399 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
-2026-08-18 20:50:02,399 | INFO | ingestion.metadata_extractor | Metadata extracted for 9 documents
-2026-08-18 20:50:02,400 | INFO | ingestion.ingestion_pipeline | Generated 12 chunks from 9 documents.
-2026-08-18 20:50:02,893 | INFO | rag.vectorstore | Adding 12 documents to vector store
-2026-08-18 20:50:02,995 | INFO | rag.vectorstore | 12 documents stored successfully
-2026-08-18 20:50:02,995 | INFO | ingestion.ingestion_pipeline | Successfully ingested 12 chunks.
-2026-08-18 20:50:42,821 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: explain security in Angular from rag
-2026-08-18 20:50:42,821 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-08-18 20:50:43,489 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 404 Not Found"
-2026-08-18 20:50:43,492 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-08-18 20:50:43,546 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 404 Not Found"
-2026-08-18 20:50:43,549 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-08-18 20:50:43,606 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 404 Not Found"
-2026-08-18 21:05:23,094 | INFO | app | FastAPI app starting
-2026-08-18 21:05:23,550 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
-2026-08-18 21:13:00,603 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: explain security in Angular from rag
-2026-08-18 21:13:00,603 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-08-18 21:13:01,999 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-18 21:13:02,524 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.GENERAL_QUESTION, source=Source.GENERAL
-2026-08-18 21:13:02,529 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating general answer
-2026-08-18 21:13:02,529 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
-2026-08-18 21:13:05,169 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-18 21:13:44,933 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: explain security in Angular. Retrieve from internal documents
-2026-08-18 21:13:44,933 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-08-18 21:13:46,115 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-18 21:13:46,119 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.INTERNAL_QUESTION, source=Source.INTERNAL
-2026-08-18 21:13:46,125 | INFO | agents.retriever_agent | [RetrievalAgent] Starting retrieval for query='explain security in Angular. Retrieve from internal documents'
-2026-08-18 21:13:46,126 | INFO | agents.retriever_agent | [RetrievalAgent] strategy=vector query='explain security in Angular. Retrieve from internal documents' reason='Intent 'INTERNAL_QUESTION' requires retrieval'
-2026-08-18 21:13:46,126 | INFO | agents.retriever_agent | [RetrievalAgent] Retrieval attempt 1/2 query='Angular security best practices internal documentation'
-2026-08-18 21:13:46,127 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='Angular security best practices internal documentation'
-2026-08-18 21:13:46,127 | INFO | rag.retriever | Retrieving documents for query='Angular security best practices internal documentation', top_k=5
-2026-08-18 21:13:46,127 | INFO | rag.retriever | Generating query embedding
-2026-08-18 21:13:46,240 | INFO | rag.vectorstore | Searching vector DB with top_k=5
-2026-08-18 21:13:46,247 | INFO | rag.retriever | Retrieved 5 documents
-2026-08-18 21:13:46,247 | INFO | agents.retriever_agent | [RetrievalAgent] Sufficient retrieval results after attempt 1
-2026-08-18 21:18:59,247 | INFO | app | FastAPI app starting
-2026-08-18 21:18:59,683 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
-2026-08-18 21:22:12,087 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: explain security in Angular. Retrieve from internal documents
-2026-08-18 21:22:12,087 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-08-18 21:22:13,648 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-18 21:22:14,148 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.DOCUMENT_QUERY, source=Source.INTERNAL
-2026-08-18 21:22:14,153 | INFO | agents.retriever_agent | [RetrievalAgent] Starting retrieval for query='explain security in Angular. Retrieve from internal documents'
-2026-08-18 21:22:14,153 | INFO | agents.retriever_agent | [RetrievalAgent] strategy=vector query='explain security in Angular. Retrieve from internal documents' reason='Intent 'DOCUMENT_QUERY' requires retrieval'
-2026-08-18 21:22:14,153 | INFO | agents.retriever_agent | [RetrievalAgent] Retrieval attempt 1/2 query='explain security in Angular'
-2026-08-18 21:22:14,154 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='explain security in Angular'
-2026-08-18 21:22:14,154 | INFO | rag.retriever | Retrieving documents for query='explain security in Angular', top_k=5
-2026-08-18 21:22:14,154 | INFO | rag.retriever | Generating query embedding
-2026-08-18 21:22:14,207 | INFO | rag.vectorstore | Searching vector DB with top_k=5
-2026-08-18 21:22:14,210 | INFO | rag.retriever | Retrieved 5 documents
-2026-08-18 21:22:14,210 | INFO | agents.retriever_agent | [RetrievalAgent] Sufficient retrieval results after attempt 1
-2026-08-18 21:22:14,210 | INFO | agents.retriever_agent | [RetrievalAgent] Final retrieval count=5
-2026-08-18 23:18:18,436 | INFO | app | FastAPI app starting
-2026-08-18 23:18:18,914 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
-2026-08-18 23:18:40,295 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: explain security in Angular. Retrieve from internal documents
-2026-08-18 23:18:40,295 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-08-18 23:18:42,187 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-18 23:18:42,773 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.DOCUMENT_QUERY, source=Source.INTERNAL
-2026-08-18 23:18:42,779 | INFO | agents.retriever_agent | [RetrievalAgent] Starting retrieval for query='explain security in Angular. Retrieve from internal documents'
-2026-08-18 23:18:42,781 | INFO | agents.retriever_agent | [RetrievalAgent] strategy=vector query='explain security in Angular. Retrieve from internal documents' reason='Intent 'DOCUMENT_QUERY' requires retrieval'
-2026-08-18 23:18:42,781 | INFO | agents.retriever_agent | [RetrievalAgent] Retrieval attempt 1/2 query='explain security in Angular'
-2026-08-18 23:18:42,782 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='explain security in Angular'
-2026-08-18 23:18:42,782 | INFO | rag.retriever | Retrieving documents for query='explain security in Angular', top_k=5
-2026-08-18 23:18:42,782 | INFO | rag.retriever | Generating query embedding
-2026-08-18 23:18:42,953 | INFO | rag.vectorstore | Searching vector DB with top_k=5
-2026-08-18 23:18:42,957 | INFO | rag.retriever | Retrieved 5 documents
-2026-08-18 23:18:42,958 | INFO | agents.retriever_agent | [RetrievalAgent] Sufficient retrieval results after attempt 1
-2026-08-18 23:18:42,959 | INFO | agents.retriever_agent | [RetrievalAgent] Final retrieval count=5
-2026-08-18 23:55:45,682 | INFO | app | FastAPI app starting
-2026-08-18 23:55:45,959 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
-2026-08-18 23:57:22,392 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: explain security in Angular. Retrieve from internal documents
-2026-08-18 23:57:22,393 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-08-18 23:57:24,044 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-18 23:57:24,632 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.DOCUMENT_QUERY, source=Source.INTERNAL
-2026-08-18 23:57:24,640 | INFO | agents.retriever_agent | [RetrievalAgent] Starting retrieval for query='explain security in Angular. Retrieve from internal documents'
-2026-08-18 23:57:24,642 | INFO | agents.retriever_agent | [RetrievalAgent] strategy=vector query='explain security in Angular. Retrieve from internal documents' reason='Intent 'DOCUMENT_QUERY' requires retrieval'
-2026-08-18 23:57:24,642 | INFO | agents.retriever_agent | [RetrievalAgent] Retrieval attempt 1/2 query='Explain security concepts and best practices in Angular'
-2026-08-18 23:57:24,642 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='Explain security concepts and best practices in Angular'
-2026-08-18 23:57:24,642 | INFO | rag.retriever | Retrieving documents for query='Explain security concepts and best practices in Angular', top_k=5
-2026-08-18 23:57:24,643 | INFO | rag.retriever | Generating query embedding
-2026-08-18 23:57:24,758 | INFO | rag.vectorstore | Searching vector DB with top_k=5
-2026-08-18 23:57:24,762 | INFO | rag.retriever | Retrieved 5 documents
-2026-08-18 23:57:24,762 | INFO | agents.retriever_agent | [RetrievalAgent] Sufficient retrieval results after attempt 1
-2026-08-18 23:57:24,763 | INFO | agents.retriever_agent | [RetrievalAgent] Final retrieval count=5
-2026-08-18 23:57:24,767 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating RAG answer
-2026-08-18 23:57:24,767 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
-2026-08-18 23:57:27,453 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-24 10:23:40,667 | INFO | app | FastAPI app starting
+2026-08-24 10:23:40,914 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-24 10:24:25,117 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: explain security in Angular. Retrieve from internal documents
+2026-08-24 10:24:25,117 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-24 10:24:26,501 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-24 10:24:26,999 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.INTERNAL_QUESTION, source=Source.INTERNAL
+2026-08-24 10:24:27,005 | INFO | agents.retriever_agent | [RetrievalAgent] Starting retrieval for 'explain security in Angular'
+2026-08-24 10:24:27,346 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='explain security in Angular'
+2026-08-24 10:24:27,346 | INFO | rag.retriever | Retrieving documents for query='explain security in Angular', top_k=5
+2026-08-24 10:24:27,346 | INFO | rag.retriever | Generating query embedding
+2026-08-24 10:24:27,411 | INFO | rag.vectorstore | Searching vector DB with top_k=5
+2026-08-24 10:24:27,414 | INFO | rag.retriever | Retrieved 5 documents
+2026-08-24 10:24:27,414 | INFO | agents.retriever_agent | [RetrievalAgent] Strategy=RetrievalStrategy.HYBRID returned 5 results
+2026-08-24 10:24:27,414 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating RAG answer
+2026-08-24 10:24:27,418 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
+2026-08-24 10:24:30,107 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-24 11:13:34,089 | INFO | app | FastAPI app starting
+2026-08-24 11:13:34,355 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-24 11:15:20,216 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: explain security in Angular. Retrieve from internal documents
+2026-08-24 11:15:20,217 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-24 11:15:21,796 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-24 11:15:22,275 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.INTERNAL_QUESTION, source=Source.INTERNAL
+2026-08-24 11:15:22,283 | INFO | agents.retriever_agent | [RetrievalAgent] Starting retrieval for 'explain Angular security best practices'
+2026-08-24 11:15:22,330 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='explain Angular security best practices'
+2026-08-24 11:15:22,330 | INFO | rag.retriever | Retrieving documents for query='explain Angular security best practices', top_k=5
+2026-08-24 11:15:22,331 | INFO | rag.retriever | Generating query embedding
+2026-08-24 11:15:22,382 | INFO | rag.vectorstore | Searching vector DB with top_k=5
+2026-08-24 11:15:22,388 | INFO | rag.retriever | Retrieved 5 documents
+2026-08-24 11:15:22,388 | INFO | agents.retriever_agent | [RetrievalAgent] Strategy=RetrievalStrategy.HYBRID returned 5 results
+2026-08-24 11:15:22,409 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating RAG answer
+2026-08-24 11:15:22,410 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
+2026-08-24 11:15:25,085 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-24 16:34:45,636 | INFO | app | FastAPI app starting
+2026-08-24 16:34:45,904 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-24 16:52:09,036 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: explain security in Angular. Retrieve from internal documents
+2026-08-24 16:52:09,037 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-24 16:52:10,616 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-24 16:52:11,036 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.INTERNAL_QUESTION, source=Source.INTERNAL
+2026-08-24 16:52:11,041 | INFO | agents.retriever_agent | [RetrievalAgent] Starting retrieval for 'explain Angular security best practices'
+2026-08-24 16:52:11,041 | INFO | agents.retriever_agent | [RetrievalAgent] Attempt 1/3 strategy=RetrievalStrategy.HYBRID query='explain Angular security best practices'
+2026-08-24 16:52:11,041 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='explain Angular security best practices'
+2026-08-24 16:52:11,042 | INFO | rag.retriever | Retrieving documents for query='explain Angular security best practices', top_k=5
+2026-08-24 16:52:11,042 | INFO | rag.retriever | Generating query embedding
+2026-08-24 16:52:11,178 | INFO | rag.vectorstore | Searching vector DB with top_k=5
+2026-08-24 16:52:11,183 | INFO | rag.retriever | Retrieved 5 documents
+2026-08-24 16:52:11,184 | INFO | agents.retriever_agent | [RetrievalAgent] Strategy=RetrievalStrategy.HYBRID returned 5 results
+2026-08-24 16:52:11,184 | WARNING | agents.retriever_agent | [RetrievalAgent] Strategy=RetrievalStrategy.HYBRID produced insufficient results
+2026-08-24 16:52:11,184 | INFO | agents.retriever_agent | [RetrievalAgent] Attempt 2/3 strategy=RetrievalStrategy.VECTOR query='Angular security Angularsecurity explain security in Angular. Retrieve from internal documents'
+2026-08-24 16:52:11,185 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='Angular security Angularsecurity explain security in Angular. Retrieve from internal documents'
+2026-08-24 16:52:11,185 | INFO | rag.retriever | Retrieving documents for query='Angular security Angularsecurity explain security in Angular. Retrieve from internal documents', top_k=5
+2026-08-24 16:52:11,185 | INFO | rag.retriever | Generating query embedding
+2026-08-24 16:52:11,237 | INFO | rag.vectorstore | Searching vector DB with top_k=5
+2026-08-24 16:52:11,238 | INFO | rag.retriever | Retrieved 5 documents
+2026-08-24 16:52:11,238 | INFO | agents.retriever_agent | [RetrievalAgent] Strategy=RetrievalStrategy.VECTOR returned 5 results
+2026-08-24 16:52:11,239 | WARNING | agents.retriever_agent | [RetrievalAgent] Strategy=RetrievalStrategy.VECTOR produced insufficient results
+2026-08-24 16:52:11,239 | INFO | agents.retriever_agent | [RetrievalAgent] Attempt 3/3 strategy=RetrievalStrategy.BM25 query='Angular security Angularsecurity explain security in Angular. Retrieve from internal documents'
+2026-08-24 16:52:11,239 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='Angular security Angularsecurity explain security in Angular. Retrieve from internal documents'
+2026-08-24 16:52:11,239 | INFO | rag.retriever | Retrieving documents for query='Angular security Angularsecurity explain security in Angular. Retrieve from internal documents', top_k=5
+2026-08-24 16:52:11,240 | INFO | rag.retriever | Generating query embedding
+2026-08-24 16:52:11,270 | INFO | rag.vectorstore | Searching vector DB with top_k=5
+2026-08-24 16:52:11,271 | INFO | rag.retriever | Retrieved 5 documents
+2026-08-24 16:52:11,271 | INFO | agents.retriever_agent | [RetrievalAgent] Strategy=RetrievalStrategy.BM25 returned 5 results
+2026-08-24 16:52:11,272 | WARNING | agents.retriever_agent | [RetrievalAgent] Strategy=RetrievalStrategy.BM25 produced insufficient results
+2026-08-24 16:52:11,272 | WARNING | agents.retriever_agent | [RetrievalAgent] Retrieval exhausted all strategies
+2026-08-24 16:52:11,275 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating RAG answer
+2026-08-24 16:52:11,275 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
+2026-08-24 16:52:14,082 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"

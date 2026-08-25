@@ -1,3 +1,4 @@
+import hashlib
 import logging
 import os
 import uuid
@@ -64,27 +65,47 @@ class VectorStore:
             raise ValueError(f"Failed to initialize Qdrant: {e}")
 
 
+    # Generating Chunk ID
+    @staticmethod
+    def _generate_chunk_id(document: Any, index: int) -> str:
+
+        metadata = dict(getattr(document, "metadata", {}) or {})
+
+        source = metadata.get("source", "unknown")
+
+        raw = (f"{source}|" f"{index}|" f"{document.page_content}")
+
+        return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+
+
     def add_documents(self, documents: List[Any], embeddings: np.ndarray):
         """
         Store document embeddings in Qdrant
         """
 
         if len(documents) != len(embeddings):
-
             raise ValueError("Number of documents and embeddings must match")
 
         logger.info(f"Adding {len(documents)} documents to vector store")
 
         points = []
 
-        for doc, embedding in zip(documents, embeddings):
+        for index, (doc, embedding) in enumerate(zip(documents, embeddings)):
 
-            point_id = uuid.uuid4().hex
+            metadata = dict(getattr(doc, "metadata", {}) or {})
 
-            payload = {
-                "text": doc.page_content,
-                "metadata": dict(doc.metadata)
-            }
+            chunk_id = metadata.get("chunk_id") or self._generate_chunk_id(doc, index)
+
+            logger.info(f"Document index={index} | chunk_id={chunk_id} | "
+                        f"embedding_dim={len(embedding)}")
+
+            metadata["chunk_id"] = chunk_id
+
+            # Qdrant requires a valid UUID or integer for the point ID.
+            # Generate a deterministic UUID from the chunk ID.
+            point_id = str(uuid.uuid5(uuid.NAMESPACE_URL, chunk_id))
+
+            payload = {"text": doc.page_content, "metadata": metadata,}
 
             points.append(
                 PointStruct(
@@ -95,17 +116,12 @@ class VectorStore:
             )
 
         try:
-
             self.client.upsert(collection_name=self.collection_name, points=points)
 
-            logger.info(f"{len(points)} documents stored successfully")
+            logger.info(f"Successfully added {len(points)} documents to vector store")
 
         except Exception as e:
-
-            raise ValueError(
-                f"Failed to store documents in Qdrant: {e}"
-            )
-        
+            raise ValueError(f"Failed to add documents to vector store: {e}")
 
     
     def query(self, query_embedding: List[float], top_k: int = 5) -> List[Dict]:
@@ -124,47 +140,22 @@ class VectorStore:
 
             for point in response.points:
 
+                metadata = (
+                    point.payload.get("metadata", {})
+                    if point.payload else {}
+                )
+
                 formatted_results.append({
                     "id": point.id,
                     "content": point.payload["text"],
-                    "metadata": point.payload["metadata"],
-                    "score": point.score,
+                    "metadata": metadata,
+                    "score": float(point.score),
                 })
 
             return formatted_results
 
         except Exception as e:
-
-            raise ValueError(
-                f"Vector search failed: {e}"
-            )
-
-
-    # def query(self, query_embedding: List[float], top_k: int = 5) -> List[Dict]:
-
-    #     logger.info(f"Searching vector DB with top_k={top_k}")
-
-    #     try:
-    #         results = self.client.search(
-    #             collection_name=self.collection_name,
-    #             query_vector=query_embedding,
-    #             limit=top_k
-    #         )
-
-    #         formatted_results = []
-
-    #         for r in results:
-    #             formatted_results.append({
-    #                 "id": r.id,
-    #                 "content": r.payload["text"],
-    #                 "metadata": r.payload["metadata"],
-    #                 "score": r.score
-    #             })
-
-    #         return formatted_results
-
-    #     except Exception as e:
-    #         raise ValueError(f"Vector search failed: {e}")
+            raise ValueError(f"Vector search failed: {e}")
         
 
     def delete_by_source(self, source_name: str):

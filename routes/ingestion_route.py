@@ -7,7 +7,7 @@ from services.file_service import FileService
 from ingestion import ingestion_pipeline
 from schemas.ingestion_schema import TextIngestionRequest, WebIngestionRequest
 
-from config.vector_dependency import vector_store, embedding_pipeline
+from config.vector_dependency import vector_store, embedding_pipeline, bm25_store
 
 
 router = APIRouter()
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 file_service = FileService()
 
 
-pipeline = ingestion_pipeline.IngestionPipeline(vector_store=vector_store, embedding_pipeline=embedding_pipeline)
+pipeline = ingestion_pipeline.IngestionPipeline(vector_store=vector_store, bm25_store=bm25_store, embedding_pipeline=embedding_pipeline)
 
 
 @router.post("/text")

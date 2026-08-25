@@ -1,0 +1,278 @@
+[
+    {
+        "id": "01919b67d97ce6cbd5543fbd63548ec5960c0c136fbdafd049c2e173a6de44d3",
+        "content": "Retrieval-Augmented Generation (RAG) has become the go-to approach for building AI systems that answer questions using external documents. The standard recipe is well-known: chunk your documents, embed them into vectors, store them in a vector database, and perform similarity search at query time. But what if the retrieval step didn’t need any of that? A new approach called Vectorless RAG — pioneered by the PageIndex framework from VectifyAI — is challenging the assumption that vectors are essential for retrieval. It achieved 98.7% accuracy on the FinanceBench benchmark, significantly outperforming traditional vector-based RAG systems. That number alone makes it worth understanding.The Problem with Traditional RAGIn a typical RAG pipeline:Documents are split into fixed-size chunks (often by token count).",
+        "metadata": {
+            "source": "text_input",
+            "source_type": "unknown",
+            "ingestion_time": "2026-08-23T18:16:29.823415+00:00",
+            "content_length": 815,
+            "word_count": 117,
+            "chunk_id": "01919b67d97ce6cbd5543fbd63548ec5960c0c136fbdafd049c2e173a6de44d3"
+        }
+    },
+    {
+        "id": "330daddf06b12e907bbe9a37ee08c9fb3444c8ac5f51573cbcba04f1648d62cc",
+        "content": "Angular — User Login UI for SecurityService\nThis document contains a complete Angular login UI implementation that connects to your SecurityService\nlogin endpoint at:\nhttp://127.0.0.1:8000/security-service/user/login\nIt includes components, services, guards, interceptor , models, routing, and usage instructions. Copy the\nfiles into an Angular project (Angular 15+ recommended) or create a new project and drop these files into\nsrc/app.\nProject structure (files provided below)\nsrc/\n  app/\n    auth/\n      auth.service.ts\n      token.model.ts\n      auth.guard.ts\n      token.interceptor.ts\n      login/\n        login.component.ts\n        login.component.html\n        login.component.css\n    home/\n      home.component.ts\n      home.component.html\n      home.component.css\n    app-routing.module.ts\n    app.module.ts\n  environments/\n    environment.ts\n    environment.prod.ts\nstyles.css\nREADME.md\n1",
+        "metadata": {
+            "producer": "WeasyPrint 65.1",
+            "creator": "ChatGPT",
+            "creationdate": "",
+            "title": "Angular User Login (security Service)",
+            "author": "ChatGPT Canvas",
+            "source": "Angular User Login (security Service).pdf",
+            "total_pages": 9,
+            "page": 0,
+            "page_label": "1",
+            "file_path": "corpora\\Angular User Login (security Service).pdf",
+            "file_type": ".pdf",
+            "source_type": "unknown",
+            "ingestion_time": "2026-08-23T18:18:29.064304+00:00",
+            "content_length": 898,
+            "word_count": 86,
+            "chunk_id": "330daddf06b12e907bbe9a37ee08c9fb3444c8ac5f51573cbcba04f1648d62cc"
+        }
+    },
+    {
+        "id": "0b407049e7c4ea115d3013778941102384a6a46653cffaf3d017d84091544af4",
+        "content": "1) src/environments/environment.ts\nexportconstenvironment= {\nproduction: false,\napiBaseUrl: 'http://127.0.0.1:8000/security-service'\n};\n2) src/environments/environment.prod.ts\nexportconstenvironment= {\nproduction: true,\napiBaseUrl: 'http://127.0.0.1:8000/security-service'\n};\n3) src/app/auth/token.model.ts\nexportinterfaceTokenResponse{\naccess_token: string;\ntoken_type: string;\n}\n4) src/app/auth/auth.service.ts\nimport{ Injectable} from'@angular/core';\nimport{ HttpClient, HttpErrorResponse} from'@angular/common/http';\nimport{ Observable, throwError} from'rxjs';\nimport{ catchError, map} from'rxjs/operators';\nimport{ TokenResponse} from'./token.model';\nimport{ environment} from'../../environments/environment';\n@Injectable({providedIn: 'root'})\nexportclassAuthService{\nprivatebaseUrl= environment.apiBaseUrl;\nprivateloginUrl= `${this.baseUrl}/user/login`;\nconstructor(privatehttp: HttpClient) {}\nlogin(email: string, password: string): Observable<TokenResponse> {",
+        "metadata": {
+            "producer": "WeasyPrint 65.1",
+            "creator": "ChatGPT",
+            "creationdate": "",
+            "title": "Angular User Login (security Service)",
+            "author": "ChatGPT Canvas",
+            "source": "Angular User Login (security Service).pdf",
+            "total_pages": 9,
+            "page": 1,
+            "page_label": "2",
+            "file_path": "corpora\\Angular User Login (security Service).pdf",
+            "file_type": ".pdf",
+            "source_type": "unknown",
+            "ingestion_time": "2026-08-23T18:18:29.064304+00:00",
+            "content_length": 1029,
+            "word_count": 69,
+            "chunk_id": "0b407049e7c4ea115d3013778941102384a6a46653cffaf3d017d84091544af4"
+        }
+    },
+    {
+        "id": "93f058a14fb06237f795416aceab64d9582ad07d10184333a23d85c9d0d91b56",
+        "content": "privatebaseUrl= environment.apiBaseUrl;\nprivateloginUrl= `${this.baseUrl}/user/login`;\nconstructor(privatehttp: HttpClient) {}\nlogin(email: string, password: string): Observable<TokenResponse> {\nreturnthis.http.post<TokenResponse>(this.loginUrl, { email,\n2",
+        "metadata": {
+            "producer": "WeasyPrint 65.1",
+            "creator": "ChatGPT",
+            "creationdate": "",
+            "title": "Angular User Login (security Service)",
+            "author": "ChatGPT Canvas",
+            "source": "Angular User Login (security Service).pdf",
+            "total_pages": 9,
+            "page": 1,
+            "page_label": "2",
+            "file_path": "corpora\\Angular User Login (security Service).pdf",
+            "file_type": ".pdf",
+            "source_type": "unknown",
+            "ingestion_time": "2026-08-23T18:18:29.064304+00:00",
+            "content_length": 1029,
+            "word_count": 69,
+            "chunk_id": "93f058a14fb06237f795416aceab64d9582ad07d10184333a23d85c9d0d91b56"
+        }
+    },
+    {
+        "id": "dd047d960ca391bb9b23376dd2db6618b431f2383c3b650f9f8b9b1c86419bdc",
+        "content": "password}).pipe(\ncatchError(this.handleError)\n);\n}\nsetToken(token: string) {\nlocalStorage.setItem('access_token', token);\n}\ngetToken(): string| null{\nreturnlocalStorage.getItem('access_token');\n}\nlogout(){\nlocalStorage.removeItem('access_token');\n}\nisAuthenticated(): boolean{\nreturn!!this.getToken();\n}\nprivatehandleError(error: HttpErrorResponse) {\nletmessage= 'An unknown error occurred';\nif(error.error&&error.error.detail) {\nmessage= error.error.detail;\n} elseif(error.status===0) {\nmessage= 'Unable to reach server';\n} elseif(error.status===401) {\nmessage= 'Invalid credentials';\n} elseif(error.status===403) {\nmessage= 'Access forbidden';\n} elseif(error.status===404) {\nmessage= 'Resource not found';\n}\nreturnthrowError(()=>({status: error.status, message}));\n}\n}\n5) src/app/auth/token.interceptor.ts\nimport{ Injectable} from'@angular/core';\nimport{ HttpInterceptor, HttpRequest, HttpHandler, HttpEvent} from'@angular/\ncommon/http';\nimport{ Observable} from'rxjs';\n3",
+        "metadata": {
+            "producer": "WeasyPrint 65.1",
+            "creator": "ChatGPT",
+            "creationdate": "",
+            "title": "Angular User Login (security Service)",
+            "author": "ChatGPT Canvas",
+            "source": "Angular User Login (security Service).pdf",
+            "total_pages": 9,
+            "page": 2,
+            "page_label": "3",
+            "file_path": "corpora\\Angular User Login (security Service).pdf",
+            "file_type": ".pdf",
+            "source_type": "unknown",
+            "ingestion_time": "2026-08-23T18:18:29.064304+00:00",
+            "content_length": 973,
+            "word_count": 83,
+            "chunk_id": "dd047d960ca391bb9b23376dd2db6618b431f2383c3b650f9f8b9b1c86419bdc"
+        }
+    },
+    {
+        "id": "8fe6a21ed9540df5616df4a5be7ccdadc80f89d67ae13fc5c117a2bc7c1649b7",
+        "content": "import{ AuthService} from'./auth.service';\n@Injectable()\nexportclassTokenInterceptorimplementsHttpInterceptor{\nconstructor(privateauth: AuthService) {}\nintercept(request: HttpRequest<any>, next: HttpHandler):\nObservable<HttpEvent<any>>{\nconsttoken= this.auth.getToken();\nif(token) {\nconstcloned= request.clone({\nsetHeaders: {\nAuthorization: `Bearer ${token}`\n}\n});\nreturnnext.handle(cloned);\n}\nreturnnext.handle(request);\n}\n}\n6) src/app/auth/auth.guard.ts\nimport{ Injectable} from'@angular/core';\nimport{ CanActivate, Router} from'@angular/router';\nimport{ AuthService} from'./auth.service';\n@Injectable({providedIn: 'root'})\nexportclassAuthGuardimplementsCanActivate{\nconstructor(privateauth: AuthService, privaterouter: Router) {}\ncanActivate(): boolean{\nif(this.auth.isAuthenticated()){\nreturntrue;\n}\nthis.router.navigate(['/login']);\nreturnfalse;\n}\n}\n4",
+        "metadata": {
+            "producer": "WeasyPrint 65.1",
+            "creator": "ChatGPT",
+            "creationdate": "",
+            "title": "Angular User Login (security Service)",
+            "author": "ChatGPT Canvas",
+            "source": "Angular User Login (security Service).pdf",
+            "total_pages": 9,
+            "page": 3,
+            "page_label": "4",
+            "file_path": "corpora\\Angular User Login (security Service).pdf",
+            "file_type": ".pdf",
+            "source_type": "unknown",
+            "ingestion_time": "2026-08-23T18:18:29.064304+00:00",
+            "content_length": 856,
+            "word_count": 61,
+            "chunk_id": "8fe6a21ed9540df5616df4a5be7ccdadc80f89d67ae13fc5c117a2bc7c1649b7"
+        }
+    },
+    {
+        "id": "13b01b9c74279a6d2cd09596252b92501c174dbfeee4fac9796873262c93359a",
+        "content": "7) src/app/login/login.component.ts\nimport{ Component} from'@angular/core';\nimport{ Router} from'@angular/router';\nimport{ AuthService} from'../auth/auth.service';\n@Component({\nselector: 'app-login',\ntemplateUrl: './login.component.html',\nstyleUrls: ['./login.component.css']\n})\nexportclassLoginComponent{\nemail= '';\npassword= '';\nloading= false;\nerror: string| null= null;\nconstructor(privateauth: AuthService, privaterouter: Router) {}\nsubmit(){\nthis.loading= true;\nthis.error= null;\nthis.auth.login(this.email, this.password).subscribe({\nnext: (res) =>{\nthis.auth.setToken(res.access_token);\nthis.loading= false;\nthis.router.navigate(['/home']);\n},\nerror: (err) =>{\nthis.loading= false;\nthis.error= err?.message||'Login failed';\n}\n});\n}\n}\n8) src/app/login/login.component.html\n<divclass=\"login-card\">\n<h2>Sign in</h2>\n<form(ngSubmit)=\"submit()\"autocomplete=\"on\">\n<labelfor=\"email\">Email</label>\n<inputid=\"email\"name=\"email\"type=\"email\"[(ngModel)]=\"email\" required/>\n5",
+        "metadata": {
+            "producer": "WeasyPrint 65.1",
+            "creator": "ChatGPT",
+            "creationdate": "",
+            "title": "Angular User Login (security Service)",
+            "author": "ChatGPT Canvas",
+            "source": "Angular User Login (security Service).pdf",
+            "total_pages": 9,
+            "page": 4,
+            "page_label": "5",
+            "file_path": "corpora\\Angular User Login (security Service).pdf",
+            "file_type": ".pdf",
+            "source_type": "unknown",
+            "ingestion_time": "2026-08-23T18:18:29.064304+00:00",
+            "content_length": 970,
+            "word_count": 72,
+            "chunk_id": "13b01b9c74279a6d2cd09596252b92501c174dbfeee4fac9796873262c93359a"
+        }
+    },
+    {
+        "id": "a46ac759c91f13136694419532e984423a18737ef7592eabf86f44b5cc0907d7",
+        "content": "<labelfor=\"password\">Password</label>\n<inputid=\"password\"name=\"password\"type=\"password\"[(ngModel)]=\"password\"\nrequiredminlength=\"6\"/>\n<buttontype=\"submit\"[disabled]=\"loading\">{{ loading ? 'Signing in...' : \n'Sign in' }}</button>\n<divclass=\"error\"*ngIf=\"error\">{{ error }}</div>\n</form>\n</div>\n9) src/app/login/login.component.css\n.login-card{\nwidth: 320px;\nmargin: 48pxauto;\npadding: 24px;\nborder-radius: 8px;\nbox-shadow: 0 6px18pxrgba(0,0,0,0.08);\n}\n.login-cardh2{ text-align:center; margin-bottom: 12px; }\n.login-cardlabel{ display:block; margin-top: 10px; font-weight:600; }\n.login-cardinput{ width:100%; padding:8px; margin-top:6px; box-sizing:border-\nbox; }\n.login-cardbutton{ width:100%; padding:10px; margin-top:16px; border:none;\nborder-radius:6px; cursor:pointer; }\n.error{ color: #b00020; margin-top:10px; }\n10) src/app/home/home.component.ts\nimport{ Component} from'@angular/core';\nimport{ AuthService} from'../auth/auth.service';\nimport{ Router} from'@angular/router';\n@Component({",
+        "metadata": {
+            "producer": "WeasyPrint 65.1",
+            "creator": "ChatGPT",
+            "creationdate": "",
+            "title": "Angular User Login (security Service)",
+            "author": "ChatGPT Canvas",
+            "source": "Angular User Login (security Service).pdf",
+            "total_pages": 9,
+            "page": 5,
+            "page_label": "6",
+            "file_path": "corpora\\Angular User Login (security Service).pdf",
+            "file_type": ".pdf",
+            "source_type": "unknown",
+            "ingestion_time": "2026-08-23T18:18:29.064304+00:00",
+            "content_length": 1120,
+            "word_count": 84,
+            "chunk_id": "a46ac759c91f13136694419532e984423a18737ef7592eabf86f44b5cc0907d7"
+        }
+    },
+    {
+        "id": "4e5986c2efebd78433bbc576cc5467a645399f7e9dfe0c0df9f6604477b2ac6c",
+        "content": "10) src/app/home/home.component.ts\nimport{ Component} from'@angular/core';\nimport{ AuthService} from'../auth/auth.service';\nimport{ Router} from'@angular/router';\n@Component({\nselector: 'app-home',\ntemplateUrl: './home.component.html',\nstyleUrls: ['./home.component.css']\n})\nexportclassHomeComponent{\n6",
+        "metadata": {
+            "producer": "WeasyPrint 65.1",
+            "creator": "ChatGPT",
+            "creationdate": "",
+            "title": "Angular User Login (security Service)",
+            "author": "ChatGPT Canvas",
+            "source": "Angular User Login (security Service).pdf",
+            "total_pages": 9,
+            "page": 5,
+            "page_label": "6",
+            "file_path": "corpora\\Angular User Login (security Service).pdf",
+            "file_type": ".pdf",
+            "source_type": "unknown",
+            "ingestion_time": "2026-08-23T18:18:29.064304+00:00",
+            "content_length": 1120,
+            "word_count": 84,
+            "chunk_id": "4e5986c2efebd78433bbc576cc5467a645399f7e9dfe0c0df9f6604477b2ac6c"
+        }
+    },
+    {
+        "id": "705bfbec30b4d1d4fa654f7a3c2e95310a25cf6d0ed6b9a9856fb33cca07d93a",
+        "content": "constructor(privateauth: AuthService, privaterouter: Router) {}\nlogout(){\nthis.auth.logout();\nthis.router.navigate(['/login']);\n}\n}\n11) src/app/home/home.component.html\n<divclass=\"home\">\n<h1>Welcome</h1>\n<p>You are signed in.</p>\n<button(click)=\"logout()\">Sign out</button>\n</div>\n12) src/app/app-routing.module.ts\nimport{ NgModule} from'@angular/core';\nimport{ RouterModule, Routes} from'@angular/router';\nimport{ LoginComponent} from'./login/login.component';\nimport{ HomeComponent} from'./home/home.component';\nimport{ AuthGuard} from'./auth/auth.guard';\nconstroutes: Routes= [\n{ path: '', redirectTo: 'home', pathMatch: 'full'},\n{ path: 'login', component: LoginComponent},\n{ path: 'home', component: HomeComponent, canActivate: [AuthGuard] },\n{ path: '**', redirectTo: 'home'}\n];\n@NgModule({\nimports: [RouterModule.forRoot(routes)],\nexports: [RouterModule]\n})\nexportclassAppRoutingModule{}\n7",
+        "metadata": {
+            "producer": "WeasyPrint 65.1",
+            "creator": "ChatGPT",
+            "creationdate": "",
+            "title": "Angular User Login (security Service)",
+            "author": "ChatGPT Canvas",
+            "source": "Angular User Login (security Service).pdf",
+            "total_pages": 9,
+            "page": 6,
+            "page_label": "7",
+            "file_path": "corpora\\Angular User Login (security Service).pdf",
+            "file_type": ".pdf",
+            "source_type": "unknown",
+            "ingestion_time": "2026-08-23T18:18:29.064304+00:00",
+            "content_length": 896,
+            "word_count": 76,
+            "chunk_id": "705bfbec30b4d1d4fa654f7a3c2e95310a25cf6d0ed6b9a9856fb33cca07d93a"
+        }
+    },
+    {
+        "id": "d2a5c0b997117b470cdf86486e1f254b54ce2d022eef16fb382901ac5efcf6c4",
+        "content": "13) src/app/app.module.ts\nimport{ NgModule} from'@angular/core';\nimport{ BrowserModule} from'@angular/platform-browser';\nimport{ FormsModule} from'@angular/forms';\nimport{ HttpClientModule, HTTP_INTERCEPTORS} from'@angular/common/http';\nimport{ AppRoutingModule} from'./app-routing.module';\nimport{ AppComponent} from'./app.component';\nimport{ LoginComponent} from'./login/login.component';\nimport{ HomeComponent} from'./home/home.component';\nimport{ TokenInterceptor} from'./auth/token.interceptor';\n@NgModule({\ndeclarations: [\nAppComponent,\nLoginComponent,\nHomeComponent\n],\nimports: [\nBrowserModule,\nFormsModule,\nHttpClientModule,\nAppRoutingModule\n],\nproviders: [\n{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}\n],\nbootstrap: [AppComponent]\n})\nexportclassAppModule{}\n14) src/styles.css\nbody{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,\n'Helvetica Neue', Arial; background:#f5f7fb; }\nbutton{ background: #1f6feb; color: #fff; }\n8",
+        "metadata": {
+            "producer": "WeasyPrint 65.1",
+            "creator": "ChatGPT",
+            "creationdate": "",
+            "title": "Angular User Login (security Service)",
+            "author": "ChatGPT Canvas",
+            "source": "Angular User Login (security Service).pdf",
+            "total_pages": 9,
+            "page": 7,
+            "page_label": "8",
+            "file_path": "corpora\\Angular User Login (security Service).pdf",
+            "file_type": ".pdf",
+            "source_type": "unknown",
+            "ingestion_time": "2026-08-23T18:18:29.064304+00:00",
+            "content_length": 977,
+            "word_count": 79,
+            "chunk_id": "d2a5c0b997117b470cdf86486e1f254b54ce2d022eef16fb382901ac5efcf6c4"
+        }
+    },
+    {
+        "id": "b60a67ab6b697861cb2c133b3b69d006aeced65abc715960656fd73c86c33aa2",
+        "content": "15) README.md (usage)\n# Angular User Login UI\n1. Create a new Angular project (Angular CLI required):\n```bash\nng new library-frontend --routing --style=css\ncd library-frontend\nCopy the files from this document into your project's src/app and src/environments.\nUpdate environment.apiBaseUrl if your backend URL changes.\nInstall dependencies (if needed):\nnpminstall\nngserve\nOpen http://localhost:4200 in your browser . Use credentials stored in your backend to sign\nin.\nNotes:  -  The  app  stores  access_token in  localStorage and  attaches  it  as\nAuthorization:  Bearer  <token>.  -  Adjust  token  expiration  checks  or  decode  the  JWT  in\nAuthService if you want to validate expiration client-side before calling protected routes. ```\nFinal notes\nThis UI expects the backend to return a JSON with access_token and token_type (exactly as\nyour FastAPI authenticate_user returns {\"access_token\": ..., \"token_type\": \n\"bearer\"}).",
+        "metadata": {
+            "producer": "WeasyPrint 65.1",
+            "creator": "ChatGPT",
+            "creationdate": "",
+            "title": "Angular User Login (security Service)",
+            "author": "ChatGPT Canvas",
+            "source": "Angular User Login (security Service).pdf",
+            "total_pages": 9,
+            "page": 8,
+            "page_label": "9",
+            "file_path": "corpora\\Angular User Login (security Service).pdf",
+            "file_type": ".pdf",
+            "source_type": "unknown",
+            "ingestion_time": "2026-08-23T18:18:29.064304+00:00",
+            "content_length": 1265,
+            "word_count": 186,
+            "chunk_id": "b60a67ab6b697861cb2c133b3b69d006aeced65abc715960656fd73c86c33aa2"
+        }
+    },
+    {
+        "id": "e609ce910248073facc625e47156c5445ad6264d6bad47b029277199675c83d3",
+        "content": "Final notes\nThis UI expects the backend to return a JSON with access_token and token_type (exactly as\nyour FastAPI authenticate_user returns {\"access_token\": ..., \"token_type\": \n\"bearer\"}).\nIf your backend returns different keys, update TokenResponse and places where \nres.access_token is referenced.\nIf you want, I can: - Add a nicer UI using Angular Material (forms, snackbar for error messages), - Add JWT\ndecode & expiry handling, or - Provide a downloadable ZIP of these files.\nEnd of document.\n1. \n2. \n3. \n1. \n• \n• \n9",
+        "metadata": {
+            "producer": "WeasyPrint 65.1",
+            "creator": "ChatGPT",
+            "creationdate": "",
+            "title": "Angular User Login (security Service)",
+            "author": "ChatGPT Canvas",
+            "source": "Angular User Login (security Service).pdf",
+            "total_pages": 9,
+            "page": 8,
+            "page_label": "9",
+            "file_path": "corpora\\Angular User Login (security Service).pdf",
+            "file_type": ".pdf",
+            "source_type": "unknown",
+            "ingestion_time": "2026-08-23T18:18:29.064304+00:00",
+            "content_length": 1265,
+            "word_count": 186,
+            "chunk_id": "e609ce910248073facc625e47156c5445ad6264d6bad47b029277199675c83d3"
+        }
+    }
+]

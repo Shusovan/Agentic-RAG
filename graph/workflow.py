@@ -13,8 +13,10 @@ from llm.query_understanding_llm import QueryUnderstandingLLM
 from rag import vectorstore
 from rag.retriever import Retriever
 from schemas.rag_schema import Route
+from tools.BM25_retriever_tool import BM25RetrieverTool
+from tools.hybrid_retriever_tool import HybridRetrieverTool
 from tools.vector_retriever_tool import VectorRetrieverTool
-from config.vector_dependency import embedding_pipeline, vector_store
+from config.vector_dependency import embedding_pipeline, vector_store, bm25_store
 
 
 load_dotenv()
@@ -38,14 +40,20 @@ class Flow:
 
         # Retrieval
         self.vector_store = vector_store
+        self.bm25_store = bm25_store
         self.embedding_pipeline = embedding_pipeline
 
         self.retriever = Retriever(vector_store, embedding_pipeline)
         self.vector_retriever_tool = VectorRetrieverTool(retriever=self.retriever)
+        self.bm25_retriever_tool = BM25RetrieverTool(bm25_store=self.bm25_store)
+        self.hybrid_retriever_tool = HybridRetrieverTool(vector_tool=self.vector_retriever_tool,
+                                                bm25_retriever=self.bm25_retriever_tool)
 
         # Retrieval Agent
         self.retrieval_agent = RetrievalAgent(
             vector_retriever_tool=self.vector_retriever_tool,
+            bm25_retriever_tool=self.bm25_retriever_tool,
+            hybrid_retriever_tool = self.hybrid_retriever_tool,
             top_k=5,
             score_threshold=0.0,
             minimum_retrieval_count=1,

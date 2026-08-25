@@ -1,4 +1,5 @@
 import logging
+from typing import Any, Dict, List
 
 from rag.retriever import Retriever
 from tools.retriever_tool import RetrieverTool
@@ -24,7 +25,8 @@ class VectorRetrieverTool(RetrieverTool):
         self.retriever = retriever
 
 
-    def retrieve(self, query: str, top_k: int = 5, score_threshold: float = 0.0) -> list[dict]:
+    def retrieve(self, query: str, top_k: int = 5, 
+                 score_threshold: float = 0.0) -> List[Dict[str, Any]]:
 
         logger.info(f"[VectorRetrievalTool] Retrieving documents for query='{query}'")
 

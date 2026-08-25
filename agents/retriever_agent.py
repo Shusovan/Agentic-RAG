@@ -1,8 +1,11 @@
 from dataclasses import dataclass
+from enum import Enum
 import logging
-from typing import List
+from typing import Any, Dict, List
 
 from schemas.rag_schema import RetrievedDocument, StructuredQuery
+from tools.BM25_retriever_tool import BM25RetrieverTool
+from tools.hybrid_retriever_tool import HybridRetrieverTool
 from tools.vector_retriever_tool import VectorRetrieverTool
 
 
@@ -10,47 +13,36 @@ logger = logging.getLogger(__name__)
 
 
 @dataclass
-class RetrievalDecision:
-    """
-        Internal decision made by the RetrievalAgent.
+class RetrievalStrategy(str, Enum):
 
-        This is intentionally deterministic for now.
-        A future implementation can replace the decision logic with
-        an LLM-based planner without changing the rest of the pipeline.
-    """
-
-    strategy: str   # vector_retrieval, BM25, hybrid
-    query: str      # The query to be used for retrieval
-    reason: str     # Explanation of why this strategy was chosen
+    VECTOR = "vector"
+    BM25 = "bm25"
+    HYBRID = "hybrid"
 
 
 class RetrievalAgent:
     """
-        Retrieval orchestration agent.
+        Agentic retrieval orchestration layer.
 
         Responsibilities:
-            - Decide whether retrieval should be performed
-            - Select the current retrieval strategy
-            - Execute retrieval tools
-            - Evaluate retrieval quality
-            - Retry using a fallback query when necessary
-            - Deduplicate results
-            - Normalize final ranks
 
-        Does NOT:
-            - Talk directly to Qdrant
-            - Generate answers
-            - Perform embeddings
-            - Implement vector search itself
-            - Implement reranking itself
+            1. Decide whether retrieval is required
+            2. Select retrieval strategy
+            3. Select retrieval tool
+            4. Execute retrieval
+            5. Evaluate retrieval quality
+            6. Reformulate query when necessary
+            7. Retry using another strategy
+            8. Optionally rerank
+            9. Return normalized RetrievedDocument objects
 
-        The agent orchestrates those components through tools.
+        Retrieval tools themselves do NOT make strategy decisions.
     """
-
-    VECTOR = "vector"
 
     def __init__(self, 
                  vector_retriever_tool: VectorRetrieverTool,
+                 bm25_retriever_tool: BM25RetrieverTool,
+                 hybrid_retriever_tool: HybridRetrieverTool,
                  top_k: int = 5,
                  score_threshold: float = 0.0,
                  minimum_retrieval_count: int = 1,
@@ -58,226 +50,290 @@ class RetrievalAgent:
                  max_attempts: int = 3):
 
         self.vector_retriever_tool = vector_retriever_tool
+        self.bm25_retriever_tool = bm25_retriever_tool
+        self.hybrid_retriever_tool = hybrid_retriever_tool
         self.top_k = top_k
-        self.score_threshold = score_threshold
         self.minimum_retrieval_count = minimum_retrieval_count
         self.quality_threshold = quality_threshold
         self.max_attempts = max_attempts
 
 
-    # retrieve documents based on the structured query
-    def retrieve(self, structured_query: StructuredQuery) -> List[RetrievedDocument]:
-        """
-            Execute retrieval using the selected strategy.
-            Returns a list of RetrievedDocument objects.
-        """
-
-        if structured_query is None:
-            raise ValueError("structured_query is None")
-
-        logger.info("[RetrievalAgent] Starting retrieval for query='%s'",
-                structured_query.original_query)
-
-        decision = self._decide_retrieval_strategy(structured_query)
+    def retrieve(
+        self,
+        structured_query: StructuredQuery
+    ) -> List[RetrievedDocument]:
 
         logger.info(
-            "[RetrievalAgent] strategy=%s query='%s' reason='%s'",
-            decision.strategy,
-            decision.query,
-            decision.reason,
+            "[RetrievalAgent] Starting retrieval for '%s'",
+            structured_query.revised_query,
         )
 
-        if decision.strategy != self.VECTOR:
-            logger.info("[RetrievalAgent] Retrieval not required for strategy=%s",
-                decision.strategy)
-
+        if not self._retrieval_decision(structured_query):
+            logger.info("[RetrievalAgent] Retrieval not required")
             return []
 
-        queries = self._build_query_candidates(structured_query)
+        strategies = self._plan_retrieval(structured_query)
 
-        all_documents: List[RetrievedDocument] = []
+        current_query = structured_query.revised_query
 
-        for attempt,query in enumerate(queries[: self.max_attempts], start=1):
+        for attempt, strategy in enumerate(
+            strategies[:self.max_attempts],
+            start=1
+        ):
 
-            logger.info("[RetrievalAgent] Retrieval attempt %d/%d query='%s'", attempt,
-                min(len(queries), self.max_attempts),
-                query)
+            logger.info(
+                "[RetrievalAgent] Attempt %d/%d strategy=%s query='%s'",
+                attempt,
+                self.max_attempts,
+                strategy,
+                current_query,
+            )
 
-            documents = self._retrieve_vector(query)
+            results = self._execute_strategy(
+                strategy=strategy,
+                query=current_query
+            )
 
-            all_documents = self._merge_documents(all_documents, documents)
+            logger.info(
+                "[RetrievalAgent] Strategy=%s returned %d results",
+                strategy,
+                len(results),
+            )
 
-            if self._is_sufficient(all_documents):
+            if self._is_sufficient(results):
 
-                logger.info(
-                    "[RetrievalAgent] Sufficient retrieval results after attempt %d", 
-                    attempt)
-                break
+                results = self._rerank(
+                    query=current_query,
+                    results=results
+                )
 
-            if attempt < min(len(queries), self.max_attempts):
-                logger.info(
-                    "[RetrievalAgent] Insufficient retrieval results after attempt %d, " \
-                    "retrying with fallback query", attempt)
+                return self._normalize_results(results)
 
+            logger.warning(
+                "[RetrievalAgent] Strategy=%s produced insufficient results",
+                strategy,
+            )
 
-        final_documents = self._finalize_documents(all_documents)
+            # Try next strategy with a reformulated query
+            current_query = self._reformulate_query(
+                structured_query,
+                previous_query=current_query,
+            )
 
-        logger.info("[RetrievalAgent] Final retrieval count=%d", len(final_documents))
-
-        return final_documents
-
-
-    # decide retrieval strategy
-    def _decide_retrieval_strategy(self, structured_query: StructuredQuery) -> RetrievalDecision:
-        """
-            Decide whether retrieval is required.
-
-            RoutingAgent already sends only RAG requests here, but this
-            additional check makes RetrievalAgent independently safe.
-
-            At this stage vector retrieval is the only available retrieval
-            strategy.
-
-            Later this method can select:
-                - vector
-                - BM25
-                - hybrid
-                - metadata search
-                - SQL
-                - etc.
-        """
-
-        intent = structured_query.intent.value
-        source = structured_query.source.value
-
-        if intent in ("INTERNAL_QUESTION", "DOCUMENT_QUERY"):
-            return RetrievalDecision(
-                strategy=self.VECTOR,
-                query=structured_query.original_query,
-                reason=f"Intent '{intent}' requires retrieval",)
-
-        if source == "INTERNAL":
-            return RetrievalDecision(
-                strategy=self.VECTOR,
-                query=structured_query.original_query,
-                reason=f"Source '{source}' requires retrieval",)
-
-        # This is defensive. RoutingAgent should normally prevent these queries from reaching RetrievalAgent.
-        return RetrievalDecision(
-            strategy=self.VECTOR,
-            query=structured_query.revised_query,
-            reason="Fallback retrieval strategy.",)
-
-
-    # Query planning / reformulation
-    def _build_query_candidates(self, structured_query: StructuredQuery) -> List[str]:
-        """
-            Build a list of query candidates for retrieval.
-            The first query is the original query, followed by fallback queries.
-            Returns a list of query strings.
-        """
-
-        candidates: List[str] = []
-
-        revised_query = structured_query.revised_query.strip()
-        original_query = structured_query.original_query.strip()
-
-        if revised_query:
-            candidates.append(revised_query)
-
-        if original_query and original_query != revised_query:
-            candidates.append(original_query)
-
-        if not candidates:
-            candidates.append(structured_query.topic.strip())
-
-        return candidates   
-
-
-    # tool execution
-    def _retrieve_vector(self, query: str) -> List[RetrievedDocument]:
-        """
-            Execute vector retrieval using the vector retriever tool.
-            Returns a list of RetrievedDocument objects.
-        """
-
-        try:
-            docs = self.vector_retriever_tool.retrieve(query=query, 
-                                                    top_k=self.top_k, 
-                                                    score_threshold=self.score_threshold)
-
-            return [
-                RetrievedDocument(
-                    id=str(doc["id"]),
-                    content=doc["content"],
-                    metadata=doc.get("metadata", {}),
-                    similarity_score=float(doc["similarity_score"]),
-                    rank=index)
-
-                    for index, doc in enumerate(docs, start=1)
-            ]
-        
-        except Exception:
-            logger.error(f"[RetreiverAgent] Error occurred while retrieving vector documents for query='{query}'")
-            raise
-
-
-    def _merge_documents(self, existing_docs: List[RetrievedDocument], 
-                         new_docs: List[RetrievedDocument]) -> List[RetrievedDocument]:
-        """
-            Merge new retrieved documents with existing ones.
-            Deduplicate based on document ID and normalize ranks.
-            Returns a list of unique RetrievedDocument objects.
-        """
-
-        by_id = {doc.id: doc for doc in existing_docs}
-
-        for doc in new_docs:
-            existing = by_id.get(doc.id)
-
-            if existing is None:
-                by_id[doc.id] = doc
-
-            elif doc.similarity_score > existing.similarity_score:
-                    by_id[doc.id] = doc
-
-        merged_docs = list(by_id.values())
-
-        merged_docs.sort(key=lambda d: d.similarity_score, reverse=True)
-
-        return merged_docs
-
-
-    def _is_sufficient(self, documents: List[RetrievedDocument]) -> bool:
-        """
-            Check if the retrieved documents meet the sufficiency criteria.
-            Returns True if sufficient, False otherwise.
-        """
-
-        if len(documents) < self.minimum_retrieval_count:
-            return False
-
-        if not documents:
-            return False
-
-        best_score = max(
-            document.similarity_score
-            for document in documents
+        logger.warning(
+            "[RetrievalAgent] Retrieval exhausted all strategies"
         )
 
-        return best_score >= self.quality_threshold
+        return []
 
 
-    def _finalize_documents(self, documents: List[RetrievedDocument]) -> List[RetrievedDocument]:
-        """
-            Finalize the retrieved documents by filtering based on score threshold
-            and normalizing ranks.
-            Returns a list of finalized RetrievedDocument objects.
-        """
+    # retrieve documents based on the structured query
+    # def retrieve(self, structured_query: StructuredQuery) -> List[RetrievedDocument]:
+    #     """
+    #         Execute retrieval using the selected strategy.
+    #         Returns a list of RetrievedDocument objects.
+    #     """
 
-        final_documents = documents[: self.top_k]
+    #     logger.info("[RetrievalAgent] Starting retrieval for '%s'",
+    #         structured_query.revised_query,)
 
-        for rank, document in enumerate(final_documents, start=1,):
-            document.rank = rank
+    #     if not self._retrieval_decision(structured_query):
+    #         logger.info("[RetrievalAgent] Retrieval not required")
+    #         return []
 
-        return final_documents
+    #     # plan retrieval strategy
+    #     strategies = self._plan_retrieval(structured_query)
+
+    #     current_query = structured_query.revised_query
+
+    #     for attempt, strategy in enumerate(strategies[:self.max_attempts], start=1):
+
+    #         logger.info("[RetrievalAgent] Attempt %d/%d strategy=%s",
+    #             attempt,
+    #             self.max_attempts,
+    #             strategy, current_query) 
+
+    #         results = self._execute_strategy(strategy=strategy, query=current_query)
+
+    #         logger.info("[RetrievalAgent] Strategy=%s returned %d results",
+    #         strategy,
+    #         len(results),)
+
+    #         if self._is_sufficient(results):
+    #             results = self._rerank(query=current_query, results=results)
+
+    #         return self._normalize_results(results)
+
+    #     logger.warning("[RetrievalAgent] Insufficient results for strategy=%s", strategy,)
+
+    #     # Reformulate before next attempt
+    #     current_query = self._reformulate_query(structured_query, previous_query=current_query,)
+
+    #     logger.warning("[RetrievalAgent] Retrieval exhausted all strategies")
+
+    #     return []
+
+
+    # retrieval decision
+    def _retrieval_decision(self, structured_query: StructuredQuery) -> bool:
+
+        intent = structured_query.intent.value
+
+        return intent in {"INTERNAL_QUESTION", "DOCUMENT_QUERY"}
+
+
+    # retrieval planning
+    def _plan_retrieval(self, structured_query: StructuredQuery) -> List[RetrievalStrategy]:
+
+        query = structured_query.revised_query.lower()
+
+        # Exact identifiers / codes / filenames
+        lexical_indicators = [
+            "filename",
+            "file",
+            "document id",
+            "policy id",
+            "employee id",
+            "invoice",
+            "contract",
+            "section",
+            "clause",
+            "version",
+            "error code",
+        ]
+
+        if any (indicator in query for indicator in lexical_indicators):
+            return [
+                RetrievalStrategy.BM25,
+                RetrievalStrategy.HYBRID,
+                RetrievalStrategy.VECTOR
+            ]
+
+        return [
+            RetrievalStrategy.HYBRID,
+            RetrievalStrategy.VECTOR,
+            RetrievalStrategy.BM25
+        ]
+
+
+    # execute selective retrieval
+    def _execute_strategy(self, strategy: RetrievalStrategy, query: str) -> List[Dict[str, Any]]:
+
+        if strategy == RetrievalStrategy.VECTOR:
+            return self.vector_retriever_tool.retrieve(query=query, top_k=self.top_k)
+
+        if strategy == RetrievalStrategy.BM25:
+            return self.bm25_retriever_tool.retrieve(query=query, top_k=self.top_k)
+
+        if strategy == RetrievalStrategy.HYBRID:
+            return self.hybrid_retriever_tool.retrieve(query=query, top_k=self.top_k)
+
+        raise ValueError(f"Unsupported retrieval strategy: {strategy}")
+
+
+    # evaluate retrieved quality
+    def _is_sufficient(self, results: List[Dict[str, Any]]) -> bool:
+
+        if len(results) < self.minimum_retrieval_count:
+            return False
+
+        if not results:
+            return False
+
+        top_score = results[0].get("score", 0.0)
+
+        if top_score <= 0:
+            return False
+
+        return True
+
+
+    # query reformulation
+    def _reformulate_query(self, structured_query: StructuredQuery, previous_query: str) -> str:
+
+        entities = "".join(structured_query.entities)
+
+        topic = structured_query.topic
+
+        reformulated = (f"{topic} {entities} {structured_query.original_query}")
+
+        # Remove duplicated whitespace
+        return " ".join(reformulated.split())
+
+
+    # re-ranking
+    def _rerank(self, query: str, results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+
+        if len(results) < 3:
+            return results
+
+        # write the rerank code here
+        # cross encoders
+
+        return results
+
+
+    def _normalize_results(self, results: List[Dict[str, Any]]) -> List[RetrievedDocument]:
+
+        documents = []
+
+        for rank, result in enumerate(results, start=1):
+
+            # For hybrid retrieval, use the original vector similarity.
+            # Fall back to score for BM25/vector-only retrieval.
+            score = float(
+                result.get(
+                    "vector_score",
+                    result.get("similarity_score",
+                            result.get("score", 0.0))
+                )
+            )
+
+            # Keep similarity score in [0, 1]
+            score = max(0.0, min(1.0, score))
+
+            documents.append(
+                RetrievedDocument(
+                    id=str(result["id"]),
+                    content=result["content"],
+                    metadata=result.get("metadata", {}),
+                    similarity_score=score,
+                    rank=rank,
+                )
+            )
+
+        logger.info(
+            "[RetrievalAgent] Normalized %d documents",
+            len(documents)
+        )
+
+        return documents
+
+
+    # normalize results
+    # def _normalize_results(self, results: List[Dict[str, Any]]) -> List[RetrievedDocument]:
+
+    #     documents = []
+
+    #     for rank, result in enumerate(results, start=1):
+
+    #         score = float(result.get("score", 0.0))
+
+    #         score = max(0.0, min(1.0, score))
+
+    #         documents.append(
+    #             RetrievedDocument(
+    #                 id=str(result["id"]),
+    #                 content=result["content"],
+    #                 metadata=result.get(
+    #                     "metadata",
+    #                     {},
+    #                 ),
+    #                 similarity_score=score,
+    #                 rank=rank,
+    #             )
+    #         )
+
+    #     logger.info("Normalized Documents", documents)
+
+    #     return documents

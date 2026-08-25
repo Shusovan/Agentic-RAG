@@ -56,15 +56,25 @@ class QueryUnderstandingAgent:
 
     def _call_with_retries(self, query: str, max_retries: int = 3):
 
+        last_exeption = None
+
         for attempt in range(max_retries):
 
             try:
                 return self.llm.analyze_query(query)
 
-            except Exception:
+            except Exception as exc:
+                last_exception = exc
 
-                if attempt == max_retries - 1:
-                    raise
+                logger.warning("[QueryUnderstandingAgent] " "Attempt %d/%d failed: %s",
+                    attempt,
+                    max_retries,
+                    exc,
+                )
+
+        raise RuntimeError(
+            "Query understanding failed after " 
+            f"{max_retries} attempts") from last_exception
 
 
 '''class QueryUnderstandingAgent:
