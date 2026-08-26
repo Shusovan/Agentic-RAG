@@ -148,3 +148,92 @@
 2026-08-18 23:57:24,767 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating RAG answer
 2026-08-18 23:57:24,767 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
 2026-08-18 23:57:27,453 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-26 16:11:40,348 | INFO | app | FastAPI app starting
+2026-08-26 16:11:40,783 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-26 16:24:34,892 | INFO | watcher.event_handler | Document deleted: corpora\Angular User Login (security Service).pdf
+2026-08-26 16:24:34,892 | INFO | rag.vectorstore | Deleting embeddings for source: Angular User Login (security Service).pdf
+2026-08-26 16:24:35,000 | INFO | rag.vectorstore | Embeddings deleted for source: Angular User Login (security Service).pdf
+2026-08-26 18:31:13,406 | INFO | app | FastAPI app starting
+2026-08-26 18:31:13,674 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-26 18:42:43,938 | INFO | app | FastAPI app starting
+2026-08-26 18:42:44,181 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-26 18:44:13,010 | ERROR | routes.ingestion_route | Multiple document upload failed
+Traceback (most recent call last):
+  File "D:\oreo\Projects\AgenticRAG\routes\ingestion_route.py", line 95, in upload_documents
+    result = await file_service.save_multiple_files(files)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'FileService' object has no attribute 'save_multiple_files'. Did you mean: 'save_multiple_file'?
+2026-08-26 18:45:32,291 | INFO | app | FastAPI app starting
+2026-08-26 18:45:32,548 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-26 18:46:55,712 | ERROR | routes.ingestion_route | Multiple document upload failed
+Traceback (most recent call last):
+  File "D:\oreo\Projects\AgenticRAG\routes\ingestion_route.py", line 95, in upload_documents
+    result = await file_service.save_multiple_files(files)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\oreo\Projects\AgenticRAG\services\ingestion_service.py", line 73, in save_multiple_files
+    if len(files) > self.MAX_FILE:
+                    ^^^^^^^^^^^^^
+AttributeError: 'FileService' object has no attribute 'MAX_FILE'. Did you mean: 'MAX_FILES'?
+2026-08-26 18:53:52,697 | INFO | app | FastAPI app starting
+2026-08-26 18:53:52,948 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-26 18:58:07,059 | ERROR | services.ingestion_service | Upload failed: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+Traceback (most recent call last):
+  File "D:\oreo\Projects\AgenticRAG\services\ingestion_service.py", line 102, in save_multiple_files
+    saved_path = self.save_file(file)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "D:\oreo\Projects\AgenticRAG\services\ingestion_service.py", line 50, in save_file
+    file_path = self.corpora_path / file.filename
+                ^^^^^^^^^^^^^^^^^
+AttributeError: 'FileService' object has no attribute 'corpora_path'
+2026-08-26 19:00:25,321 | INFO | app | FastAPI app starting
+2026-08-26 19:00:25,562 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-26 19:00:36,761 | INFO | services.ingestion_service | File saved to Corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-26 19:00:38,813 | INFO | watcher.event_handler | New document detected: corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-26 19:00:38,813 | INFO | ingestion.pdf_loader | Loading file: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf | Type: .pdf
+2026-08-26 19:00:39,863 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
+2026-08-26 19:00:39,863 | INFO | ingestion.metadata_extractor | Metadata extracted for 6 documents
+2026-08-26 19:00:39,867 | INFO | ingestion.ingestion_pipeline | Generated 31 chunks from 6 documents.
+2026-08-26 19:00:40,835 | INFO | rag.vectorstore | Adding 31 documents to vector store
+2026-08-26 19:00:41,089 | INFO | rag.vectorstore | 31 documents stored successfully
+2026-08-26 19:00:41,089 | INFO | ingestion.ingestion_pipeline | Successfully ingested 31 chunks.
+2026-08-26 19:01:52,230 | INFO | services.ingestion_service | File saved to Corpora\JWT.docx
+2026-08-26 19:01:52,239 | INFO | services.ingestion_service | File saved to Corpora\Rise of GenAI.pdf
+2026-08-26 19:01:54,264 | INFO | watcher.event_handler | New document detected: corpora\JWT.docx
+2026-08-26 19:01:54,264 | INFO | ingestion.docx_loader | Loading file: JWT.docx | Type: .docx
+2026-08-26 19:04:24,598 | INFO | watcher.event_handler | New document detected: corpora\Rise of GenAI.pdf
+2026-08-26 19:04:24,600 | INFO | ingestion.pdf_loader | Loading file: Rise of GenAI.pdf | Type: .pdf
+2026-08-26 19:04:26,849 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
+2026-08-26 19:04:26,851 | INFO | ingestion.metadata_extractor | Metadata extracted for 6 documents
+2026-08-26 19:04:26,855 | INFO | ingestion.ingestion_pipeline | Generated 33 chunks from 6 documents.
+2026-08-26 19:04:27,617 | INFO | rag.vectorstore | Adding 33 documents to vector store
+2026-08-26 19:04:27,888 | INFO | rag.vectorstore | 33 documents stored successfully
+2026-08-26 19:04:27,888 | INFO | ingestion.ingestion_pipeline | Successfully ingested 33 chunks.
+2026-08-26 19:12:58,135 | INFO | app | FastAPI app starting
+2026-08-26 19:12:58,396 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-26 19:13:15,100 | INFO | watcher.event_handler | Document deleted: corpora\Rise of GenAI.pdf
+2026-08-26 19:13:15,100 | INFO | rag.vectorstore | Deleting embeddings for source: Rise of GenAI.pdf
+2026-08-26 19:13:15,110 | INFO | rag.vectorstore | Embeddings deleted for source: Rise of GenAI.pdf
+2026-08-26 19:13:15,192 | INFO | watcher.event_handler | Document deleted: corpora\JWT.docx
+2026-08-26 19:13:15,192 | INFO | rag.vectorstore | Deleting embeddings for source: JWT.docx
+2026-08-26 19:13:15,200 | INFO | rag.vectorstore | Embeddings deleted for source: JWT.docx
+2026-08-26 19:13:15,223 | INFO | watcher.event_handler | Document deleted: corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-26 19:13:15,223 | INFO | rag.vectorstore | Deleting embeddings for source: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-26 19:13:15,232 | INFO | rag.vectorstore | Embeddings deleted for source: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-26 19:13:26,931 | INFO | services.ingestion_service | File saved to Corpora\JWT.docx
+2026-08-26 19:13:26,936 | INFO | services.ingestion_service | File saved to Corpora\Rise of GenAI.pdf
+2026-08-26 19:13:28,963 | INFO | watcher.event_handler | New document detected: corpora\JWT.docx
+2026-08-26 19:13:28,963 | INFO | ingestion.docx_loader | Loading file: JWT.docx | Type: .docx
+2026-08-26 19:13:28,969 | INFO | watcher.event_handler | New document detected: corpora\Rise of GenAI.pdf
+2026-08-26 19:13:28,969 | INFO | ingestion.pdf_loader | Loading file: Rise of GenAI.pdf | Type: .pdf
+2026-08-26 19:13:29,130 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
+2026-08-26 19:13:29,130 | INFO | ingestion.metadata_extractor | Metadata extracted for 1 documents
+2026-08-26 19:13:29,130 | INFO | ingestion.ingestion_pipeline | Generated 13 chunks from 1 documents.
+2026-08-26 19:13:31,688 | INFO | rag.vectorstore | Adding 13 documents to vector store
+2026-08-26 19:13:32,514 | INFO | rag.vectorstore | 13 documents stored successfully
+2026-08-26 19:13:32,537 | INFO | ingestion.ingestion_pipeline | Successfully ingested 13 chunks.
+2026-08-26 19:13:32,671 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
+2026-08-26 19:13:32,671 | INFO | ingestion.metadata_extractor | Metadata extracted for 6 documents
+2026-08-26 19:13:32,671 | INFO | ingestion.ingestion_pipeline | Generated 33 chunks from 6 documents.
+2026-08-26 19:13:33,380 | INFO | rag.vectorstore | Adding 33 documents to vector store
+2026-08-26 19:13:33,666 | INFO | rag.vectorstore | 33 documents stored successfully
+2026-08-26 19:13:33,666 | INFO | ingestion.ingestion_pipeline | Successfully ingested 33 chunks.

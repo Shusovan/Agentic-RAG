@@ -1,0 +1,49 @@
+2026-08-26 20:13:19,499 | INFO | root | ==================================================
+2026-08-26 20:13:19,500 | INFO | root | Application logging started
+2026-08-26 20:13:19,500 | INFO | root | Log file: logs\2026-08-26_20-13-19.log
+2026-08-26 20:13:19,500 | INFO | root | ==================================================
+2026-08-26 20:13:19,501 | INFO | app | FastAPI application starting
+2026-08-26 20:13:19,523 | INFO | app | Application startup
+2026-08-26 20:13:19,762 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-26 20:13:19,762 | INFO | app | Corpora watcher started
+2026-08-26 20:17:16,305 | INFO | watcher.event_handler | Document deleted: corpora\Rise of GenAI.pdf
+2026-08-26 20:17:16,305 | INFO | rag.vectorstore | Deleting embeddings for source: Rise of GenAI.pdf
+2026-08-26 20:17:16,318 | INFO | rag.vectorstore | Embeddings deleted for source: Rise of GenAI.pdf
+2026-08-26 20:17:16,321 | INFO | watcher.event_handler | Document deleted: corpora\JWT.docx
+2026-08-26 20:17:16,321 | INFO | rag.vectorstore | Deleting embeddings for source: JWT.docx
+2026-08-26 20:17:16,335 | INFO | rag.vectorstore | Embeddings deleted for source: JWT.docx
+2026-08-26 20:17:26,784 | INFO | services.ingestion_service | File saved to Corpora\JWT.docx
+2026-08-26 20:17:26,789 | INFO | services.ingestion_service | File saved to Corpora\Rise of GenAI.pdf
+2026-08-26 20:17:28,828 | INFO | watcher.event_handler | New document detected: corpora\JWT.docx
+2026-08-26 20:17:28,828 | INFO | ingestion.docx_loader | Loading file: JWT.docx | Type: .docx
+2026-08-26 20:17:28,850 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
+2026-08-26 20:17:28,851 | INFO | ingestion.metadata_extractor | Metadata extracted for 1 documents
+2026-08-26 20:17:28,851 | INFO | ingestion.ingestion_pipeline | Generated 13 chunks from 1 documents.
+2026-08-26 20:17:28,862 | INFO | watcher.event_handler | New document detected: corpora\Rise of GenAI.pdf
+2026-08-26 20:17:28,867 | INFO | ingestion.pdf_loader | Loading file: Rise of GenAI.pdf | Type: .pdf
+2026-08-26 20:17:29,210 | INFO | rag.vectorstore | Adding 13 documents to vector store
+2026-08-26 20:17:29,798 | INFO | rag.vectorstore | 13 documents stored successfully
+2026-08-26 20:17:29,811 | INFO | ingestion.ingestion_pipeline | Successfully ingested 13 chunks.
+2026-08-26 20:17:32,422 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
+2026-08-26 20:17:32,423 | INFO | ingestion.metadata_extractor | Metadata extracted for 6 documents
+2026-08-26 20:17:32,424 | INFO | ingestion.ingestion_pipeline | Generated 33 chunks from 6 documents.
+2026-08-26 20:17:33,173 | INFO | rag.vectorstore | Adding 33 documents to vector store
+2026-08-26 20:17:33,426 | INFO | rag.vectorstore | 33 documents stored successfully
+2026-08-26 20:17:33,426 | INFO | ingestion.ingestion_pipeline | Successfully ingested 33 chunks.
+2026-08-26 20:18:31,088 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: explain jwt. Retrieve from internal documents
+2026-08-26 20:18:31,089 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-26 20:18:32,575 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-26 20:18:33,081 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.INTERNAL_QUESTION, source=Source.INTERNAL
+2026-08-26 20:18:33,083 | INFO | agents.retriever_agent | [RetrievalAgent] Starting retrieval for query='explain jwt. Retrieve from internal documents'
+2026-08-26 20:18:33,083 | INFO | agents.retriever_agent | [RetrievalAgent] strategy=vector query='explain jwt. Retrieve from internal documents' reason='Intent 'INTERNAL_QUESTION' requires retrieval'
+2026-08-26 20:18:33,083 | INFO | agents.retriever_agent | [RetrievalAgent] Retrieval attempt 1/2 query='Explain JWT using internal documentation'
+2026-08-26 20:18:33,083 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='Explain JWT using internal documentation'
+2026-08-26 20:18:33,087 | INFO | rag.retriever | Retrieving documents for query='Explain JWT using internal documentation', top_k=5
+2026-08-26 20:18:33,087 | INFO | rag.retriever | Generating query embedding
+2026-08-26 20:18:33,111 | INFO | rag.vectorstore | Searching vector DB with top_k=5
+2026-08-26 20:18:33,117 | INFO | rag.retriever | Retrieved 5 documents
+2026-08-26 20:18:33,117 | INFO | agents.retriever_agent | [RetrievalAgent] Sufficient retrieval results after attempt 1
+2026-08-26 20:18:33,118 | INFO | agents.retriever_agent | [RetrievalAgent] Final retrieval count=5
+2026-08-26 20:18:33,120 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating RAG answer
+2026-08-26 20:18:33,120 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
+2026-08-26 20:18:35,808 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
