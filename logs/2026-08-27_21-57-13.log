@@ -1,0 +1,98 @@
+2026-08-27 21:57:13,420 | INFO | root | ==================================================
+2026-08-27 21:57:13,421 | INFO | root | Application logging started
+2026-08-27 21:57:13,421 | INFO | root | Log file: logs\2026-08-27_21-57-13.log
+2026-08-27 21:57:13,421 | INFO | root | ==================================================
+2026-08-27 21:57:13,421 | INFO | app | FastAPI application starting
+2026-08-27 21:57:13,445 | INFO | app | Application startup
+2026-08-27 21:57:13,697 | INFO | watcher.event_handler | Corpora ingestion worker started
+2026-08-27 21:57:13,697 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-27 21:57:13,697 | INFO | app | Corpora watcher started
+2026-08-27 22:01:07,996 | INFO | services.ingestion_service | File saved to Corpora\Acme_Corp_Finance_Expense_Procurement_Policy.pdf
+2026-08-27 22:01:07,997 | INFO | services.ingestion_service | File saved to Corpora\Acme_Corp_Engineering_Incident_Runbook.pdf
+2026-08-27 22:01:07,997 | INFO | services.ingestion_service | File saved to Corpora\Acme_Corp_HR_Remote_Work_Policy.pdf
+2026-08-27 22:01:08,000 | INFO | services.ingestion_service | File saved to Corpora\Acme_Corp_IT_Security_Policy.pdf
+2026-08-27 22:01:10,008 | INFO | watcher.event_handler | Queueing filesystem event | file=corpora\Acme_Corp_Engineering_Incident_Runbook.pdf | deleted=False
+2026-08-27 22:01:10,008 | INFO | watcher.event_handler | Queueing filesystem event | file=corpora\Acme_Corp_HR_Remote_Work_Policy.pdf | deleted=False
+2026-08-27 22:01:10,008 | INFO | watcher.event_handler | Queueing filesystem event | file=corpora\Acme_Corp_Finance_Expense_Procurement_Policy.pdf | deleted=False
+2026-08-27 22:01:10,008 | INFO | watcher.event_handler | Queueing filesystem event | file=corpora\Acme_Corp_IT_Security_Policy.pdf | deleted=False
+2026-08-27 22:01:10,032 | INFO | watcher.event_handler | New document detected: corpora\Acme_Corp_Engineering_Incident_Runbook.pdf
+2026-08-27 22:01:10,032 | INFO | ingestion.pdf_loader | Loading file: Acme_Corp_Engineering_Incident_Runbook.pdf | Type: .pdf
+2026-08-27 22:01:10,258 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
+2026-08-27 22:01:10,258 | INFO | ingestion.metadata_extractor | Metadata extracted for 3 documents
+2026-08-27 22:01:10,263 | INFO | ingestion.ingestion_pipeline | Generated 6 chunks from 3 documents.
+2026-08-27 22:01:10,551 | INFO | rag.vectorstore | Adding 6 documents to vector store
+2026-08-27 22:01:10,552 | INFO | rag.vectorstore | Writing 6 points to Qdrant
+2026-08-27 22:01:10,605 | INFO | rag.vectorstore | 6 documents stored successfully
+2026-08-27 22:01:10,605 | INFO | ingestion.ingestion_pipeline | Successfully ingested 6 chunks.
+2026-08-27 22:01:10,605 | INFO | watcher.event_handler | Document successfully processed: corpora\Acme_Corp_Engineering_Incident_Runbook.pdf
+2026-08-27 22:01:10,607 | INFO | watcher.event_handler | New document detected: corpora\Acme_Corp_HR_Remote_Work_Policy.pdf
+2026-08-27 22:01:10,607 | INFO | ingestion.pdf_loader | Loading file: Acme_Corp_HR_Remote_Work_Policy.pdf | Type: .pdf
+2026-08-27 22:01:10,627 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
+2026-08-27 22:01:10,627 | INFO | ingestion.metadata_extractor | Metadata extracted for 2 documents
+2026-08-27 22:01:10,629 | INFO | ingestion.ingestion_pipeline | Generated 5 chunks from 2 documents.
+2026-08-27 22:01:10,756 | INFO | rag.vectorstore | Adding 5 documents to vector store
+2026-08-27 22:01:10,757 | INFO | rag.vectorstore | Writing 5 points to Qdrant
+2026-08-27 22:01:10,800 | INFO | rag.vectorstore | 5 documents stored successfully
+2026-08-27 22:01:10,801 | INFO | ingestion.ingestion_pipeline | Successfully ingested 5 chunks.
+2026-08-27 22:01:10,801 | INFO | watcher.event_handler | Document successfully processed: corpora\Acme_Corp_HR_Remote_Work_Policy.pdf
+2026-08-27 22:01:10,805 | INFO | watcher.event_handler | New document detected: corpora\Acme_Corp_Finance_Expense_Procurement_Policy.pdf
+2026-08-27 22:01:10,806 | INFO | ingestion.pdf_loader | Loading file: Acme_Corp_Finance_Expense_Procurement_Policy.pdf | Type: .pdf
+2026-08-27 22:01:10,828 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
+2026-08-27 22:01:10,830 | INFO | ingestion.metadata_extractor | Metadata extracted for 2 documents
+2026-08-27 22:01:10,830 | INFO | ingestion.ingestion_pipeline | Generated 4 chunks from 2 documents.
+2026-08-27 22:01:10,939 | INFO | rag.vectorstore | Adding 4 documents to vector store
+2026-08-27 22:01:10,939 | INFO | rag.vectorstore | Writing 4 points to Qdrant
+2026-08-27 22:01:10,973 | INFO | rag.vectorstore | 4 documents stored successfully
+2026-08-27 22:01:10,975 | INFO | ingestion.ingestion_pipeline | Successfully ingested 4 chunks.
+2026-08-27 22:01:10,975 | INFO | watcher.event_handler | Document successfully processed: corpora\Acme_Corp_Finance_Expense_Procurement_Policy.pdf
+2026-08-27 22:01:10,977 | INFO | watcher.event_handler | New document detected: corpora\Acme_Corp_IT_Security_Policy.pdf
+2026-08-27 22:01:10,977 | INFO | ingestion.pdf_loader | Loading file: Acme_Corp_IT_Security_Policy.pdf | Type: .pdf
+2026-08-27 22:01:11,005 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
+2026-08-27 22:01:11,005 | INFO | ingestion.metadata_extractor | Metadata extracted for 3 documents
+2026-08-27 22:01:11,007 | INFO | ingestion.ingestion_pipeline | Generated 8 chunks from 3 documents.
+2026-08-27 22:01:11,158 | INFO | rag.vectorstore | Adding 8 documents to vector store
+2026-08-27 22:01:11,158 | INFO | rag.vectorstore | Writing 8 points to Qdrant
+2026-08-27 22:01:11,225 | INFO | rag.vectorstore | 8 documents stored successfully
+2026-08-27 22:01:11,225 | INFO | ingestion.ingestion_pipeline | Successfully ingested 8 chunks.
+2026-08-27 22:01:11,225 | INFO | watcher.event_handler | Document successfully processed: corpora\Acme_Corp_IT_Security_Policy.pdf
+2026-08-27 22:34:04,909 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: What is the company's ;eave policy?
+2026-08-27 22:34:04,909 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-27 22:34:06,211 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-27 22:34:06,671 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.INTERNAL_QUESTION, source=Source.INTERNAL
+2026-08-27 22:34:06,679 | INFO | agents.retriever_agent | [RetrievalAgent] Starting retrieval for query='What is the company's ;eave policy?'
+2026-08-27 22:34:06,679 | INFO | agents.retriever_agent | [RetrievalAgent] strategy=vector query='What is the company's ;eave policy?' reason='Intent 'INTERNAL_QUESTION' requires retrieval'
+2026-08-27 22:34:06,679 | INFO | agents.retriever_agent | [RetrievalAgent] Retrieval attempt 1/2 query='What is the company's leave policy?'
+2026-08-27 22:34:06,679 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='What is the company's leave policy?'
+2026-08-27 22:34:06,679 | INFO | rag.retriever | Retrieving documents for query='What is the company's leave policy?', top_k=5
+2026-08-27 22:34:06,679 | INFO | rag.retriever | Generating query embedding
+2026-08-27 22:34:06,711 | INFO | rag.vectorstore | Searching vector DB with top_k=5
+2026-08-27 22:34:06,723 | INFO | rag.retriever | Retrieved 5 documents
+2026-08-27 22:34:06,724 | INFO | agents.retriever_agent | [RetrievalAgent] Insufficient retrieval results after attempt 1, retrying with fallback query
+2026-08-27 22:34:06,724 | INFO | agents.retriever_agent | [RetrievalAgent] Retrieval attempt 2/2 query='What is the company's ;eave policy?'
+2026-08-27 22:34:06,724 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='What is the company's ;eave policy?'
+2026-08-27 22:34:06,724 | INFO | rag.retriever | Retrieving documents for query='What is the company's ;eave policy?', top_k=5
+2026-08-27 22:34:06,726 | INFO | rag.retriever | Generating query embedding
+2026-08-27 22:34:06,750 | INFO | rag.vectorstore | Searching vector DB with top_k=5
+2026-08-27 22:34:06,752 | INFO | rag.retriever | Retrieved 5 documents
+2026-08-27 22:34:06,752 | INFO | agents.retriever_agent | [RetrievalAgent] Sufficient retrieval results after attempt 2
+2026-08-27 22:34:06,754 | INFO | agents.retriever_agent | [RetrievalAgent] Final retrieval count=5
+2026-08-27 22:34:06,756 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating RAG answer
+2026-08-27 22:34:06,756 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
+2026-08-27 22:34:07,643 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-27 22:35:32,807 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: What is the company's work from home policy?
+2026-08-27 22:35:32,807 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-27 22:35:33,784 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-27 22:35:33,787 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.INTERNAL_QUESTION, source=Source.INTERNAL
+2026-08-27 22:35:33,791 | INFO | agents.retriever_agent | [RetrievalAgent] Starting retrieval for query='What is the company's work from home policy?'
+2026-08-27 22:35:33,791 | INFO | agents.retriever_agent | [RetrievalAgent] strategy=vector query='What is the company's work from home policy?' reason='Intent 'INTERNAL_QUESTION' requires retrieval'
+2026-08-27 22:35:33,792 | INFO | agents.retriever_agent | [RetrievalAgent] Retrieval attempt 1/2 query='company work from home policy'
+2026-08-27 22:35:33,792 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='company work from home policy'
+2026-08-27 22:35:33,792 | INFO | rag.retriever | Retrieving documents for query='company work from home policy', top_k=5
+2026-08-27 22:35:33,792 | INFO | rag.retriever | Generating query embedding
+2026-08-27 22:35:33,817 | INFO | rag.vectorstore | Searching vector DB with top_k=5
+2026-08-27 22:35:33,819 | INFO | rag.retriever | Retrieved 5 documents
+2026-08-27 22:35:33,819 | INFO | agents.retriever_agent | [RetrievalAgent] Sufficient retrieval results after attempt 1
+2026-08-27 22:35:33,820 | INFO | agents.retriever_agent | [RetrievalAgent] Final retrieval count=5
+2026-08-27 22:35:33,822 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating RAG answer
+2026-08-27 22:35:33,822 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
+2026-08-27 22:35:35,741 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"

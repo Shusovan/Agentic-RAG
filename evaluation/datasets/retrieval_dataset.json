@@ -1,0 +1,12 @@
+[
+    {
+        "query_id": "q_test_001",
+        "query": "How many days should I report of office (onsite)?",
+        "ground_truth": {
+            "document_id": "5cdd36da112c24b7",
+            "chunk_ids": [
+                "5cdd36da112c24b7_chunk_1"
+            ]
+        }
+    }
+]

@@ -91,14 +91,27 @@ class Retriever:
 
                 score = result["score"]
 
-                if score >= score_threshold:
+                if score < score_threshold:
+                    continue
 
-                    retrieved_docs.append({
+                retrieved_docs.append(
+                    {
+                        # Qdrant point ID
                         "id": result["id"],
+
+                        # Stable document ID
+                        "document_id": result["document_id"],
+
+                        # Stable chunk ID
+                        "chunk_id": result["chunk_id"],
+
                         "content": result["content"],
+
                         "metadata": result["metadata"],
-                        "similarity_score": score
-                    })
+
+                        "similarity_score": score,
+                    }
+                )
 
             for rank, doc in enumerate(retrieved_docs, start=1):
                 doc["rank"] = rank
@@ -108,7 +121,5 @@ class Retriever:
             return retrieved_docs
 
         except Exception as e:
-
             logger.error(f"[Retriever] Error occurred while retrieving documents for query='{query}': {e}")
-
             raise ValueError(f"Document retrieval failed: {e}")

@@ -1,19 +1,21 @@
 import hashlib
 import logging
 from pathlib import Path
+import queue
 import threading
 import time
+from typing import Optional
 
 from watchdog.events import FileSystemEventHandler
 
 from ingestion.ingestion_pipeline import IngestionPipeline
 from ingestion.document_loader import DocumentLoader
-from ingestion.loader_registry import LoadRegistry
 
 
 logger = logging.getLogger(__name__)
 
-DEBOUNCE_DELAY = 2.0  # seconds to wait before processing a modified file
+
+DEBOUNCE_DELAY = 2.0
 
 
 class CorporaEventHandler(FileSystemEventHandler):
@@ -23,178 +25,392 @@ class CorporaEventHandler(FileSystemEventHandler):
         self.pipeline = pipeline
         self.loader = DocumentLoader()
 
-        self.file_hashes = {}  # to track file content changes
+        # -------------------------------------------------
+        # Track file content hashes
+        # -------------------------------------------------
 
-        self._debounce_timers: dict[str, threading.Timer] = {}  # to track debounce timers for modified files
-        self._lock = threading.Lock()  # to synchronize access to debounce timers
+        self.file_hashes: dict[str, str] = {}
 
+        # -------------------------------------------------
+        # Debounce timers
+        # -------------------------------------------------
+
+        self._debounce_timers: dict[
+            str,
+            threading.Timer
+        ] = {}
+
+        self._lock = threading.Lock()
+
+        # -------------------------------------------------
+        # Ingestion queue
+        #
+        # Only ONE worker consumes this queue.
+        # Therefore only one ingestion operation runs
+        # at a time.
+        # -------------------------------------------------
+
+        self._ingestion_queue: queue.Queue[
+            tuple[Path, bool]
+        ] = queue.Queue()
+
+        self._worker_thread = threading.Thread(
+            target=self._ingestion_worker,
+            name="corpora-ingestion-worker",
+            daemon=True
+        )
+
+        self._worker_thread.start()
+
+        logger.info(
+            "Corpora ingestion worker started"
+        )
+
+    # =====================================================
+    # WATCHDOG EVENTS
+    # =====================================================
 
     def on_created(self, event):
+
         if event.is_directory:
             return
-            
-        self._schedule(Path(event.src_path), deleted=False)
+
+        self._schedule(
+            Path(event.src_path),
+            deleted=False
+        )
 
     def on_modified(self, event):
+
         if event.is_directory:
             return
-            
-        self._schedule(Path(event.src_path), deleted=False)
-        
+
+        self._schedule(
+            Path(event.src_path),
+            deleted=False
+        )
+
     def on_deleted(self, event):
+
         if event.is_directory:
             return
-            
-        self._schedule(Path(event.src_path), deleted=True)
 
-        
-    def _schedule(self, file_path: Path, deleted: bool):
-        """Cancel any pending timer for this file and start a fresh one."""
+        self._schedule(
+            Path(event.src_path),
+            deleted=True
+        )
 
-        key = str(file_path)
+    # =====================================================
+    # DEBOUNCE
+    # =====================================================
+
+    def _schedule(
+        self,
+        file_path: Path,
+        deleted: bool
+    ):
+        """
+        Debounce filesystem events.
+
+        Multiple events for the same file within the
+        debounce window result in only one queued job.
+        """
+
+        key = str(
+            file_path.resolve()
+        )
 
         with self._lock:
-            existing = self._debounce_timers.get(key)
 
-            if existing:
-                existing.cancel()
+            existing_timer = (
+                self._debounce_timers.get(key)
+            )
 
-            timer = threading.Timer(DEBOUNCE_DELAY, self._process_event, kwargs={"file_path": file_path, "deleted": deleted})
+            if existing_timer:
+
+                existing_timer.cancel()
+
+            timer = threading.Timer(
+                DEBOUNCE_DELAY,
+                self._queue_event,
+                kwargs={
+                    "file_path": file_path,
+                    "deleted": deleted
+                }
+            )
 
             self._debounce_timers[key] = timer
+
+            timer.daemon = True
             timer.start()
 
+    # =====================================================
+    # QUEUE EVENT
+    # =====================================================
 
-    def _process_event(self, file_path: Path, deleted: bool):
-        '''Cancel once, after debounce window closes'''
+    def _queue_event(
+        self,
+        file_path: Path,
+        deleted: bool
+    ):
+        """
+        Called after the debounce period.
 
-        key = str(file_path)
+        IMPORTANT:
+        This method does NOT perform ingestion.
+
+        It only puts the job into the queue.
+        """
+
+        key = str(
+            file_path.resolve()
+        )
 
         with self._lock:
-            self._debounce_timers.pop(key, None)
+
+            self._debounce_timers.pop(
+                key,
+                None
+            )
+
+        logger.info(
+            "Queueing filesystem event | file=%s | deleted=%s",
+            file_path,
+            deleted
+        )
+
+        self._ingestion_queue.put(
+            (
+                file_path,
+                deleted
+            )
+        )
+
+    # =====================================================
+    # INGESTION WORKER
+    # =====================================================
+
+    def _ingestion_worker(self):
+        """
+        Single worker responsible for processing ingestion.
+
+        This guarantees that only one ingestion operation
+        interacts with Qdrant Local at a time.
+        """
+
+        while True:
+
+            file_path, deleted = (
+                self._ingestion_queue.get()
+            )
+
+            try:
+
+                self._process_event(
+                    file_path,
+                    deleted
+                )
+
+            except Exception:
+
+                logger.exception(
+                    "Unhandled error processing filesystem event: %s",
+                    file_path
+                )
+
+            finally:
+
+                self._ingestion_queue.task_done()
+
+    # =====================================================
+    # PROCESS EVENT
+    # =====================================================
+
+    def _process_event(
+        self,
+        file_path: Path,
+        deleted: bool
+    ):
 
         if deleted:
-            self._handle_deleted(file_path)
+
+            self._handle_deleted(
+                file_path
+            )
 
         else:
-                self._handle_created_or_modified(file_path)
 
+            self._handle_created_or_modified(
+                file_path
+            )
 
-    def _handle_created_or_modified(self, file_path: Path):
+    # =====================================================
+    # CREATED / MODIFIED
+    # =====================================================
+
+    def _handle_created_or_modified(
+        self,
+        file_path: Path
+    ):
 
         if not file_path.exists():
+
+            logger.warning(
+                "File no longer exists: %s",
+                file_path
+            )
+
             return
-            
-        new_file_hash = self._compute_file_hash(file_path)
-        old_file_hash = self.file_hashes.get(file_path.name)
+
+        try:
+
+            new_file_hash = (
+                self._compute_file_hash(
+                    file_path
+                )
+            )
+
+        except Exception:
+
+            logger.exception(
+                "Failed to calculate file hash: %s",
+                file_path
+            )
+
+            return
+
+        # -------------------------------------------------
+        # Use full path as the hash key
+        # -------------------------------------------------
+
+        key = str(
+            file_path.resolve()
+        )
+
+        old_file_hash = (
+            self.file_hashes.get(key)
+        )
+
+        # -------------------------------------------------
+        # No actual content change
+        # -------------------------------------------------
 
         if old_file_hash == new_file_hash:
-            logger.info(f"No real change detected (content unchanged): {file_path}")
+
+            logger.info(
+                "No real change detected "
+                "(content unchanged): %s",
+                file_path
+            )
+
             return
-            
+
+        # -------------------------------------------------
+        # Existing document
+        # -------------------------------------------------
+
         if old_file_hash is not None:
-            logger.info(f"Document modified, replacing embeddings: {file_path}")
 
-            # delete old embeddings
-            self.pipeline.vector_store.delete_by_source(file_path.name)
+            logger.info(
+                "Document modified, replacing embeddings: %s",
+                file_path
+            )
+
+            self.pipeline.vector_store.delete_by_source(
+                file_path.name
+            )
+
+        # -------------------------------------------------
+        # New document
+        # -------------------------------------------------
 
         else:
-            logger.info(f"New document detected: {file_path}")
 
-        documents = self.loader.load_file(file_path)
-        self.pipeline.process_documents(documents)
-        self.file_hashes[file_path.name] = new_file_hash
+            logger.info(
+                "New document detected: %s",
+                file_path
+            )
+
+        # -------------------------------------------------
+        # Load document
+        # -------------------------------------------------
+
+        try:
+
+            documents = self.loader.load_file(
+                file_path
+            )
+
+        except Exception:
+
+            logger.exception(
+                "Failed to load document: %s",
+                file_path
+            )
+
+            return
+
+        if not documents:
+
+            logger.warning(
+                "No documents generated from: %s",
+                file_path
+            )
+
+            return
+
+        # -------------------------------------------------
+        # Ingest
+        #
+        # This is now executed by ONE worker only.
+        # -------------------------------------------------
+
+        try:
+
+            self.pipeline.process_documents(
+                documents
+            )
+
+        except Exception:
+
+            logger.exception(
+                "Document ingestion failed: %s",
+                file_path
+            )
+
+            return
+
+        # Update hash ONLY after successful ingestion
+        self.file_hashes[key] = (new_file_hash)
+        logger.info("Document successfully processed: %s", file_path)
 
 
+    # deleted
     def _handle_deleted(self, file_path: Path):
-        logger.info(f"Document deleted: {file_path}")
-        self.pipeline.vector_store.delete_by_source(file_path.name)
-        self.file_hashes.pop(file_path.name, None)
 
+        logger.info("Document deleted: %s",file_path)
 
-    '''def on_created(self, event):
-
-        if event.is_directory:
-            return
-
-        file_path = Path(event.src_path)
-
-        if not file_path.exists():
-            return
-        
-        file_hash = self._compute_file_hash(file_path)
-
-        if file_path.name not in self.file_hashes or self.file_hashes[file_path.name] != file_hash:
-            logger.info(f"New document detected: {file_path}")
-            documents = self.loader.load_single_document(file_path)
-            self.pipeline.process_documents(documents)
-
-            self.file_hashes[file_path.name] = file_hash
-
-        else:
-            # Already known file (rare case)
-            logger.info(f"Create event ignored (already known): {file_path}")
-
-
-    def on_modified(self, event):
-
-        if event.is_directory:
-            return
-
-        file_path = Path(event.src_path)
-
-        if not file_path.exists():
-            return
-        
-        new_file_hash = self._compute_file_hash(file_path)
-        old_hash_file = self.file_hashes.get(file_path.name)
-
-        # Only process if content has changed
-        if old_hash_file is None:
-
-            # File was not tracked before, treat as new
-            logger.info(f"Modified document (new file) detected: {file_path}")
-
-            documents = self.loader.load_single_document(file_path)
-            self.pipeline.process_documents(documents)
-
-            self.file_hashes[file_path.name] = new_file_hash
-
-        elif old_hash_file != new_file_hash:
-
-            logger.info(f"Document modified: {file_path}")
-
-            # delete old embeddings
+        try:
             self.pipeline.vector_store.delete_by_source(file_path.name)
 
-            # reprocess document
-            documents = self.loader.load_single_document(file_path)
-            self.pipeline.process_documents(documents)
+            key = str(file_path.resolve())
 
-            self.file_hashes[file_path.name] = new_file_hash
-        
-        else:
-            logger.info(f"No real change detected (content unchanged): {file_path}")
-        
+            self.file_hashes.pop(key, None)
 
-    def on_deleted(self, event):
+            logger.info("Deleted document embeddings: %s", file_path)
 
-        if event.is_directory:
-            return
-
-        file_path = Path(event.src_path)
-
-        logger.info(f"Document deleted: {file_path}")
-
-        self.pipeline.vector_store.delete_by_source(file_path.name)'''
+        except Exception:
+            logger.exception("Failed to delete embeddings: %s", file_path)
 
 
-    def _compute_file_hash(self, file_path: Path) -> str:
+    # HASH
+    @staticmethod
+    def _compute_file_hash(file_path: Path) -> str:
 
         hasher = hashlib.md5()
 
-        with file_path.open("rb") as f:
-            for chunk in iter(lambda: f.read(4096), b""):
+        with file_path.open("rb") as file:
+            for chunk in iter(lambda: file.read(4096),b""):
                 hasher.update(chunk)
 
         return hasher.hexdigest()
