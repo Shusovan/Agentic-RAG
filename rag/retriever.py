@@ -46,7 +46,6 @@ class Retriever:
         """
 
         try:
-
             logger.info("Generating query embedding")
 
             embedding = self.embedding_manager.embed_documents([query])[0]
@@ -54,10 +53,7 @@ class Retriever:
             return embedding.tolist()
 
         except Exception as e:
-
-            raise ValueError(
-                f"Query embedding failed: {e}"
-            )
+            raise ValueError(f"Query embedding failed: {e}")
 
 
     def retrieve(self, query: str, top_k: int = 5, score_threshold: float = 0.0) -> List[Dict[str, Any]]:
@@ -79,7 +75,6 @@ class Retriever:
         logger.info(f"Retrieving documents for query='{query}', top_k={top_k}")
 
         try:
-
             query_embedding = self._embed_query(query)
 
             results = self.vector_store.query(query_embedding=query_embedding,

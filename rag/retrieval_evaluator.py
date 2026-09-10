@@ -97,18 +97,23 @@ class RetrievalEvaluator:
         metrics = {}
 
         for k in k_values:
-            # Document-level metrics
+
+            # Document-level metrics (Precision@k)
             metrics[f"Document_Precision@{k}"] = (RetrievalMetrics.precision_at_k(
                     retrieved_ids=retrieved_document_ids,
                     relevant_ids=relevant_document_ids,
-                    k=k,
-                )
-            )
+                    k=k,))
 
             metrics[f"Document_Recall@{k}"] = (RetrievalMetrics.recall_at_k(
                     retrieved_ids=retrieved_document_ids,
                     relevant_ids=relevant_document_ids,
                     k=k,))
+
+            metrics[f"Document_Hit@{k}"] = (RetrievalMetrics.hit_at_k(
+                retrieved_ids=retrieved_document_ids,
+                relevant_ids=relevant_document_ids,
+                k=k
+            ))
 
 
             # Chunk-level metrics
@@ -122,9 +127,29 @@ class RetrievalEvaluator:
                 metrics[f"Chunk_Recall@{k}"] = (RetrievalMetrics.recall_at_k(
                         retrieved_ids=retrieved_chunk_ids,
                         relevant_ids=relevant_chunk_ids,
-                        k=k,
-                    )
-                )
+                        k=k,))
+
+                metrics[f"Chunk_Hit@{k}"] = (RetrievalMetrics.hit_at_k(
+                    retrieved_ids=retrieved_chunk_ids,
+                    relevant_ids=relevant_chunk_ids,
+                    k=k,))
+
+        retrieved_data = []
+
+        for rank, result in enumerate(results, start=1):
+            retrieved_data.append(
+                {
+                    "rank": rank,
+                    "document_id": (
+                        str(result["document_id"] if result.get("document_id") else None)
+                    ),
+                    "chunk_id": (
+                        str(result["chunk_id"] if result.get("chunk_id") else None)
+                    ),
+                    "similarity_score": result.get("similarity_score"),
+                    "content": result.get("content", ""),
+                }
+            )
 
 
         # Return detailed query result
@@ -139,6 +164,7 @@ class RetrievalEvaluator:
             {
                 "document_ids": retrieved_document_ids,
                 "chunk_ids": retrieved_chunk_ids,
+                "retrieved_data": retrieved_data
             },
             "metrics": metrics,
         }
@@ -210,11 +236,19 @@ class RetrievalEvaluator:
         failed_queries = sum(1 for result in query_results
             if result["status"] == "failed")
 
+        accuracy = {} 
+        for k in k_values: 
+            metric_name = f"Document_Hit@{k}" 
+
+            if metric_name in aggregate_metrics: 
+                accuracy[f"Document_Accuracy@{k}"] = (aggregate_metrics[metric_name] * 100)
+
         return {
             "total_queries": len(dataset),
             "successful_queries": successful_queries,
             "failed_queries": failed_queries,
             "metrics": aggregate_metrics,
+            "accuracy_percentage": accuracy,
             "queries": query_results,
         }
 
@@ -232,11 +266,13 @@ class RetrievalEvaluator:
         if not successful_results:
             return {}
 
+        # Find every metric that occured
         metric_names = set()
 
         for result in successful_results: metric_names.update(
                 result.get("metrics", {}).keys())
 
+        # Calculate mean
         aggregated = {}
 
         for metric_name in sorted(metric_names):

@@ -1,0 +1,161 @@
+{
+    "total_queries": 1,
+    "successful_queries": 1,
+    "failed_queries": 0,
+    "metrics": {
+        "Chunk_Hit@1": 1.0,
+        "Chunk_Hit@10": 1.0,
+        "Chunk_Hit@3": 1.0,
+        "Chunk_Hit@5": 1.0,
+        "Chunk_Precision@1": 1.0,
+        "Chunk_Precision@10": 0.25,
+        "Chunk_Precision@3": 0.3333333333333333,
+        "Chunk_Precision@5": 0.25,
+        "Chunk_Recall@1": 1.0,
+        "Chunk_Recall@10": 1.0,
+        "Chunk_Recall@3": 1.0,
+        "Chunk_Recall@5": 1.0,
+        "Document_Hit@1": 1.0,
+        "Document_Hit@10": 1.0,
+        "Document_Hit@3": 1.0,
+        "Document_Hit@5": 1.0,
+        "Document_Precision@1": 1.0,
+        "Document_Precision@10": 1.0,
+        "Document_Precision@3": 1.0,
+        "Document_Precision@5": 1.0,
+        "Document_Recall@1": 1.0,
+        "Document_Recall@10": 1.0,
+        "Document_Recall@3": 1.0,
+        "Document_Recall@5": 1.0
+    },
+    "accuracy_percentage": {
+        "Document_Accuracy@1": 100.0,
+        "Document_Accuracy@3": 100.0,
+        "Document_Accuracy@5": 100.0,
+        "Document_Accuracy@10": 100.0
+    },
+    "queries": [
+        {
+            "query": "How many days should we report to office (onsite) in hybrid mode?",
+            "ground_truth": {
+                "document_ids": [
+                    "5cdd36da112c24b7"
+                ],
+                "chunk_ids": [
+                    "5cdd36da112c24b7_chunk_1"
+                ]
+            },
+            "retrieved": {
+                "document_ids": [
+                    "5cdd36da112c24b7"
+                ],
+                "chunk_ids": [
+                    "5cdd36da112c24b7_chunk_1",
+                    "5cdd36da112c24b7_chunk_2",
+                    "5cdd36da112c24b7_chunk_5",
+                    "5cdd36da112c24b7_chunk_4"
+                ],
+                "retrieved_data": [
+                    {
+                        "rank": 1,
+                        "document_id": "None",
+                        "chunk_id": "None",
+                        "similarity_score": 0.5338230674345072,
+                        "content": "Acme Corporation\n Human Resources \u2014 Remote Work & Home Office Equipment Policy\nDocument ID: ACME-POL-HR-007  |  Version: 2.1  |  Effective Date: March 3, 2026  |  Classification: Internal Use Only\n1. Purpose\nThis policy defines eligibility, expectations, and equipment support for employees who work remotely on a\nfull-time, hybrid, or occasional basis. It is administered by Human Resources in coordination with the IT\nHelpdesk and People Managers.\n2. Eligibility and Work Arrangements\nEmployees may request one of three arrangements, subject to manager approval: Fully Remote (no\nregular office attendance required), Hybrid (minimum 2 days per week in an Acme office), or Office-Based\n(5 days per week on-site). Remote work eligibility is reviewed at the start of each fiscal year and may be\nrevoked if role requirements change.\n3. Core Working Hours and Availability\nRemote and hybrid employees must be reachable via Slack and calendar during their team's designated"
+                    },
+                    {
+                        "rank": 2,
+                        "document_id": "5cdd36da112c24b7",
+                        "chunk_id": "5cdd36da112c24b7_chunk_1",
+                        "similarity_score": 0.5338230674345072,
+                        "content": "Acme Corporation\n Human Resources \u2014 Remote Work & Home Office Equipment Policy\nDocument ID: ACME-POL-HR-007  |  Version: 2.1  |  Effective Date: March 3, 2026  |  Classification: Internal Use Only\n1. Purpose\nThis policy defines eligibility, expectations, and equipment support for employees who work remotely on a\nfull-time, hybrid, or occasional basis. It is administered by Human Resources in coordination with the IT\nHelpdesk and People Managers.\n2. Eligibility and Work Arrangements\nEmployees may request one of three arrangements, subject to manager approval: Fully Remote (no\nregular office attendance required), Hybrid (minimum 2 days per week in an Acme office), or Office-Based\n(5 days per week on-site). Remote work eligibility is reviewed at the start of each fiscal year and may be\nrevoked if role requirements change.\n3. Core Working Hours and Availability\nRemote and hybrid employees must be reachable via Slack and calendar during their team's designated"
+                    },
+                    {
+                        "rank": 3,
+                        "document_id": "None",
+                        "chunk_id": "None",
+                        "similarity_score": 0.5338230674345072,
+                        "content": "Acme Corporation\n Human Resources \u2014 Remote Work & Home Office Equipment Policy\nDocument ID: ACME-POL-HR-007  |  Version: 2.1  |  Effective Date: March 3, 2026  |  Classification: Internal Use Only\n1. Purpose\nThis policy defines eligibility, expectations, and equipment support for employees who work remotely on a\nfull-time, hybrid, or occasional basis. It is administered by Human Resources in coordination with the IT\nHelpdesk and People Managers.\n2. Eligibility and Work Arrangements\nEmployees may request one of three arrangements, subject to manager approval: Fully Remote (no\nregular office attendance required), Hybrid (minimum 2 days per week in an Acme office), or Office-Based\n(5 days per week on-site). Remote work eligibility is reviewed at the start of each fiscal year and may be\nrevoked if role requirements change.\n3. Core Working Hours and Availability\nRemote and hybrid employees must be reachable via Slack and calendar during their team's designated"
+                    },
+                    {
+                        "rank": 4,
+                        "document_id": "None",
+                        "chunk_id": "None",
+                        "similarity_score": 0.4609756409604939,
+                        "content": "revoked if role requirements change.\n3. Core Working Hours and Availability\nRemote and hybrid employees must be reachable via Slack and calendar during their team's designated\ncore hours, typically 10:00 AM to 3:00 PM local time, regardless of arrangement. Employees working\nacross time zones from their team should agree on an overlap window with their manager in writing.\n4. Home Office Equipment and Stipend\nAcme provides a one-time home office setup stipend of $750 for newly remote or hybrid employees,\ncovering desks, chairs, and monitors. In addition, employees receive an ongoing monthly remote work\nstipend of $85 to offset internet and utility costs. Stipend requests are submitted through the Workday\nExpense module under category 'Remote Equipment.'\n\u007f Company-issued laptop, keyboard, and mouse remain Acme property and must be returned upon\nseparation.\n\u007f Employees are responsible for maintaining a private, secure internet connection with a minimum of\n25 Mbps download speed."
+                    },
+                    {
+                        "rank": 5,
+                        "document_id": "None",
+                        "chunk_id": "None",
+                        "similarity_score": 0.4609756409604939,
+                        "content": "revoked if role requirements change.\n3. Core Working Hours and Availability\nRemote and hybrid employees must be reachable via Slack and calendar during their team's designated\ncore hours, typically 10:00 AM to 3:00 PM local time, regardless of arrangement. Employees working\nacross time zones from their team should agree on an overlap window with their manager in writing.\n4. Home Office Equipment and Stipend\nAcme provides a one-time home office setup stipend of $750 for newly remote or hybrid employees,\ncovering desks, chairs, and monitors. In addition, employees receive an ongoing monthly remote work\nstipend of $85 to offset internet and utility costs. Stipend requests are submitted through the Workday\nExpense module under category 'Remote Equipment.'\n\u007f Company-issued laptop, keyboard, and mouse remain Acme property and must be returned upon\nseparation.\n\u007f Employees are responsible for maintaining a private, secure internet connection with a minimum of\n25 Mbps download speed."
+                    },
+                    {
+                        "rank": 6,
+                        "document_id": "5cdd36da112c24b7",
+                        "chunk_id": "5cdd36da112c24b7_chunk_2",
+                        "similarity_score": 0.4609756409604939,
+                        "content": "revoked if role requirements change.\n3. Core Working Hours and Availability\nRemote and hybrid employees must be reachable via Slack and calendar during their team's designated\ncore hours, typically 10:00 AM to 3:00 PM local time, regardless of arrangement. Employees working\nacross time zones from their team should agree on an overlap window with their manager in writing.\n4. Home Office Equipment and Stipend\nAcme provides a one-time home office setup stipend of $750 for newly remote or hybrid employees,\ncovering desks, chairs, and monitors. In addition, employees receive an ongoing monthly remote work\nstipend of $85 to offset internet and utility costs. Stipend requests are submitted through the Workday\nExpense module under category 'Remote Equipment.'\n\u007f Company-issued laptop, keyboard, and mouse remain Acme property and must be returned upon\nseparation.\n\u007f Employees are responsible for maintaining a private, secure internet connection with a minimum of\n25 Mbps download speed."
+                    },
+                    {
+                        "rank": 7,
+                        "document_id": "5cdd36da112c24b7",
+                        "chunk_id": "5cdd36da112c24b7_chunk_5",
+                        "similarity_score": 0.44732662245346844,
+                        "content": "and a documented quarterly performance conversation. Remote employees are held to the same\nperformance standards, promotion criteria, and review cycles as office-based employees; remote status\nmust never be a factor in performance ratings.\n8. Equipment Return and Offboarding\nItem\nReturn Window\nNotes\nCompany laptop\nWithin 5 business days\nShip via prepaid label from IT Helpdesk\nMonitor / peripherals\nWithin 10 business days\nOptional purchase at depreciated value\nAccess badge\nFinal day of employment\nDeactivated automatically at 11:59 PM\nThis document is classified Internal Use Only. For questions, contact HR at hr@acmecorp-internal.example."
+                    },
+                    {
+                        "rank": 8,
+                        "document_id": "None",
+                        "chunk_id": "None",
+                        "similarity_score": 0.44732662245346844,
+                        "content": "and a documented quarterly performance conversation. Remote employees are held to the same\nperformance standards, promotion criteria, and review cycles as office-based employees; remote status\nmust never be a factor in performance ratings.\n8. Equipment Return and Offboarding\nItem\nReturn Window\nNotes\nCompany laptop\nWithin 5 business days\nShip via prepaid label from IT Helpdesk\nMonitor / peripherals\nWithin 10 business days\nOptional purchase at depreciated value\nAccess badge\nFinal day of employment\nDeactivated automatically at 11:59 PM\nThis document is classified Internal Use Only. For questions, contact HR at hr@acmecorp-internal.example."
+                    },
+                    {
+                        "rank": 9,
+                        "document_id": "None",
+                        "chunk_id": "None",
+                        "similarity_score": 0.4446455358436725,
+                        "content": "(cafes, airports, hotels) for company business is discouraged; if unavoidable, VPN connection is\nmandatory before accessing any internal system. Employees must not use personal, unmanaged devices\nto access Confidential or Restricted data as defined in the IT Security Policy (ACME-POL-IT-014).\n6. International Remote Work\nEmployees relocating to work from a country other than their country of employment record must receive\nprior written approval from HR and Legal at least 30 days in advance, due to tax, payroll, and employment\nlaw implications. Unapproved international remote work may result in suspension of system access and\ndisciplinary review.\n7. Performance and Check-ins\nManagers of remote and hybrid employees are expected to conduct at least one 1:1 check-in per week\nand a documented quarterly performance conversation. Remote employees are held to the same\nperformance standards, promotion criteria, and review cycles as office-based employees; remote status"
+                    },
+                    {
+                        "rank": 10,
+                        "document_id": "5cdd36da112c24b7",
+                        "chunk_id": "5cdd36da112c24b7_chunk_4",
+                        "similarity_score": 0.4446455358436725,
+                        "content": "(cafes, airports, hotels) for company business is discouraged; if unavoidable, VPN connection is\nmandatory before accessing any internal system. Employees must not use personal, unmanaged devices\nto access Confidential or Restricted data as defined in the IT Security Policy (ACME-POL-IT-014).\n6. International Remote Work\nEmployees relocating to work from a country other than their country of employment record must receive\nprior written approval from HR and Legal at least 30 days in advance, due to tax, payroll, and employment\nlaw implications. Unapproved international remote work may result in suspension of system access and\ndisciplinary review.\n7. Performance and Check-ins\nManagers of remote and hybrid employees are expected to conduct at least one 1:1 check-in per week\nand a documented quarterly performance conversation. Remote employees are held to the same\nperformance standards, promotion criteria, and review cycles as office-based employees; remote status"
+                    }
+                ]
+            },
+            "metrics": {
+                "Document_Precision@1": 1.0,
+                "Document_Recall@1": 1.0,
+                "Document_Hit@1": 1.0,
+                "Chunk_Precision@1": 1.0,
+                "Chunk_Recall@1": 1.0,
+                "Chunk_Hit@1": 1.0,
+                "Document_Precision@3": 1.0,
+                "Document_Recall@3": 1.0,
+                "Document_Hit@3": 1.0,
+                "Chunk_Precision@3": 0.3333333333333333,
+                "Chunk_Recall@3": 1.0,
+                "Chunk_Hit@3": 1.0,
+                "Document_Precision@5": 1.0,
+                "Document_Recall@5": 1.0,
+                "Document_Hit@5": 1.0,
+                "Chunk_Precision@5": 0.25,
+                "Chunk_Recall@5": 1.0,
+                "Chunk_Hit@5": 1.0,
+                "Document_Precision@10": 1.0,
+                "Document_Recall@10": 1.0,
+                "Document_Hit@10": 1.0,
+                "Chunk_Precision@10": 0.25,
+                "Chunk_Recall@10": 1.0,
+                "Chunk_Hit@10": 1.0
+            },
+            "query_id": "q_test_001",
+            "status": "success"
+        }
+    ]
+}

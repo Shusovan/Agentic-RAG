@@ -45,44 +45,25 @@ class VectorStore:
 
         self._initialize_qdrant()
 
-    # =====================================================
-    # INITIALIZE
-    # =====================================================
 
+    # initialize Qdrant client and collection
     def _initialize_qdrant(self):
 
         try:
 
-            os.makedirs(
-                self.persist_directory,
-                exist_ok=True
-            )
+            os.makedirs(self.persist_directory, exist_ok=True)
 
-            logger.info(
-                "Initializing Qdrant client"
-            )
+            logger.info("QDRANT DB PATH: %s", os.path.abspath(self.persist_directory))
 
-            self.client = QdrantClient(
-                path=self.persist_directory
-            )
+            self.client = QdrantClient(path=self.persist_directory)
 
-            collections = (
-                self.client
-                .get_collections()
-                .collections
-            )
+            collections = (self.client.get_collections().collections)
 
-            collection_names = [
-                collection.name
-                for collection in collections
-            ]
+            collection_names = [collection.name
+                for collection in collections]
 
             if self.collection_name not in collection_names:
-
-                logger.info(
-                    "Creating collection: %s",
-                    self.collection_name
-                )
+                logger.info("Creating collection: %s", self.collection_name)
 
                 self.client.create_collection(
                     collection_name=self.collection_name,
@@ -92,23 +73,14 @@ class VectorStore:
                     )
                 )
 
-            logger.info(
-                "Collection '%s' ready.",
-                self.collection_name
-            )
+            logger.info("Collection '%s' ready.",self.collection_name)
 
         except Exception as exc:
-
-            logger.exception(
-                "Failed to initialize Qdrant"
-            )
-
-            raise ValueError(
-                f"Failed to initialize Qdrant: {exc}"
-            ) from exc
+            logger.exception("Failed to initialize Qdrant")
+            raise ValueError(f"Failed to initialize Qdrant: {exc}") from exc
 
 
-    # ADD DOCUMENTS
+    # add documents to Qdrant
     def add_documents(self, documents: List[Any], embeddings: np.ndarray):
 
         if not documents:
@@ -166,6 +138,16 @@ class VectorStore:
             try:
                 logger.info("Writing %d points to Qdrant",len(points))
 
+                logger.info("QDRANT WRITE: collection=%s path=%s points=%d",
+                self.collection_name,
+                os.path.abspath(self.persist_directory),
+                len(points))
+
+                for point in points[:3]:
+                    logger.info("QDRANT POINT: id=%s payload=%s",
+                        point.id,
+                        point.payload)
+
                 self.client.upsert(collection_name=self.collection_name, points=points)
 
                 logger.info("%d documents stored successfully", len(points))
@@ -175,10 +157,36 @@ class VectorStore:
                 raise ValueError(f"Failed to store documents in Qdrant: "
                     f"{exc}") from exc
 
-    # =====================================================
-    # QUERY
-    # =====================================================
 
+    # reset the collection (delete and recreate)
+    def reset_collection(self):
+
+        with self._write_lock:
+            try:
+                if self.client.collection_exists(self.collection_name):
+                    logger.warning("Deleting Qdrant collection: %s",
+                        self.collection_name)
+
+                    self.client.delete_collection(collection_name=self.collection_name)
+
+                self.client.create_collection(
+                    collection_name=self.collection_name,
+                    vectors_config=VectorParams(
+                        size=self.embedding_dim,
+                        distance=Distance.COSINE
+                    )
+                )
+
+                logger.info("Collection '%s' reset successfully",
+                    self.collection_name)
+
+            except Exception as exc:
+                logger.exception("Failed to reset Qdrant collection")
+
+                raise ValueError(f"Failed to reset Qdrant collection: {exc}") from exc
+
+
+    # query Qdrant for relevant documents
     def query(
         self,
         query_embedding: List[float],
