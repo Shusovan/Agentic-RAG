@@ -1,0 +1,12 @@
+2026-09-17 23:03:43,131 | INFO | root | ==================================================
+2026-09-17 23:03:43,132 | INFO | root | Application logging started
+2026-09-17 23:03:43,132 | INFO | root | Log file: logs\2026-09-17_23-03-43.log
+2026-09-17 23:03:43,132 | INFO | root | ==================================================
+2026-09-17 23:03:43,133 | INFO | __main__ | Starting retrieval evaluation
+2026-09-17 23:03:43,138 | INFO | __main__ | Loaded 1 evaluation queries
+2026-09-17 23:03:43,138 | INFO | evaluation.retrieval_evaluator | Evaluating query 1/1
+2026-09-17 23:03:43,138 | INFO | evaluation.retrieval_evaluator | Evaluating Query | top_k=10 | query=How many days should we report to office (onsite) in hybrid mode?
+2026-09-17 23:03:43,138 | INFO | rag.retriever | Retrieving documents for query='How many days should we report to office (onsite) in hybrid mode?', top_k=10
+2026-09-17 23:03:43,138 | INFO | rag.retriever | Generating query embedding
+2026-09-17 23:03:43,248 | INFO | rag.vectorstore | Searching vector DB with top_k=10
+2026-09-17 23:03:43,251 | INFO | rag.retriever | Retrieved 10 documents

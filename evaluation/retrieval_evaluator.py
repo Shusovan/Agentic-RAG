@@ -2,7 +2,7 @@ import logging
 from typing import Any, Dict, List, Set
 
 from rag.retriever import Retriever
-from rag.retrieval_metrics import RetrievalMetrics
+from evaluation.retrieval_metrics import RetrievalMetrics
 
 
 logger = logging.getLogger(__name__)

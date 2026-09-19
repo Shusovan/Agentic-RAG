@@ -19,10 +19,8 @@ class LoadRegistry:
 
 
     def get_file_loader(self, path: Path):
-
         return self.loaders.get(path.suffix.lower().replace(".", ""), None)
 
 
     def get_web_loader(self):
-
         return self.web_loader

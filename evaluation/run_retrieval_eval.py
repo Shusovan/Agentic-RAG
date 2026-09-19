@@ -7,7 +7,7 @@ from config.logs_file import setup_logging
 from config.vector_dependency import (vector_store, embedding_pipeline)
 
 from rag.retriever import Retriever
-from rag.retrieval_evaluator import (RetrievalEvaluator)
+from evaluation.retrieval_evaluator import (RetrievalEvaluator)
 
 
 setup_logging()
@@ -77,23 +77,17 @@ def main():
     print("=" * 60)
     print("RETRIEVAL EVALUATION")
     print("=" * 60)
-
     print(f"Total queries:      "f"{report['total_queries']}")
-
     print(f"Successful queries: "f"{report['successful_queries']}")
-
     print(f"Failed queries:     "f"{report['failed_queries']}")
-
     print("-" * 60)
 
     for metric, value in (report["metrics"].items()):
         print(f"{metric:<20} "f"{value:.4f}")
 
     print("=" * 60)
-
     print(f"\nReport saved to:\n {report_path}")
 
 
 if __name__ == "__main__":
-
     main()
