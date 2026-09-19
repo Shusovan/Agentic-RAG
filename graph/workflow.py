@@ -5,7 +5,7 @@ from langgraph.graph import END, StateGraph
 
 from agents.answer_generation_agent import AnswerGenerationAgent
 from agents.routing_agent import RoutingAgent
-from agents.vector_retriever_agent import VectorRetrieverAgent
+from agents.retriever_agent import RetrievalAgent
 from graph.state import RAGState
 from agents.query_understanding_agent import QueryUnderstandingAgent
 from llm.generative_llm import GenerativeLLM
@@ -29,10 +29,8 @@ class Flow:
         if not api_key:
             raise ValueError("GROQ_API_KEY is not set")
 
-        # Query Understanding LLM
+        # Query Understanding
         self.query_llm = QueryUnderstandingLLM(api_key=api_key)
-
-        # Query Understanding Agent
         self.query_agent = QueryUnderstandingAgent(self.query_llm)
 
         # Routing Agent
@@ -43,18 +41,19 @@ class Flow:
         self.embedding_pipeline = embedding_pipeline
 
         self.retriever = Retriever(vector_store, embedding_pipeline)
-
         self.vector_retriever_tool = VectorRetrieverTool(retriever=self.retriever)
 
-        self.vector_retriever_agent = VectorRetrieverAgent(
-            retriever_tool=self.vector_retriever_tool
-        )
-        # self.vector_retriever_agent = VectorRetrieverAgent(retriever_tool=vector_retriever_tool)
+        # Retrieval Agent
+        self.retrieval_agent = RetrievalAgent(
+            vector_retriever_tool=self.vector_retriever_tool,
+            top_k=5,
+            score_threshold=0.0,
+            minimum_retrieval_count=1,
+            quality_threshold=0.45,
+            max_attempts=3)
 
         # Generation LLM
         self.generative_llm = GenerativeLLM(api_key=api_key)
-
-        # Answer Generation
         self.answer_generation_agent = AnswerGenerationAgent(llm=self.generative_llm)
 
         self.graph = self._build_graph()
@@ -81,10 +80,7 @@ class Flow:
         return state
     
     
-    def route_decision(
-        self,
-        state: RAGState
-    ) -> str:
+    def route_decision(self, state: RAGState) -> str:
 
         if state.route == Route.RAG:
             return "rag"
@@ -98,18 +94,27 @@ class Flow:
         return "fallback"
     
 
-    def vector_retrieval_node(self, state: RAGState):
+    # Retrieval Node
+    def retrieval_node(self, state: RAGState):
 
-        docs = self.vector_retriever_agent.retrieve(
-            state.structured_query
-        )
+        if state.structured_query is None:
+            raise ValueError("structured_query is None")
 
-        state.retrieved_documents = docs
+        documents = self.retrieval_agent.retrieve(state.structured_query)
+
+        state.retrieved_documents = documents
+
+        state.confidence = (max(doc.similarity_score for doc in documents)
+            if documents else 0.0)
 
         return state
-    
 
+
+    # RAG Generation Node
     def rag_generation_node(self, state: RAGState) -> RAGState:
+
+        if state.structured_query is None:
+            raise ValueError("structured_query is None")
 
         state.final_answer = (self.answer_generation_agent.generate_rag_answer(
                 structured_query=state.structured_query,
@@ -120,29 +125,25 @@ class Flow:
         return state
 
 
+    # Generation Node
     def llm_generation_node(self, state: RAGState) -> RAGState:
 
         state.final_answer = (
-            self.answer_generation_agent.generate_general_answer(
-                query=state.query
-            )
+            self.answer_generation_agent.generate_general_answer(query=state.query)
         )
 
         return state
 
 
-    def clarify_node(
-        self,
-        state: RAGState
-    ) -> RAGState:
+    # Clarification Node
+    def clarify_node(self, state: RAGState) -> RAGState:
 
-        state.final_answer = (
-            "Could you clarify your question?"
-        )
+        state.final_answer = ("Could you clarify your question?")
 
         return state
 
 
+    # Fallback Node
     def fallback_node(self, state: RAGState) -> RAGState:
 
         state.final_answer = ("This request is outside the supported scope.")
@@ -154,56 +155,36 @@ class Flow:
 
         builder = StateGraph(RAGState)
 
-        builder.add_node(
-            "query_understanding",
-            self.query_understanding_node
-        )
+        builder.add_node("query_understanding", self.query_understanding_node)
 
-        builder.add_node(
-            "routing",
-            self.routing_node
-        )
+        builder.add_node("routing", self.routing_node)
 
-        builder.add_node(
-            "vector_retrieval",
-            self.vector_retrieval_node
-        )
+        builder.add_node("retrieval", self.retrieval_node)
 
-        builder.add_node(
-            "rag_generation",
-            self.rag_generation_node
-        )
+        builder.add_node("rag_generation", self.rag_generation_node)
 
-        builder.add_node(
-            "llm_generation",
-            self.llm_generation_node
-        )
+        builder.add_node("llm_generation", self.llm_generation_node)
 
         builder.add_node("clarify", self.clarify_node)
 
         builder.add_node("fallback", self.fallback_node)
 
-        builder.set_entry_point(
-            "query_understanding"
-        )
+        builder.set_entry_point("query_understanding")
 
-        builder.add_edge(
-            "query_understanding",
-            "routing"
-        )
+        builder.add_edge("query_understanding", "routing")
 
         builder.add_conditional_edges(
             "routing",
             self.route_decision,
             {
-                "rag": "vector_retrieval",
+                "rag": "retrieval",
                 "llm": "llm_generation",
                 "clarify": "clarify",
                 "fallback": "fallback",
             }
         )
 
-        builder.add_edge("vector_retrieval", "rag_generation")
+        builder.add_edge("retrieval", "rag_generation")
 
         builder.add_edge("rag_generation", END)
 

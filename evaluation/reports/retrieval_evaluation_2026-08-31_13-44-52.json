@@ -1,0 +1,74 @@
+{
+    "total_queries": 1,
+    "successful_queries": 1,
+    "failed_queries": 0,
+    "metrics": {
+        "Chunk_Precision@1": 1.0,
+        "Chunk_Precision@10": 0.75,
+        "Chunk_Precision@3": 0.6666666666666666,
+        "Chunk_Precision@5": 0.75,
+        "Chunk_Recall@1": 0.2,
+        "Chunk_Recall@10": 0.6,
+        "Chunk_Recall@3": 0.4,
+        "Chunk_Recall@5": 0.6,
+        "Document_Precision@1": 1.0,
+        "Document_Precision@10": 0.75,
+        "Document_Precision@3": 0.6666666666666666,
+        "Document_Precision@5": 0.75,
+        "Document_Recall@1": 1.0,
+        "Document_Recall@10": 3.0,
+        "Document_Recall@3": 2.0,
+        "Document_Recall@5": 3.0
+    },
+    "queries": [
+        {
+            "query": "What is the company's work from home policy?",
+            "ground_truth": {
+                "document_ids": [
+                    "5cdd36da112c24b7"
+                ],
+                "chunk_ids": [
+                    "5cdd36da112c24b7_chunk_1",
+                    "5cdd36da112c24b7_chunk_4",
+                    "5cdd36da112c24b7_chunk_5",
+                    "5cdd36da112c24b7_chunk_2",
+                    "5cdd36da112c24b7_chunk_3"
+                ]
+            },
+            "retrieved": {
+                "document_ids": [
+                    "5cdd36da112c24b7",
+                    "5cdd36da112c24b7",
+                    "96122ae3c175f70e",
+                    "5cdd36da112c24b7"
+                ],
+                "chunk_ids": [
+                    "5cdd36da112c24b7_chunk_1",
+                    "5cdd36da112c24b7_chunk_4",
+                    "96122ae3c175f70e_chunk_4",
+                    "5cdd36da112c24b7_chunk_2"
+                ]
+            },
+            "metrics": {
+                "Document_Precision@1": 1.0,
+                "Document_Recall@1": 1.0,
+                "Chunk_Precision@1": 1.0,
+                "Chunk_Recall@1": 0.2,
+                "Document_Precision@3": 0.6666666666666666,
+                "Document_Recall@3": 2.0,
+                "Chunk_Precision@3": 0.6666666666666666,
+                "Chunk_Recall@3": 0.4,
+                "Document_Precision@5": 0.75,
+                "Document_Recall@5": 3.0,
+                "Chunk_Precision@5": 0.75,
+                "Chunk_Recall@5": 0.6,
+                "Document_Precision@10": 0.75,
+                "Document_Recall@10": 3.0,
+                "Chunk_Precision@10": 0.75,
+                "Chunk_Recall@10": 0.6
+            },
+            "query_id": "q_test_001",
+            "status": "success"
+        }
+    ]
+}

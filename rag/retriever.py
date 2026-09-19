@@ -11,7 +11,20 @@ logger = logging.getLogger(__name__)
 
 class Retriever:
     """
-    Handles query-based retrieval from the vector store
+    Low-level retrieval service.
+
+    Responsibilities:
+        - Generate query embedding
+        - Query VectorStore
+        - Apply score threshold
+        - Normalize retrieval results
+
+    Does NOT:
+        - Decide retrieval strategy
+        - Reformulate queries
+        - Retry retrieval
+        - Rerank documents
+        - Generate answers
     """
 
     def __init__(self, vector_store: VectorStore, embedding_manager: EmbeddingPipeline):
@@ -33,7 +46,6 @@ class Retriever:
         """
 
         try:
-
             logger.info("Generating query embedding")
 
             embedding = self.embedding_manager.embed_documents([query])[0]
@@ -41,10 +53,7 @@ class Retriever:
             return embedding.tolist()
 
         except Exception as e:
-
-            raise ValueError(
-                f"Query embedding failed: {e}"
-            )
+            raise ValueError(f"Query embedding failed: {e}")
 
 
     def retrieve(self, query: str, top_k: int = 5, score_threshold: float = 0.0) -> List[Dict[str, Any]]:
@@ -60,16 +69,16 @@ class Retriever:
             List of retrieved documents
         """
 
+        if not query or not query.strip():
+            raise ValueError("Retrieval query cannot be empty")
+
         logger.info(f"Retrieving documents for query='{query}', top_k={top_k}")
 
         try:
-
             query_embedding = self._embed_query(query)
 
-            results = self.vector_store.query(
-                query_embedding=query_embedding,
-                top_k=top_k
-            )
+            results = self.vector_store.query(query_embedding=query_embedding,
+                top_k=top_k)
 
             retrieved_docs = []
 
@@ -77,24 +86,35 @@ class Retriever:
 
                 score = result["score"]
 
-                if score >= score_threshold:
+                if score < score_threshold:
+                    continue
 
-                    retrieved_docs.append({
+                retrieved_docs.append(
+                    {
+                        # Qdrant point ID
                         "id": result["id"],
-                        "content": result["content"],
-                        "metadata": result["metadata"],
-                        "similarity_score": score,
-                        "rank": rank
-                    })
 
-            logger.info(
-                f"Retrieved {len(retrieved_docs)} documents"
-            )
+                        # Stable document ID
+                        "document_id": result["document_id"],
+
+                        # Stable chunk ID
+                        "chunk_id": result["chunk_id"],
+
+                        "content": result["content"],
+
+                        "metadata": result["metadata"],
+
+                        "similarity_score": score,
+                    }
+                )
+
+            for rank, doc in enumerate(retrieved_docs, start=1):
+                doc["rank"] = rank
+
+            logger.info(f"Retrieved {len(retrieved_docs)} documents")
 
             return retrieved_docs
 
         except Exception as e:
-
-            raise ValueError(
-                f"Document retrieval failed: {e}"
-            )
+            logger.error(f"[Retriever] Error occurred while retrieving documents for query='{query}': {e}")
+            raise ValueError(f"Document retrieval failed: {e}")

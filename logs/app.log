@@ -1,171 +1,239 @@
-
-2026-04-30 11:45:56,102 | INFO | app | FastAPI app starting
-2026-04-30 11:45:56,118 | INFO | watcher.corpora_watcher | Starting watcher for folder: Corpora
-2026-04-30 11:52:28,560 | INFO | watcher.event_handler | Document deleted: Corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
-2026-04-30 11:52:28,560 | INFO | rag.vectorstore | Deleting embeddings for source: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
-2026-04-30 11:52:28,787 | INFO | rag.vectorstore | Embeddings deleted for source: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
-2026-04-30 11:53:15,688 | INFO | services.file_service | File saved to Corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
-2026-04-30 11:53:15,689 | INFO | routes.ingestion_route | Received file: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
-2026-04-30 11:53:17,717 | INFO | watcher.event_handler | New document detected: Corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
-2026-04-30 11:53:18,973 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline
-2026-04-30 11:53:18,974 | INFO | ingestion.metadata_extractor | Metadata enriched for 6 documents
-2026-04-30 11:53:18,976 | INFO | ingestion.ingestion_pipeline | Created 31 chunks
-2026-04-30 11:53:20,150 | INFO | rag.vectorstore | Adding 31 documents to vector store
-2026-04-30 11:53:20,541 | INFO | rag.vectorstore | 31 documents stored successfully
-2026-04-30 11:53:20,541 | INFO | ingestion.ingestion_pipeline | Ingestion pipeline completed successfully
-2026-05-31 22:30:36,478 | INFO | app | FastAPI app starting
-2026-05-31 22:30:36,492 | INFO | watcher.corpora_watcher | Starting watcher for folder: Corpora
-2026-05-31 22:31:15,044 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: give me the details of leave policy
-2026-05-31 23:41:43,102 | INFO | app | FastAPI app starting
-2026-05-31 23:41:43,117 | INFO | watcher.corpora_watcher | Starting watcher for folder: Corpora
-2026-05-31 23:53:16,617 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: give me the details of leave policy
-2026-05-31 23:57:22,395 | INFO | app | FastAPI app starting
-2026-05-31 23:57:22,405 | INFO | watcher.corpora_watcher | Starting watcher for folder: Corpora
-2026-05-31 23:58:05,459 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: give me the details of leave policy
-2026-05-31 23:58:05,460 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-05-31 23:58:06,615 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-05-31 23:58:07,243 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.INTERNAL_QUESTION, source=Source.INTERNAL
-2026-06-07 15:01:36,376 | INFO | app | FastAPI app starting
-2026-06-07 15:01:36,398 | INFO | watcher.corpora_watcher | Starting watcher for folder: Corpora
-2026-06-07 15:49:56,033 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: give me the details of leave policy
-2026-06-07 15:49:56,033 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-06-07 15:49:57,365 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-06-07 15:49:58,035 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.INTERNAL_QUESTION, source=Source.INTERNAL
-2026-06-07 16:21:27,564 | INFO | app | FastAPI app starting
-2026-06-07 16:21:27,579 | INFO | watcher.corpora_watcher | Starting watcher for folder: Corpora
-2026-06-07 16:22:25,436 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: give me the details of leave policy
-2026-06-07 16:22:25,438 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-06-07 16:22:26,639 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-06-07 16:22:27,253 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.INTERNAL_QUESTION, source=Source.INTERNAL
-2026-06-07 16:22:27,266 | INFO | agents.vector_retriever_agent | [VectorRetrieverAgent] Retrieving documents for query='What are the details of the company's leave policy?'
-2026-06-07 16:22:27,266 | ERROR | agents.vector_retriever_agent | [VectorRetrieverAgent] Retrieval failed
+2026-08-09 22:01:45,486 | INFO | app | FastAPI app starting
+2026-08-09 22:01:45,938 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-09 22:02:11,860 | INFO | watcher.event_handler | Document deleted: corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-09 22:02:11,860 | INFO | rag.vectorstore | Deleting embeddings for source: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-09 22:02:11,863 | INFO | rag.vectorstore | Embeddings deleted for source: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-09 22:02:24,182 | INFO | services.file_service | File saved to Corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-09 22:02:24,182 | INFO | routes.ingestion_route | Received file: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-09 22:02:26,222 | INFO | watcher.event_handler | New document detected: corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-09 22:02:26,222 | INFO | ingestion.pdf_loader | Loading file: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf | Type: .pdf
+2026-08-09 22:02:27,209 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
+2026-08-09 22:02:27,210 | INFO | ingestion.metadata_extractor | Metadata extracted for 6 documents
+2026-08-09 22:02:27,212 | INFO | ingestion.ingestion_pipeline | Generated 31 chunks from 6 documents.
+2026-08-09 22:02:28,094 | INFO | rag.vectorstore | Adding 31 documents to vector store
+2026-08-09 22:02:28,350 | INFO | rag.vectorstore | 31 documents stored successfully
+2026-08-09 22:02:28,351 | INFO | ingestion.ingestion_pipeline | Successfully ingested 31 chunks.
+2026-08-09 22:03:50,761 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: give me the details of leave policy
+2026-08-09 22:03:50,761 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-09 22:03:51,406 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-08-09 22:03:51,408 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-09 22:03:51,466 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-08-09 22:03:51,469 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-09 22:03:51,527 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-08-09 22:30:36,801 | INFO | app | FastAPI app starting
+2026-08-09 22:30:37,334 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-09 22:32:24,388 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: give me the details of leave policy
+2026-08-09 22:32:24,388 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-09 22:32:25,046 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-09 22:32:25,579 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.INTERNAL_QUESTION, source=Source.INTERNAL
+2026-08-09 22:32:25,588 | INFO | agents.vector_retriever_agent | [VectorRetrieverAgent] Retrieving documents for query='leave policy details'
+2026-08-09 22:32:25,589 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='leave policy details'
+2026-08-09 22:32:25,589 | INFO | rag.retriever | Retrieving documents for query='leave policy details', top_k=5
+2026-08-09 22:32:25,589 | INFO | rag.retriever | Generating query embedding
+2026-08-09 22:32:25,649 | INFO | rag.vectorstore | Searching vector DB with top_k=5
+2026-08-09 22:32:25,654 | INFO | rag.retriever | Retrieved 5 documents
+2026-08-09 22:32:25,654 | INFO | agents.vector_retriever_agent | [VectorRetrieverAgent] Retrieved 5 documents
+2026-08-09 22:32:25,657 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating RAG answer
+2026-08-09 22:32:25,657 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
+2026-08-09 22:32:26,317 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-09 22:33:10,230 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: define generative ai
+2026-08-09 22:33:10,231 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-09 22:33:10,710 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-09 22:33:10,712 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.GENERAL_QUESTION, source=Source.GENERAL
+2026-08-09 22:33:10,716 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating general answer
+2026-08-09 22:33:10,716 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
+2026-08-09 22:33:12,217 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-17 20:58:49,843 | INFO | app | FastAPI app starting
+2026-08-17 20:58:50,136 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-17 21:00:06,948 | INFO | watcher.event_handler | New document detected: corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-17 21:00:06,948 | INFO | ingestion.pdf_loader | Loading file: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf | Type: .pdf
+2026-08-17 21:00:07,588 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
+2026-08-17 21:00:07,589 | INFO | ingestion.metadata_extractor | Metadata extracted for 6 documents
+2026-08-17 21:00:07,590 | INFO | ingestion.ingestion_pipeline | Generated 31 chunks from 6 documents.
+2026-08-17 21:00:08,397 | INFO | rag.vectorstore | Adding 31 documents to vector store
+2026-08-17 21:00:08,646 | INFO | rag.vectorstore | 31 documents stored successfully
+2026-08-17 21:00:08,646 | INFO | ingestion.ingestion_pipeline | Successfully ingested 31 chunks.
+2026-08-17 21:00:23,486 | INFO | watcher.event_handler | Document deleted: corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-17 21:00:23,486 | INFO | rag.vectorstore | Deleting embeddings for source: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-17 21:00:23,501 | INFO | rag.vectorstore | Embeddings deleted for source: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-18 20:46:37,468 | INFO | app | FastAPI app starting
+2026-08-18 20:46:37,724 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-18 20:49:59,956 | INFO | services.file_service | File saved to Corpora\Angular User Login (security Service).pdf
+2026-08-18 20:49:59,956 | INFO | routes.ingestion_route | Received file: Angular User Login (security Service).pdf
+2026-08-18 20:50:01,978 | INFO | watcher.event_handler | New document detected: corpora\Angular User Login (security Service).pdf
+2026-08-18 20:50:01,978 | INFO | ingestion.pdf_loader | Loading file: Angular User Login (security Service).pdf | Type: .pdf
+2026-08-18 20:50:02,399 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
+2026-08-18 20:50:02,399 | INFO | ingestion.metadata_extractor | Metadata extracted for 9 documents
+2026-08-18 20:50:02,400 | INFO | ingestion.ingestion_pipeline | Generated 12 chunks from 9 documents.
+2026-08-18 20:50:02,893 | INFO | rag.vectorstore | Adding 12 documents to vector store
+2026-08-18 20:50:02,995 | INFO | rag.vectorstore | 12 documents stored successfully
+2026-08-18 20:50:02,995 | INFO | ingestion.ingestion_pipeline | Successfully ingested 12 chunks.
+2026-08-18 20:50:42,821 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: explain security in Angular from rag
+2026-08-18 20:50:42,821 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-18 20:50:43,489 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-08-18 20:50:43,492 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-18 20:50:43,546 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-08-18 20:50:43,549 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-18 20:50:43,606 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-08-18 21:05:23,094 | INFO | app | FastAPI app starting
+2026-08-18 21:05:23,550 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-18 21:13:00,603 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: explain security in Angular from rag
+2026-08-18 21:13:00,603 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-18 21:13:01,999 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-18 21:13:02,524 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.GENERAL_QUESTION, source=Source.GENERAL
+2026-08-18 21:13:02,529 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating general answer
+2026-08-18 21:13:02,529 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
+2026-08-18 21:13:05,169 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-18 21:13:44,933 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: explain security in Angular. Retrieve from internal documents
+2026-08-18 21:13:44,933 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-18 21:13:46,115 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-18 21:13:46,119 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.INTERNAL_QUESTION, source=Source.INTERNAL
+2026-08-18 21:13:46,125 | INFO | agents.retriever_agent | [RetrievalAgent] Starting retrieval for query='explain security in Angular. Retrieve from internal documents'
+2026-08-18 21:13:46,126 | INFO | agents.retriever_agent | [RetrievalAgent] strategy=vector query='explain security in Angular. Retrieve from internal documents' reason='Intent 'INTERNAL_QUESTION' requires retrieval'
+2026-08-18 21:13:46,126 | INFO | agents.retriever_agent | [RetrievalAgent] Retrieval attempt 1/2 query='Angular security best practices internal documentation'
+2026-08-18 21:13:46,127 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='Angular security best practices internal documentation'
+2026-08-18 21:13:46,127 | INFO | rag.retriever | Retrieving documents for query='Angular security best practices internal documentation', top_k=5
+2026-08-18 21:13:46,127 | INFO | rag.retriever | Generating query embedding
+2026-08-18 21:13:46,240 | INFO | rag.vectorstore | Searching vector DB with top_k=5
+2026-08-18 21:13:46,247 | INFO | rag.retriever | Retrieved 5 documents
+2026-08-18 21:13:46,247 | INFO | agents.retriever_agent | [RetrievalAgent] Sufficient retrieval results after attempt 1
+2026-08-18 21:18:59,247 | INFO | app | FastAPI app starting
+2026-08-18 21:18:59,683 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-18 21:22:12,087 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: explain security in Angular. Retrieve from internal documents
+2026-08-18 21:22:12,087 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-18 21:22:13,648 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-18 21:22:14,148 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.DOCUMENT_QUERY, source=Source.INTERNAL
+2026-08-18 21:22:14,153 | INFO | agents.retriever_agent | [RetrievalAgent] Starting retrieval for query='explain security in Angular. Retrieve from internal documents'
+2026-08-18 21:22:14,153 | INFO | agents.retriever_agent | [RetrievalAgent] strategy=vector query='explain security in Angular. Retrieve from internal documents' reason='Intent 'DOCUMENT_QUERY' requires retrieval'
+2026-08-18 21:22:14,153 | INFO | agents.retriever_agent | [RetrievalAgent] Retrieval attempt 1/2 query='explain security in Angular'
+2026-08-18 21:22:14,154 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='explain security in Angular'
+2026-08-18 21:22:14,154 | INFO | rag.retriever | Retrieving documents for query='explain security in Angular', top_k=5
+2026-08-18 21:22:14,154 | INFO | rag.retriever | Generating query embedding
+2026-08-18 21:22:14,207 | INFO | rag.vectorstore | Searching vector DB with top_k=5
+2026-08-18 21:22:14,210 | INFO | rag.retriever | Retrieved 5 documents
+2026-08-18 21:22:14,210 | INFO | agents.retriever_agent | [RetrievalAgent] Sufficient retrieval results after attempt 1
+2026-08-18 21:22:14,210 | INFO | agents.retriever_agent | [RetrievalAgent] Final retrieval count=5
+2026-08-18 23:18:18,436 | INFO | app | FastAPI app starting
+2026-08-18 23:18:18,914 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-18 23:18:40,295 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: explain security in Angular. Retrieve from internal documents
+2026-08-18 23:18:40,295 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-18 23:18:42,187 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-18 23:18:42,773 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.DOCUMENT_QUERY, source=Source.INTERNAL
+2026-08-18 23:18:42,779 | INFO | agents.retriever_agent | [RetrievalAgent] Starting retrieval for query='explain security in Angular. Retrieve from internal documents'
+2026-08-18 23:18:42,781 | INFO | agents.retriever_agent | [RetrievalAgent] strategy=vector query='explain security in Angular. Retrieve from internal documents' reason='Intent 'DOCUMENT_QUERY' requires retrieval'
+2026-08-18 23:18:42,781 | INFO | agents.retriever_agent | [RetrievalAgent] Retrieval attempt 1/2 query='explain security in Angular'
+2026-08-18 23:18:42,782 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='explain security in Angular'
+2026-08-18 23:18:42,782 | INFO | rag.retriever | Retrieving documents for query='explain security in Angular', top_k=5
+2026-08-18 23:18:42,782 | INFO | rag.retriever | Generating query embedding
+2026-08-18 23:18:42,953 | INFO | rag.vectorstore | Searching vector DB with top_k=5
+2026-08-18 23:18:42,957 | INFO | rag.retriever | Retrieved 5 documents
+2026-08-18 23:18:42,958 | INFO | agents.retriever_agent | [RetrievalAgent] Sufficient retrieval results after attempt 1
+2026-08-18 23:18:42,959 | INFO | agents.retriever_agent | [RetrievalAgent] Final retrieval count=5
+2026-08-18 23:55:45,682 | INFO | app | FastAPI app starting
+2026-08-18 23:55:45,959 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-18 23:57:22,392 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: explain security in Angular. Retrieve from internal documents
+2026-08-18 23:57:22,393 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-08-18 23:57:24,044 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-18 23:57:24,632 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.DOCUMENT_QUERY, source=Source.INTERNAL
+2026-08-18 23:57:24,640 | INFO | agents.retriever_agent | [RetrievalAgent] Starting retrieval for query='explain security in Angular. Retrieve from internal documents'
+2026-08-18 23:57:24,642 | INFO | agents.retriever_agent | [RetrievalAgent] strategy=vector query='explain security in Angular. Retrieve from internal documents' reason='Intent 'DOCUMENT_QUERY' requires retrieval'
+2026-08-18 23:57:24,642 | INFO | agents.retriever_agent | [RetrievalAgent] Retrieval attempt 1/2 query='Explain security concepts and best practices in Angular'
+2026-08-18 23:57:24,642 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='Explain security concepts and best practices in Angular'
+2026-08-18 23:57:24,642 | INFO | rag.retriever | Retrieving documents for query='Explain security concepts and best practices in Angular', top_k=5
+2026-08-18 23:57:24,643 | INFO | rag.retriever | Generating query embedding
+2026-08-18 23:57:24,758 | INFO | rag.vectorstore | Searching vector DB with top_k=5
+2026-08-18 23:57:24,762 | INFO | rag.retriever | Retrieved 5 documents
+2026-08-18 23:57:24,762 | INFO | agents.retriever_agent | [RetrievalAgent] Sufficient retrieval results after attempt 1
+2026-08-18 23:57:24,763 | INFO | agents.retriever_agent | [RetrievalAgent] Final retrieval count=5
+2026-08-18 23:57:24,767 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating RAG answer
+2026-08-18 23:57:24,767 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
+2026-08-18 23:57:27,453 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-26 16:11:40,348 | INFO | app | FastAPI app starting
+2026-08-26 16:11:40,783 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-26 16:24:34,892 | INFO | watcher.event_handler | Document deleted: corpora\Angular User Login (security Service).pdf
+2026-08-26 16:24:34,892 | INFO | rag.vectorstore | Deleting embeddings for source: Angular User Login (security Service).pdf
+2026-08-26 16:24:35,000 | INFO | rag.vectorstore | Embeddings deleted for source: Angular User Login (security Service).pdf
+2026-08-26 18:31:13,406 | INFO | app | FastAPI app starting
+2026-08-26 18:31:13,674 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-26 18:42:43,938 | INFO | app | FastAPI app starting
+2026-08-26 18:42:44,181 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-26 18:44:13,010 | ERROR | routes.ingestion_route | Multiple document upload failed
 Traceback (most recent call last):
-  File "d:\Oreo\Projects\AgenticRAG\agents\vector_retriever_agent.py", line 35, in retrieve
-    results = self.retriever_tool.retrieve(
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AttributeError: module 'tools.vector_retriever_tool' has no attribute 'retrieve'. Did you mean: 'Retriever'?
-2026-06-07 16:24:43,970 | INFO | app | FastAPI app starting
-2026-06-07 16:24:43,980 | INFO | watcher.corpora_watcher | Starting watcher for folder: Corpora
-2026-06-07 18:53:30,972 | INFO | app | FastAPI app starting
-2026-06-07 18:53:31,226 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
-2026-06-07 18:53:40,606 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: give me the details of leave policy
-2026-06-07 18:53:40,606 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-06-07 18:53:41,858 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-06-07 18:53:42,557 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.INTERNAL_QUESTION, source=Source.INTERNAL
-2026-06-07 18:53:42,567 | INFO | agents.vector_retriever_agent | [VectorRetrieverAgent] Retrieving documents for query='company leave policy details'
-2026-06-07 18:53:42,568 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='company leave policy details'
-2026-06-07 18:53:42,568 | INFO | rag.retriever | Retrieving documents for query='company leave policy details', top_k=5
-2026-06-07 18:53:42,568 | INFO | rag.retriever | Generating query embedding
-2026-06-07 18:53:42,735 | INFO | rag.vectorstore | Searching vector DB with top_k=5
-2026-06-07 18:53:42,737 | ERROR | tools.vector_retriever_tool | [VectorRetrievalTool] Error occurred while retrieving documents: Document retrieval failed: Vector search failed: 'QdrantClient' object has no attribute 'search'
-2026-06-07 18:53:42,738 | ERROR | agents.vector_retriever_agent | [VectorRetrieverAgent] Retrieval failed
+  File "D:\oreo\Projects\AgenticRAG\routes\ingestion_route.py", line 95, in upload_documents
+    result = await file_service.save_multiple_files(files)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'FileService' object has no attribute 'save_multiple_files'. Did you mean: 'save_multiple_file'?
+2026-08-26 18:45:32,291 | INFO | app | FastAPI app starting
+2026-08-26 18:45:32,548 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-26 18:46:55,712 | ERROR | routes.ingestion_route | Multiple document upload failed
 Traceback (most recent call last):
-  File "d:\Oreo\Projects\AgenticRAG\rag\vectorstore.py", line 115, in query
-    results = self.client.search(
-              ^^^^^^^^^^^^^^^^^^
-AttributeError: 'QdrantClient' object has no attribute 'search'
-
-During handling of the above exception, another exception occurred:
-
+  File "D:\oreo\Projects\AgenticRAG\routes\ingestion_route.py", line 95, in upload_documents
+    result = await file_service.save_multiple_files(files)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\oreo\Projects\AgenticRAG\services\ingestion_service.py", line 73, in save_multiple_files
+    if len(files) > self.MAX_FILE:
+                    ^^^^^^^^^^^^^
+AttributeError: 'FileService' object has no attribute 'MAX_FILE'. Did you mean: 'MAX_FILES'?
+2026-08-26 18:53:52,697 | INFO | app | FastAPI app starting
+2026-08-26 18:53:52,948 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-26 18:58:07,059 | ERROR | services.ingestion_service | Upload failed: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
 Traceback (most recent call last):
-  File "d:\Oreo\Projects\AgenticRAG\rag\retriever.py", line 69, in retrieve
-    results = self.vector_store.query(
-              ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "d:\Oreo\Projects\AgenticRAG\rag\vectorstore.py", line 134, in query
-    raise ValueError(f"Vector search failed: {e}")
-ValueError: Vector search failed: 'QdrantClient' object has no attribute 'search'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "d:\Oreo\Projects\AgenticRAG\agents\vector_retriever_agent.py", line 35, in retrieve
-    results = self.retriever_tool.retrieve(
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "d:\Oreo\Projects\AgenticRAG\tools\vector_retriever_tool.py", line 32, in retrieve
-    return self.retriever.retrieve(query, top_k=top_k, score_threshold=score_threshold)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "d:\Oreo\Projects\AgenticRAG\rag\retriever.py", line 98, in retrieve
-    raise ValueError(
-ValueError: Document retrieval failed: Vector search failed: 'QdrantClient' object has no attribute 'search'
-2026-06-07 19:05:22,183 | INFO | app | FastAPI app starting
-2026-06-07 19:05:22,460 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
-2026-06-07 19:05:33,284 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: give me the details of leave policy
-2026-06-07 19:05:33,285 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-06-07 19:05:34,413 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-06-07 19:05:35,179 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.INTERNAL_QUESTION, source=Source.INTERNAL
-2026-06-07 19:05:35,187 | INFO | agents.vector_retriever_agent | [VectorRetrieverAgent] Retrieving documents for query='What are the details of the company's leave policy?'
-2026-06-07 19:05:35,187 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='What are the details of the company's leave policy?'
-2026-06-07 19:05:35,188 | INFO | rag.retriever | Retrieving documents for query='What are the details of the company's leave policy?', top_k=5
-2026-06-07 19:05:35,188 | INFO | rag.retriever | Generating query embedding
-2026-06-07 19:05:35,255 | INFO | rag.vectorstore | Searching vector DB with top_k=5
-2026-06-07 19:05:35,256 | ERROR | tools.vector_retriever_tool | [VectorRetrievalTool] Error occurred while retrieving documents: Document retrieval failed: Vector search failed: 'QdrantClient' object has no attribute 'search'
-2026-06-07 19:05:35,257 | ERROR | agents.vector_retriever_agent | [VectorRetrieverAgent] Retrieval failed
-Traceback (most recent call last):
-  File "d:\Oreo\Projects\AgenticRAG\rag\vectorstore.py", line 115, in query
-    results = self.client.search(
-              ^^^^^^^^^^^^^^^^^^
-AttributeError: 'QdrantClient' object has no attribute 'search'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "d:\Oreo\Projects\AgenticRAG\rag\retriever.py", line 69, in retrieve
-    results = self.vector_store.query(
-              ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "d:\Oreo\Projects\AgenticRAG\rag\vectorstore.py", line 134, in query
-    raise ValueError(f"Vector search failed: {e}")
-ValueError: Vector search failed: 'QdrantClient' object has no attribute 'search'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "d:\Oreo\Projects\AgenticRAG\agents\vector_retriever_agent.py", line 35, in retrieve
-    results = self.retriever_tool.retrieve(
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "d:\Oreo\Projects\AgenticRAG\tools\vector_retriever_tool.py", line 32, in retrieve
-    return self.retriever.retrieve(query, top_k=top_k, score_threshold=score_threshold)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "d:\Oreo\Projects\AgenticRAG\rag\retriever.py", line 98, in retrieve
-    raise ValueError(
-ValueError: Document retrieval failed: Vector search failed: 'QdrantClient' object has no attribute 'search'
-2026-06-07 19:11:00,581 | INFO | app | FastAPI app starting
-2026-06-07 19:11:01,152 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
-2026-06-07 19:11:52,416 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: give me the details of leave policy
-2026-06-07 19:11:52,417 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-06-07 19:11:53,477 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-06-07 19:11:54,111 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.INTERNAL_QUESTION, source=Source.INTERNAL
-2026-06-07 19:11:54,118 | INFO | agents.vector_retriever_agent | [VectorRetrieverAgent] Retrieving documents for query='details of the company's leave policy'
-2026-06-07 19:11:54,119 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='details of the company's leave policy'
-2026-06-07 19:11:54,119 | INFO | rag.retriever | Retrieving documents for query='details of the company's leave policy', top_k=5
-2026-06-07 19:11:54,119 | INFO | rag.retriever | Generating query embedding
-2026-06-07 19:11:54,211 | INFO | rag.vectorstore | Searching vector DB with top_k=5
-2026-06-07 19:11:54,217 | INFO | rag.retriever | Retrieved 5 documents
-2026-06-07 19:11:54,218 | INFO | agents.vector_retriever_agent | [VectorRetrieverAgent] Retrieved 5 documents
-2026-06-07 19:11:54,221 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating RAG answer
-2026-06-07 19:11:54,222 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
-2026-06-07 19:11:55,063 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-06-07 19:26:53,762 | INFO | app | FastAPI app starting
-2026-06-07 19:26:54,017 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
-2026-06-07 19:29:36,929 | INFO | app | FastAPI app starting
-2026-06-07 19:29:37,509 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
-2026-06-07 19:31:30,568 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: give me the details of leave policy
-2026-06-07 19:31:30,569 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-06-07 19:31:32,204 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-06-07 19:31:32,811 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.INTERNAL_QUESTION, source=Source.INTERNAL
-2026-06-07 19:31:32,823 | INFO | agents.vector_retriever_agent | [VectorRetrieverAgent] Retrieving documents for query='What are the details of the company's leave policy?'
-2026-06-07 19:31:32,823 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='What are the details of the company's leave policy?'
-2026-06-07 19:31:32,824 | INFO | rag.retriever | Retrieving documents for query='What are the details of the company's leave policy?', top_k=5
-2026-06-07 19:31:32,824 | INFO | rag.retriever | Generating query embedding
-2026-06-07 19:31:32,987 | INFO | rag.vectorstore | Searching vector DB with top_k=5
-2026-06-07 19:31:32,993 | INFO | rag.retriever | Retrieved 5 documents
-2026-06-07 19:31:32,994 | INFO | agents.vector_retriever_agent | [VectorRetrieverAgent] Retrieved 5 documents
-2026-06-07 19:31:32,997 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating RAG answer
-2026-06-07 19:31:32,997 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
-2026-06-07 19:31:33,794 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-06-07 19:32:23,440 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: what is Machine Learning?
-2026-06-07 19:32:23,440 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
-2026-06-07 19:32:24,629 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-06-07 19:32:24,634 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.GENERAL_QUESTION, source=Source.GENERAL
-2026-06-07 19:32:24,639 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating general answer
-2026-06-07 19:32:24,639 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
-2026-06-07 19:32:26,022 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+  File "D:\oreo\Projects\AgenticRAG\services\ingestion_service.py", line 102, in save_multiple_files
+    saved_path = self.save_file(file)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "D:\oreo\Projects\AgenticRAG\services\ingestion_service.py", line 50, in save_file
+    file_path = self.corpora_path / file.filename
+                ^^^^^^^^^^^^^^^^^
+AttributeError: 'FileService' object has no attribute 'corpora_path'
+2026-08-26 19:00:25,321 | INFO | app | FastAPI app starting
+2026-08-26 19:00:25,562 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-26 19:00:36,761 | INFO | services.ingestion_service | File saved to Corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-26 19:00:38,813 | INFO | watcher.event_handler | New document detected: corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-26 19:00:38,813 | INFO | ingestion.pdf_loader | Loading file: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf | Type: .pdf
+2026-08-26 19:00:39,863 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
+2026-08-26 19:00:39,863 | INFO | ingestion.metadata_extractor | Metadata extracted for 6 documents
+2026-08-26 19:00:39,867 | INFO | ingestion.ingestion_pipeline | Generated 31 chunks from 6 documents.
+2026-08-26 19:00:40,835 | INFO | rag.vectorstore | Adding 31 documents to vector store
+2026-08-26 19:00:41,089 | INFO | rag.vectorstore | 31 documents stored successfully
+2026-08-26 19:00:41,089 | INFO | ingestion.ingestion_pipeline | Successfully ingested 31 chunks.
+2026-08-26 19:01:52,230 | INFO | services.ingestion_service | File saved to Corpora\JWT.docx
+2026-08-26 19:01:52,239 | INFO | services.ingestion_service | File saved to Corpora\Rise of GenAI.pdf
+2026-08-26 19:01:54,264 | INFO | watcher.event_handler | New document detected: corpora\JWT.docx
+2026-08-26 19:01:54,264 | INFO | ingestion.docx_loader | Loading file: JWT.docx | Type: .docx
+2026-08-26 19:04:24,598 | INFO | watcher.event_handler | New document detected: corpora\Rise of GenAI.pdf
+2026-08-26 19:04:24,600 | INFO | ingestion.pdf_loader | Loading file: Rise of GenAI.pdf | Type: .pdf
+2026-08-26 19:04:26,849 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
+2026-08-26 19:04:26,851 | INFO | ingestion.metadata_extractor | Metadata extracted for 6 documents
+2026-08-26 19:04:26,855 | INFO | ingestion.ingestion_pipeline | Generated 33 chunks from 6 documents.
+2026-08-26 19:04:27,617 | INFO | rag.vectorstore | Adding 33 documents to vector store
+2026-08-26 19:04:27,888 | INFO | rag.vectorstore | 33 documents stored successfully
+2026-08-26 19:04:27,888 | INFO | ingestion.ingestion_pipeline | Successfully ingested 33 chunks.
+2026-08-26 19:12:58,135 | INFO | app | FastAPI app starting
+2026-08-26 19:12:58,396 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-08-26 19:13:15,100 | INFO | watcher.event_handler | Document deleted: corpora\Rise of GenAI.pdf
+2026-08-26 19:13:15,100 | INFO | rag.vectorstore | Deleting embeddings for source: Rise of GenAI.pdf
+2026-08-26 19:13:15,110 | INFO | rag.vectorstore | Embeddings deleted for source: Rise of GenAI.pdf
+2026-08-26 19:13:15,192 | INFO | watcher.event_handler | Document deleted: corpora\JWT.docx
+2026-08-26 19:13:15,192 | INFO | rag.vectorstore | Deleting embeddings for source: JWT.docx
+2026-08-26 19:13:15,200 | INFO | rag.vectorstore | Embeddings deleted for source: JWT.docx
+2026-08-26 19:13:15,223 | INFO | watcher.event_handler | Document deleted: corpora\Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-26 19:13:15,223 | INFO | rag.vectorstore | Deleting embeddings for source: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-26 19:13:15,232 | INFO | rag.vectorstore | Embeddings deleted for source: Generative_Artificial_Intelligence_Trends_and_Prospects.pdf
+2026-08-26 19:13:26,931 | INFO | services.ingestion_service | File saved to Corpora\JWT.docx
+2026-08-26 19:13:26,936 | INFO | services.ingestion_service | File saved to Corpora\Rise of GenAI.pdf
+2026-08-26 19:13:28,963 | INFO | watcher.event_handler | New document detected: corpora\JWT.docx
+2026-08-26 19:13:28,963 | INFO | ingestion.docx_loader | Loading file: JWT.docx | Type: .docx
+2026-08-26 19:13:28,969 | INFO | watcher.event_handler | New document detected: corpora\Rise of GenAI.pdf
+2026-08-26 19:13:28,969 | INFO | ingestion.pdf_loader | Loading file: Rise of GenAI.pdf | Type: .pdf
+2026-08-26 19:13:29,130 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
+2026-08-26 19:13:29,130 | INFO | ingestion.metadata_extractor | Metadata extracted for 1 documents
+2026-08-26 19:13:29,130 | INFO | ingestion.ingestion_pipeline | Generated 13 chunks from 1 documents.
+2026-08-26 19:13:31,688 | INFO | rag.vectorstore | Adding 13 documents to vector store
+2026-08-26 19:13:32,514 | INFO | rag.vectorstore | 13 documents stored successfully
+2026-08-26 19:13:32,537 | INFO | ingestion.ingestion_pipeline | Successfully ingested 13 chunks.
+2026-08-26 19:13:32,671 | INFO | ingestion.ingestion_pipeline | Starting ingestion pipeline.
+2026-08-26 19:13:32,671 | INFO | ingestion.metadata_extractor | Metadata extracted for 6 documents
+2026-08-26 19:13:32,671 | INFO | ingestion.ingestion_pipeline | Generated 33 chunks from 6 documents.
+2026-08-26 19:13:33,380 | INFO | rag.vectorstore | Adding 33 documents to vector store
+2026-08-26 19:13:33,666 | INFO | rag.vectorstore | 33 documents stored successfully
+2026-08-26 19:13:33,666 | INFO | ingestion.ingestion_pipeline | Successfully ingested 33 chunks.

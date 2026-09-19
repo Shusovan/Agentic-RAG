@@ -9,17 +9,17 @@ logger = logging.getLogger(__name__)
 
 class AnswerGenerationAgent:
     """
-    Generates the final answer.
+        Generates the final answer.
 
-    Responsibilities:
-        - Format retrieved context
-        - Call GenerativeLLM
-        - Return generated answer
+        Responsibilities:
+            - Format retrieved context
+            - Call GenerativeLLM
+            - Return generated answer
 
-    Does NOT:
-        - Retrieve documents
-        - Route requests
-        - Talk directly to vector stores
+        Does NOT:
+            - Retrieve documents
+            - Route requests
+            - Talk directly to vector stores
     """
 
     def __init__(self, llm: GenerativeLLM):

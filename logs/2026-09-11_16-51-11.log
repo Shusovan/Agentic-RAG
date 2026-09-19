@@ -1,0 +1,26 @@
+2026-09-11 16:51:11,168 | INFO | root | ==================================================
+2026-09-11 16:51:11,168 | INFO | root | Application logging started
+2026-09-11 16:51:11,169 | INFO | root | Log file: logs\2026-09-11_16-51-11.log
+2026-09-11 16:51:11,169 | INFO | root | ==================================================
+2026-09-11 16:51:11,169 | INFO | app | FastAPI application starting
+2026-09-11 16:51:11,202 | INFO | app | Application startup
+2026-09-11 16:51:11,540 | INFO | watcher.event_handler | Corpora ingestion worker started
+2026-09-11 16:51:11,541 | INFO | watcher.corpora_watcher | Starting watcher for folder: corpora
+2026-09-11 16:51:11,541 | INFO | app | Corpora watcher started
+2026-09-11 16:52:03,547 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] Processing query: How many days should we report to office (onsite) in hybrid mode?
+2026-09-11 16:52:03,547 | INFO | llm.query_understanding_llm | [QueryUnderstandingLLM] Calling Groq API
+2026-09-11 16:52:05,093 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-11 16:52:05,582 | INFO | agents.query_understanding_agent | [QueryUnderstandingAgent] intent=Intent.INTERNAL_QUESTION, source=Source.INTERNAL
+2026-09-11 16:52:05,592 | INFO | agents.retriever_agent | [RetrievalAgent] Starting retrieval for query='How many days should we report to office (onsite) in hybrid mode?'
+2026-09-11 16:52:05,592 | INFO | agents.retriever_agent | [RetrievalAgent] strategy=vector query='How many days should we report to office (onsite) in hybrid mode?' reason='Intent 'INTERNAL_QUESTION' requires retrieval'
+2026-09-11 16:52:05,592 | INFO | agents.retriever_agent | [RetrievalAgent] Retrieval attempt 1/2 query='What is the required number of onsite days per week in the company's hybrid work policy?'
+2026-09-11 16:52:05,593 | INFO | tools.vector_retriever_tool | [VectorRetrievalTool] Retrieving documents for query='What is the required number of onsite days per week in the company's hybrid work policy?'
+2026-09-11 16:52:05,593 | INFO | rag.retriever | Retrieving documents for query='What is the required number of onsite days per week in the company's hybrid work policy?', top_k=5
+2026-09-11 16:52:05,593 | INFO | rag.retriever | Generating query embedding
+2026-09-11 16:52:05,744 | INFO | rag.vectorstore | Searching vector DB with top_k=5
+2026-09-11 16:52:05,750 | INFO | rag.retriever | Retrieved 5 documents
+2026-09-11 16:52:05,750 | INFO | agents.retriever_agent | [RetrievalAgent] Sufficient retrieval results after attempt 1
+2026-09-11 16:52:05,751 | INFO | agents.retriever_agent | [RetrievalAgent] Final retrieval count=5
+2026-09-11 16:52:05,754 | INFO | agents.answer_generation_agent | [AnswerGenerationAgent] Generating RAG answer
+2026-09-11 16:52:05,755 | INFO | llm.generative_llm | [GenerativeLLM] Calling Groq API for response generation
+2026-09-11 16:52:06,385 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"

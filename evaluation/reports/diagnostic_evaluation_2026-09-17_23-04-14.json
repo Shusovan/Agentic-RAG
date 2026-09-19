@@ -1,0 +1,95 @@
+{
+    "evaluation_type": "diagnostic",
+    "total_queries": 1,
+    "successful_queries": 1,
+    "failed_queries": 0,
+    "summary": {
+        "issue_counts": {},
+        "severity_counts": {
+            "NONE": 0,
+            "LOW": 0,
+            "MEDIUM": 0,
+            "HIGH": 0,
+            "CRITICAL": 1
+        }
+    },
+    "queries": [
+        {
+            "query": "How many days should we report to office (onsite) in hybrid mode?",
+            "ground_truth": {
+                "document_ids": [
+                    "5cdd36da112c24b7"
+                ],
+                "chunk_ids": [
+                    "5cdd36da112c24b7_chunk_1"
+                ]
+            },
+            "retrieval_summary": {
+                "total_results": 10,
+                "top_score": 0.5338230674345072,
+                "document_rank": 1,
+                "chunk_rank": 1,
+                "document_score": 0.5338230674345072,
+                "chunk_score": 0.5338230674345072,
+                "document_score_gap": 0.0,
+                "chunk_score_gap": 0.0
+            },
+            "diagnostics": {
+                "@1": {
+                    "DuplicateRate": 0.0,
+                    "MetadataCompleteness": 1.0,
+                    "EmptyResult": 0.0,
+                    "DocumentConcentration": 1.0,
+                    "ScoreDecay": 0.0,
+                    "Severity": {
+                        "DuplicateRate": "NONE",
+                        "MetadataCompleteness": "NONE",
+                        "DocumentConcentration": "CRITICAL",
+                        "ScoreDecay": "NONE"
+                    }
+                },
+                "@3": {
+                    "DuplicateRate": 0.0,
+                    "MetadataCompleteness": 1.0,
+                    "EmptyResult": 0.0,
+                    "DocumentConcentration": 1.0,
+                    "ScoreDecay": 0.16203204817793068,
+                    "Severity": {
+                        "DuplicateRate": "NONE",
+                        "MetadataCompleteness": "NONE",
+                        "DocumentConcentration": "CRITICAL",
+                        "ScoreDecay": "NONE"
+                    }
+                },
+                "@5": {
+                    "DuplicateRate": 0.0,
+                    "MetadataCompleteness": 1.0,
+                    "EmptyResult": 0.0,
+                    "DocumentConcentration": 0.8,
+                    "ScoreDecay": 0.37668531724851273,
+                    "Severity": {
+                        "DuplicateRate": "NONE",
+                        "MetadataCompleteness": "NONE",
+                        "DocumentConcentration": "MEDIUM",
+                        "ScoreDecay": "LOW"
+                    }
+                },
+                "@10": {
+                    "DuplicateRate": 0.0,
+                    "MetadataCompleteness": 1.0,
+                    "EmptyResult": 0.0,
+                    "DocumentConcentration": 0.5,
+                    "ScoreDecay": 0.531596745712889,
+                    "Severity": {
+                        "DuplicateRate": "NONE",
+                        "MetadataCompleteness": "NONE",
+                        "DocumentConcentration": "NONE",
+                        "ScoreDecay": "MEDIUM"
+                    }
+                }
+            },
+            "issues": [],
+            "overall_severity": "CRITICAL"
+        }
+    ]
+}

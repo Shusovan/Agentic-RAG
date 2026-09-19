@@ -8,10 +8,7 @@ from schemas.rag_schema import (
 
 class RoutingAgent:
 
-    def route(
-        self,
-        structured: StructuredQuery,
-    ) -> Route:
+    def route(self, structured: StructuredQuery,) -> Route:
 
         if structured.intent == Intent.OUT_OF_SCOPE:
             return Route.FALLBACK
